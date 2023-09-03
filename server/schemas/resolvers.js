@@ -1,6 +1,6 @@
 const { User } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
-// const { signToken } = require('../utils/auth');
+const { signToken } = require('../utils/auth');
 require('dotenv').config();
 
 const resolvers = {
