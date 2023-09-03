@@ -30,6 +30,10 @@ const resolvers = {
                 const token = signToken(user);
                 return { token, user };
             },
+            deleteUser: async (parent, { username }) => {
+                const user = await User.findOneAndDelete({ username });
+                return `We will miss you ${user.username}`;
+              },
             login: async (parent, { username, password }) => {
                 const user = await User.findOne({ username });
 
@@ -46,6 +50,26 @@ const resolvers = {
                 const token = signToken(user);
                 return { token, user: { ...user.toObject(), email: user.email } };
             },
+            adminLogin: async (parent, { username, password }) => {
+                const user = await User.findOne({ username });
+          
+                if (!user) {
+                  throw new AuthenticationError('Incorrect credentials');
+                }
+          
+                const correctPw = await user.isCorrectPassword(password);
+          
+                if (!correctPw) {
+                  throw new AuthenticationError('Incorrect credentials');
+                }
+          
+                if (!user.isAdmin) {
+                  throw new AuthenticationError('Unauthorized');
+                }
+          
+                const token = signToken(user);
+                return { token, user };
+              },
         },
   
 }
