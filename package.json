@@ -1,0 +1,16 @@
+{
+    "name": "my-bookshelf",
+    "version": "1.0.0",
+    
+  
+    "devDependencies": {
+      "concurrently": "*"
+    },
+    
+    "scripts": {
+      "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\""
+    
+    }
+  
+  }
+  
