@@ -1,4 +1,5 @@
 import './App.css';
+import Home from './pages/Home.js'
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
           Learn React
         </a>
       </header>
+
+      <Home/>
     </div>
   );
 }
