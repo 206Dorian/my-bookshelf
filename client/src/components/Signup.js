@@ -1,38 +1,46 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../utils/mutations";
 import Auth from "../utils/auth";
-// import './Signup.css';
 
 export default function Signup(props) {
-  // Set up the initial state for the form
-  const [formState, setFormState] = useState({ username: "", email: "", password: "" });
-  // Use the useMutation hook to execute the ADD_USER mutation
+  const [formState, setFormState] = useState({
+    username: "",
+    email: "",
+    password: "",
+    isAdmin: false,
+  });
+
   const [addUser, error] = useMutation(ADD_USER);
 
-  // Handle changes to the form fields
   const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormState({
-      ...formState,
-      [name]: value,
-    });
+    const { name, value, type, checked } = event.target;
+
+    // If the input is a checkbox, update the state differently
+    if (type === "checkbox") {
+      setFormState({
+        ...formState,
+        [name]: checked,
+      });
+    } else {
+      setFormState({
+        ...formState,
+        [name]: value,
+      });
+    }
   };
 
-  // Handle the form submission
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      // Execute the ADD_USER mutation and extract the token from the response
       const mutationResponse = await addUser({
         variables: { ...formState },
       });
       const token = mutationResponse.data.addUser.token;
-      // Log the token in with Auth.login
       Auth.login(token);
     } catch (e) {
-      console.log(e);
+      console.error("GraphQL Error:", e);
     }
   };
 
@@ -48,7 +56,7 @@ export default function Signup(props) {
               value={formState.username}
               placeholder="Enter Username"
               name="username"
-              type="username"
+              type="text"
               id="signupUsername"
               onChange={handleChange}
             />
@@ -76,6 +84,19 @@ export default function Signup(props) {
               name="password"
               type="password"
               id="signupPwd"
+              onChange={handleChange}
+            />
+          </div>
+
+          {/* Checkbox input for isAdmin */}
+          <div className="flex-row space-between my-2">
+            <label htmlFor="isAdmin">Admin:</label>
+            <input
+              className="input-field"
+              checked={formState.isAdmin}
+              name="isAdmin"
+              type="checkbox"
+              id="isAdmin"
               onChange={handleChange}
             />
           </div>
