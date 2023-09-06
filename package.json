@@ -1,16 +1,14 @@
 {
     "name": "my-bookshelf",
     "version": "1.0.0",
-    
-  
     "devDependencies": {
-      "concurrently": "*"
+        "concurrently": "*"
     },
-    
     "scripts": {
-      "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\""
-    
+        "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\""
+    },
+    "dependencies": {
+        "bootstrap": "^5.3.1",
+        "react-bootstrap": "^2.8.0"
     }
-  
-  }
-  
+}
