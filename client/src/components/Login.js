@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "../utils/mutations";
 import Auth from "../utils/auth";
-// import './Login.css'
+import './Login.css'
 
 
 export default function Login(props) {
@@ -68,4 +68,3 @@ export default function Login(props) {
 
   );
 }
-

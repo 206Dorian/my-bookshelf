@@ -1,0 +1,58 @@
+/* styles.css or App.css (wherever you keep your global styles) */
+
+:root {
+    --TimothyMagenta: #92374D;
+    --JennPlum: #8C5383;
+    --YinBlue: #4A5899;
+    --SteelBlue: #507AA3;
+    --GulfCoast: #559cad;
+    --DorianGrey: #8BA7AC;
+    --silver: #C1B2AB;
+    --offWhite: #EDF6F9;
+  }
+  
+  body {
+    background-color: var(--DorianGrey);
+  }
+  
+  h1 {
+    color: var(--YinBlue);
+  }
+  
+  .form-control {
+    background-color: var(--offWhite);
+    border: 1px solid var(--GulfCoast);
+    color: var(--TimothyMagenta);
+  }
+  
+  .form-control:focus {
+    border-color: var(--YinBlue);
+    box-shadow: 0 0 0 0.4rem rgba(74, 88, 153, 0.25); /* a lighter version of --YinBlue */
+  }
+  
+  .form-label {
+    color: var(--JennPlum);
+  }
+  
+  .btn-primary {
+    background-color: var(--YinBlue);
+    border-color: var(--TimothyMagenta);
+  }
+  
+  .btn-primary:hover, .btn-primary:focus {
+    background-color: var(--JennPlum);
+    border-color: var(--JennPlum);
+  }
+  
+  .btn-link {
+    color: var(--SteelBlue);
+  }
+  
+  .btn-link:hover, .btn-link:focus {
+    color: var(--GulfCoast);
+  }
+  
+  .form-text {
+    color: var(--dorianGrey);
+  }
+  
