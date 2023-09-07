@@ -38,20 +38,20 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-    <div className="App">
-      <header className="App-header">
-        <p>
-    My Bookshelf header
-        </p>
-      </header>
+        <div className="App">
+          <header className="App-header">
+            <p>
+              My Bookshelf header
+            </p>
+          </header>
 
-      <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          {/* Define other routes as needed */}
-        </Routes>
-    </div>
-    </Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
+            {/* Define other routes as needed */}
+          </Routes>
+        </div>
+      </Router>
     </ApolloProvider>
   );
 }
