@@ -32,6 +32,7 @@
   
   .form-label {
     color: var(--JennPlum);
+    font-size: 16px;
   }
   
   .btn-primary {
@@ -54,5 +55,6 @@
   
   .form-text {
     color: var(--dorianGrey);
+    font-size: 16px;
   }
   

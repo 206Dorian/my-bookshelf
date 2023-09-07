@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_USER } from "../utils/mutations";
 import Auth from "../utils/auth";
+import './Login.css';
 
 export default function Signup(props) {
   const [formState, setFormState] = useState({
@@ -44,15 +45,19 @@ export default function Signup(props) {
     }
   };
 
+
   return (
-    <>
-      <div className="container my-1">
-        <form className="form-title" onSubmit={handleFormSubmit}>
-          Signup
-          <div className="flex-row space-between my-2">
-            <label htmlFor="username">Username:</label>
+    <div>
+    <div className="">
+      <div className="row justify-content-center">
+      <div className="">
+      <div className="">
+              <div className="card-body">
+        <form autoComplete="off" className="form-title" onSubmit={handleFormSubmit}>
+          <div className="form-label">
+            <label htmlFor="username">Username</label>
             <input
-              className="input-field"
+              className="form-control w-100"
               value={formState.username}
               placeholder="Enter Username"
               name="username"
@@ -62,59 +67,66 @@ export default function Signup(props) {
             />
           </div>
 
-          <div className="flex-row space-between my-2">
-            <label htmlFor="email">Email:</label>
+          <div className="form-label">
+            <label htmlFor="email">Email</label>
             <input
-              className="input-field"
+              className="form-control w-100"
               value={formState.email}
               placeholder="your.email@test.com"
               name="email"
               type="email"
               id="email"
               onChange={handleChange}
+              required
             />
           </div>
 
-          <div className="flex-row space-between my-2">
-            <label htmlFor="password">Password:</label>
+          <div className="form-label">
+            <label htmlFor="password">Password</label>
             <input
-              className="input-field"
+              className="form-control w-100"
               value={formState.password}
-              placeholder="******"
+              placeholder="********"
               name="password"
               type="password"
               id="signupPwd"
               onChange={handleChange}
+              required
             />
           </div>
 
-          {/* Checkbox input for isAdmin */}
-          <div className="flex-row space-between my-2">
-            <label htmlFor="isAdmin">Admin:</label>
+          <div className="form-control form-check">
             <input
-              className="input-field"
+              className="form-check-input"
               checked={formState.isAdmin}
               name="isAdmin"
               type="checkbox"
               id="isAdmin"
               onChange={handleChange}
             />
+            <label className="form-label" htmlFor="isAdmin">
+              Admin
+            </label>
           </div>
-
-          {/* Conditionally render error message */}
-          {error ? (
+  {/* Conditionally render error message */}
+  {error ? (
             <div>
-              {/* <p className="error-text">The provided credentials are incorrect</p> */}
+              {/* { <p className="error-text">The provided credentials are incorrect</p> } */}
             </div>
           ) : null}
-
-          <div id="btn-container" className="flex-row flex-end">
-            <button id="signup-btn" type="submit">
+          <div className="d-flex form-group form-text justify-content-center">
+            <button type="submit" className="btn btn-primary" id="signup-btn">
               Sign up!
             </button>
           </div>
         </form>
       </div>
-    </>
+    </div>
+    </div>
+      </div>
+    </div>
+    </div>
   );
-}
+};
+
+
