@@ -1,6 +1,7 @@
 import './App.css';
 import Home from './pages/Home.js'
-// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Profile from './pages/Profile';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {
   ApolloClient,
   InMemoryCache,
@@ -36,23 +37,21 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
+      <Router>
     <div className="App">
       <header className="App-header">
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+    My Bookshelf header
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
 
-      <Home/>
+      <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
+          {/* Define other routes as needed */}
+        </Routes>
     </div>
+    </Router>
     </ApolloProvider>
   );
 }
