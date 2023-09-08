@@ -48,10 +48,10 @@ export default function Signup(props) {
 
   return (
     <div>
-    <div className="">
+
       <div className="row justify-content-center">
-      <div className="">
-      <div className="">
+
+
               <div className="card-body">
         <form autoComplete="off" className="form-title" onSubmit={handleFormSubmit}>
           <div className="form-label">
@@ -123,9 +123,7 @@ export default function Signup(props) {
       </div>
     </div>
     </div>
-      </div>
-    </div>
-    </div>
+
   );
 };
 
