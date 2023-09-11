@@ -1,0 +1,12 @@
+#bookshelfContainer{
+margin-top: 12rem;
+}
+
+#bookshelf{
+position: absolute;
+inset: 0;
+margin: auto;
+width: 60%;
+height: 80%;
+background-color: var(--dorianGrey);
+}

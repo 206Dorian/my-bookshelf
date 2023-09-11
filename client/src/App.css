@@ -1,7 +1,3 @@
-.App {
-  text-align: center;
-}
-
 :root {
   --TimothyMagenta: #92374D;
   --JennPlum: #8C5383;
@@ -11,4 +7,9 @@
   --dorianGrey: #8BA7AC;
   --silver: #C1B2AB;
   --offWhite: #EDF6F9;
+}
+
+.App {
+  text-align: center;
+  background-color: var(--GulfCoast);
 }

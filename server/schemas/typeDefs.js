@@ -8,15 +8,24 @@ const typeDefs = gql`
     password: String
     isAdmin: Boolean
   }
+
   type Auth {
     token: ID
     user: User
+  }
+
+  type Book {
+  _id: ID
+  count: String
+  title: String
+  author: String
   }
 
   type Query {
     user: User
     Users: [User]
     getUser: User
+    getBooks: [Book]
   
   }
 

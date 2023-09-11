@@ -23,6 +23,14 @@ const resolvers = {
             }
             throw new AuthenticationError('Not logged in');
         },
+        getBooks: async () => {
+            try {
+              const books = await Book.find();
+              return books;
+            } catch (error) {
+              throw new Error('Error fetching books', error);
+            }
+        },
         },
         Mutation: {
             addUser: async (parent, args) => {
