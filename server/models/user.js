@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
+
 const userSchema = new Schema(
   {
     username: {
@@ -20,16 +21,27 @@ const userSchema = new Schema(
     isAdmin: {
       type: Boolean,
       default: false,
-    }
-
+    },
+    // Add a field for the user's bookshelf
+    bookshelf: [
+      {
+        bookId: {
+          type: Schema.Types.ObjectId,
+          ref: 'Book',
+        },
+        placement: {
+          type: Number,
+          min: 1,
+          max: 100,
+        },
+      },
+    ],
   },
   {
     toJSON: {
       virtuals: true,
     },
   }
-
-
 );
 // hash user password
 userSchema.pre('save', async function (next) {
@@ -45,6 +57,13 @@ userSchema.pre('save', async function (next) {
 userSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };
+
 const User = model('User', userSchema);
 
 module.exports = User;
+
+
+
+
+
+

@@ -7,6 +7,7 @@ const typeDefs = gql`
     email: String
     password: String
     isAdmin: Boolean
+    bookshelf: [BookshelfEntry]
   }
 
   type Auth {
@@ -16,10 +17,14 @@ const typeDefs = gql`
 
   type Book {
   _id: ID
-  count: String
   title: String
   author: String
   }
+
+  type BookshelfEntry {
+  bookId: ID!
+  placement: Int!
+}
 
   type Query {
     user: User
@@ -34,6 +39,7 @@ const typeDefs = gql`
     deleteUser(username: String!): User
     login(username: String!, password: String!): Auth
     adminLogin(username: String!, password: String!): Auth
+    addUserBook(userId: ID!, bookId: ID!, placement: Int!): User
     }
 `;
 
