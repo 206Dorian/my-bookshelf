@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const bookSchema = new mongoose.Schema({
-    count: {
-        type: String,
-        required: true,
-    },
 
     title: {
         type: String,

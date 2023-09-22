@@ -33,6 +33,8 @@ const userSchema = new Schema(
           type: Number,
           min: 1,
           max: 100,
+          unique: true,
+          required: true,
         },
       },
     ],

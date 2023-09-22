@@ -1,34 +1,32 @@
 const mongoose = require('mongoose');
-const bookData = require('./bookData'); // Replace with the correct path
+const User = require('../models/User');
 
-// Import your Book model (make sure it matches your actual schema)
-const Book = require('../models/Book'); // Replace with the correct path
-
-// Define your MongoDB connection URI
-const mongoURI = 'mongodb://localhost/my-bookshelf'; // Replace with your MongoDB URI
-
-// Connect to your MongoDB database without useCreateIndex and useFindAndModify
-mongoose.connect(process.env.MONGODB_URI || mongoURI, {
+mongoose.connect('mongodb://localhost/my-bookshelf', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-const seedDatabase = async () => {
-  try {
-    // Clear existing data (optional)
-    await Book.deleteMany({});
+const usernameToUpdate = 'tim'; // Replace with the username of the user you want to update
 
-    // Insert book data from bookData.js
-    await Book.insertMany(bookData);
+// Find the specific user by their username
+User.findOne({ username: usernameToUpdate })
+  .then((user) => {
+    if (!user) {
+      console.error('User not found');
+      mongoose.connection.close();
+      return;
+    }
 
-    console.log('Database seeded successfully');
-  } catch (err) {
-    console.error('Error seeding the database:', err);
-  } finally {
+   
+    // Save the changes back to the database
+    return user.save();
+  })
+  .then(() => {
+    console.log('User updated successfully');
     // Close the database connection
     mongoose.connection.close();
-  }
-};
-
-// Execute the seeding process
-seedDatabase();
+  })
+  .catch((err) => {
+    console.error('Error updating user:', err);
+    mongoose.connection.close();
+  });
