@@ -9,6 +9,7 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import SearchBar from './components/SearchBar';
 
 
 const httpLink = createHttpLink({
@@ -43,6 +44,7 @@ function App() {
             <p>
               My Bookshelf header
             </p>
+            <SearchBar />
           </header>
 
           <Routes>
