@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Book } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
 require('dotenv').config();
@@ -84,12 +84,43 @@ const resolvers = {
       if (!user) {
         throw new Error('User not found');
       }
-
+    
+      const book = await Book.findById(bookId);
+      if (!book) {
+        throw new Error('Book not found');
+      }
+    
+      // Check if the book is already in the user's bookshelf
+      const existingEntry = user.bookshelf.find((entry) => entry.bookId.toString() === bookId);
+      if (existingEntry) {
+        throw new Error('Book already in the user\'s bookshelf');
+      }
+    
       // Push a new bookshelf entry
       user.bookshelf.push({ bookId, placement });
       await user.save();
-
+    
       return user;
+    },
+    
+     updateUserBookshelf: async (_, { userId, bookshelf }, context) => {
+      // Check if the user is authorized to perform this action (e.g., they are the owner of the bookshelf)
+      if (context.user && context.user._id === userId) {
+        try {
+          // Update the user's bookshelf with the provided bookshelf data
+          const user = await User.findByIdAndUpdate(
+            userId,
+            { $set: { bookshelf } },
+            { new: true }
+          ).populate('bookshelf.bookId');
+
+          return user;
+        } catch (error) {
+          throw new Error('Error updating user bookshelf');
+        }
+      } else {
+        throw new AuthenticationError('Unauthorized');
+      }
     },
   },
 
