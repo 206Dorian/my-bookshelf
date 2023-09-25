@@ -23,19 +23,27 @@ const SearchBar = () => {
   const userSelection = (result) => {
     console.log("Selected Book Data:", result);
     setBookshelf([...bookshelf, result]);
-
- // Accessing and logging the title, author, and first_sentence to the console
- const title = result.title;
- // Assuming author is a property in the result, replace 'author' with the actual key if it's different
- const author = result.author; 
- // Accessing the first sentence, assuming it is the first element in the array
- const firstSentence = result.first_sentence[0]; 
-
- console.log('Title: ', title);
- console.log('Author: ', author);
- console.log('First Sentence: ', firstSentence);
-
+  
+    // Accessing and logging the title to the console
+    const title = result.title;
+  
+    // Handle multiple authors
+    let author = "Unknown Author";
+    if (result.author_name && result.author_name.length > 0) {
+      author = result.author_name.join(', '); // joining author names with comma
+    }
+  
+    // Check if first_sentence exists before accessing its elements
+    let firstSentence = "First sentence not available";
+    if (result.first_sentence && result.first_sentence.length > 0) {
+      firstSentence = result.first_sentence[0];
+    }
+  
+    console.log('Title: ', title);
+    console.log('Author: ', author);
+    console.log('First Sentence: ', firstSentence);
   };
+  
 
   return (
     <div>
