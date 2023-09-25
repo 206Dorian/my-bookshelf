@@ -2,62 +2,71 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const SearchBar = () => {
-  const [title, setTitle] = useState(''); // for book title search
+  const [query, setQuery] = useState(''); // for book or author search
   const [searchResults, setSearchResults] = useState([]); // to store search results
   const [bookshelf, setBookshelf] = useState([]); // your existing bookshelf
 
-  // This function searches for books by title
-  const searchByTitle = async () => {
+  // This function searches for books by title or author
+  const searchBooks = async () => {
     try {
-      const response = await axios.get(`http://openlibrary.org/search.json?title=${title}`);
-      console.log("Search by Title Response:", response.data);
-      const { docs } = response.data;
-      setSearchResults(docs);
+      const [titleResponse, authorResponse] = await Promise.all([
+        axios.get(`http://openlibrary.org/search.json?title=${query}`),
+        axios.get(`http://openlibrary.org/search.json?author=${query}`)
+      ]);
+
+      // Add a type property to differentiate the results
+      const titleDocs = titleResponse.data.docs.map(doc => ({ ...doc, type: 'title' }));
+      const authorDocs = authorResponse.data.docs.map(doc => ({ ...doc, type: 'author' }));
+
+      const combinedResults = [...titleDocs, ...authorDocs];
+      setSearchResults(combinedResults);
+      console.log("Search Response:", combinedResults);
     } catch (error) {
       console.error("An error occurred while fetching data: ", error);
     }
   };
 
-  // This function is called when the user selects a book from the search results.
-  // It adds the selected book to the user's bookshelf.
   const userSelection = (result) => {
     console.log("Selected Book Data:", result);
     setBookshelf([...bookshelf, result]);
-  
+
     // Accessing and logging the title to the console
     const title = result.title;
-  
+
     // Handle multiple authors
     let author = "Unknown Author";
     if (result.author_name && result.author_name.length > 0) {
-      author = result.author_name.join(', '); // joining author names with comma
+      author = result.author_name.join(', ');
     }
-  
-    // Check if first_sentence exists before accessing its elements
+
+    // Handle first_sentence
     let firstSentence = "First sentence not available";
     if (result.first_sentence && result.first_sentence.length > 0) {
       firstSentence = result.first_sentence[0];
     }
-  
+
     console.log('Title: ', title);
     console.log('Author: ', author);
     console.log('First Sentence: ', firstSentence);
   };
-  
 
   return (
     <div>
       <input
         type="text"
-        placeholder="Search by title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        placeholder="Search by title or author"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
       />
-      <button onClick={searchByTitle}>Search</button>
+      <button onClick={searchBooks}>Search</button>
       <div>
         <h2>Search Results</h2>
         {searchResults.map((result, index) => (
-          <div key={index} onClick={() => userSelection(result)}>
+          <div
+            key={index}
+            onClick={() => userSelection(result)}
+            style={{ backgroundColor: result.type === 'title' ? 'lightblue' : 'lightgreen' }}
+          >
             <h3>{result.title}</h3>
             {/* Add more book details if desired */}
           </div>
