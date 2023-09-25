@@ -39,7 +39,8 @@ export default function Signup(props) {
         variables: { ...formState },
       });
       const token = mutationResponse.data.addUser.token;
-      Auth.login(token);
+      const username = mutationResponse.data.login.user.username;
+      Auth.login(token, username);
     } catch (e) {
       console.error("GraphQL Error:", e);
     }

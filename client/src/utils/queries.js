@@ -7,19 +7,30 @@ export const GET_USER = gql`
       username
       email
       isAdmin
+      bookshelf {
+        bookId
+        placement
+      }
     }
   }
 `;
 
-
 export const GET_BOOKS = gql`
   query GetBooks {
-    books {
+    getBooks {
       _id
-      count
       title
       author
+    }
+  }
+`;
 
+export const GET_BOOK_DETAILS = gql`
+  query GetBookDetails($bookId: ID!) {
+    getBookDetails(bookId: $bookId) {
+      _id
+      title
+      author
     }
   }
 `;

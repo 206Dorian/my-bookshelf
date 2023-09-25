@@ -31,7 +31,8 @@ export default function Login(props) {
         variables: { username: formState.username, password: formState.password },
       });
       const token = mutationResponse.data.login.token;
-      Auth.login(token);
+      const username = mutationResponse.data.login.user.username;
+      Auth.login(token, username);
     } catch (e) {
       console.log(e);
     }

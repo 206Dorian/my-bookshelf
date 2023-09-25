@@ -10,3 +10,38 @@ width: 60%;
 height: 80%;
 background-color: var(--dorianGrey);
 }
+
+/* Add your CSS classes to style the bookshelf component */
+.bookshelf {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 800px; /* Adjust the width as needed */
+    margin: 0 auto;
+  }
+  
+  .shelf {
+    width: 23%; /* Adjust the width as needed */
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px;
+  }
+  
+  .slot {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  /* Additional styles as needed for book title, author, etc. */
+  .slot div {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  /* Add hover effect for slots if desired */
+  .slot:hover {
+    background-color: #e0e0e0;
+  }
+  

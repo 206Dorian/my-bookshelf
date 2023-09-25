@@ -20,15 +20,20 @@ const typeDefs = gql`
     title: String
     author: String
   }
+  input BatchBookInput {
+  title: String!
+  author: String!
+}
 
   input BookshelfEntryInput {
-    bookId: ID!
+    bookId:  ID
     placement: Int!
   }
 
   type BookshelfEntry {
-    bookId: ID!
+    bookId:  ID
     placement: Int!
+    book: Book 
   }
 
   type Query {
@@ -36,6 +41,7 @@ const typeDefs = gql`
     Users: [User]
     getUser: User
     getBooks: [Book]
+    getBookDetails(bookId: ID!): Book 
   }
 
   type Mutation {
@@ -45,6 +51,7 @@ const typeDefs = gql`
     adminLogin(username: String!, password: String!): Auth
     addUserBook(userId: ID!, bookId: ID!, placement: Int!): User
     updateUserBookshelf(userId: ID!, bookshelf: [BookshelfEntryInput]!): User
+    addBatchBooks(userId: ID!, books: [BatchBookInput]!): [BookshelfEntry]!
   }
 `;
 
