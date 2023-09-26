@@ -6,10 +6,12 @@ export const GET_USER = gql`
       _id
       username
       email
-      isAdmin
       bookshelf {
-        bookId
-        placement
+        _id
+        title
+        author
+        ISBN
+        firstSentence
       }
     }
   }
@@ -28,8 +30,8 @@ export const GET_BOOKS = gql`
 `;
 
 export const GET_BOOK_DETAILS = gql`
-  query GetBookDetails($bookId: ID!) {
-    getBookDetails(bookId: $bookId) {
+  query GetBookDetails($ISBN: String!) {
+    getBookDetails(ISBN: $ISBN) {
       _id
       title
       author

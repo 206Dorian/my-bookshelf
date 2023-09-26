@@ -25,8 +25,8 @@ const userSchema = new Schema(
     // Add a field for the user's bookshelf
     bookshelf: [
       {
-        bookId: {
-          type: Schema.Types.ObjectId,
+        ISBN: {
+          type: String,
           ref: 'Book',
         },
         placement: {

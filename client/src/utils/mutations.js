@@ -30,3 +30,17 @@ export const DELETE_USER = gql`
   }
 `;
 
+export const ADD_TO_BOOKSHELF = gql`
+  mutation AddToBookshelf($ISBN: String!, $bookDetails: BookInput) {
+    addToBookshelf(ISBN: $ISBN, bookDetails: $bookDetails) {
+      ISBN
+      placement
+      book {
+        title
+        author
+        firstSentence
+      }
+    }
+  }
+`;
+

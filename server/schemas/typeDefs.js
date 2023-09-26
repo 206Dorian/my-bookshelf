@@ -7,7 +7,7 @@ const typeDefs = gql`
     email: String
     password: String
     isAdmin: Boolean
-    bookshelf: [BookshelfEntry]
+    bookshelf: [Book]
   }
 
   type Auth {
@@ -22,19 +22,18 @@ const typeDefs = gql`
     ISBN: String
     firstSentence: String
   }
-  input BatchBookInput {
-  title: String!
-  author: String!
-}
 
-  input BookshelfEntryInput {
-    bookId:  ID
-    placement: Int!
+  input BookInput {
+    title: String
+    author: String
+    ISBN: String
+    firstSentence: String
   }
 
+
   type BookshelfEntry {
-    bookId:  ID
-    placement: Int!
+    ISBN: String
+    placement: Int
     book: Book 
   }
 
@@ -43,7 +42,7 @@ const typeDefs = gql`
     Users: [User]
     getUser: User
     getBooks: [Book]
-    getBookDetails(bookId: ID!): Book 
+    getBookDetails(ISBN: String!): Book
   }
 
   type Mutation {
@@ -51,9 +50,8 @@ const typeDefs = gql`
     deleteUser(username: String!): User
     login(username: String!, password: String!): Auth
     adminLogin(username: String!, password: String!): Auth
-    addUserBook(userId: ID!, bookId: ID!, placement: Int!): User
-    updateUserBookshelf(userId: ID!, bookshelf: [BookshelfEntryInput]!): User
-    addBatchBooks(userId: ID!, books: [BatchBookInput]!): [BookshelfEntry]!
+    addToBookshelf(ISBN: String!, bookDetails: BookInput): BookshelfEntry!
+
   }
 `;
 

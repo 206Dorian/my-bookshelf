@@ -3,28 +3,18 @@ const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
 require('dotenv').config();
 const mongoose = require('mongoose');
-const { ObjectId } = mongoose.Types;
+
 
 
 const resolvers = {
   Query: {
-    user: async (parent, args, context) => {
-      if (context.user) {
-        const user = await User.findById(context.user._id).select('-__v -password');
-        return user;
-      }
-      // Instead of returning null, you can throw an error if the user is not logged in
-      throw new AuthenticationError('Not logged in');
-    },
     Users: async () => {
-      return await User.find().populate('bookshelf.bookId');
+      return await User.find().populate('bookshelf.ISBN');
     },
-    getUser: async (parent, args, context) => {
-      if (context.user) {
-        const user = await User.findById(context.user._id).select('-__v -password').populate('bookshelf.bookId');
-        return user;
-      }
-      throw new AuthenticationError('Not logged in');
+    getUser: async (_, args, context) => {
+      return User.findById(context.user._id)
+        .populate('bookshelf')
+        .exec();
     },
 
     getBooks: async () => {
@@ -36,12 +26,12 @@ const resolvers = {
       }
     },
 
-    getBookDetails: async (_, { bookId }) => {
+    getBookDetails: async (_, { ISBN }) => {
       try {
-        console.log('Searching for book with bookId:', bookId);
+        console.log('Searching for book with ISBN:', ISBN);
 
-        // Retrieve the book details based on the bookId
-        const book = await Book.findOne({ bookId });
+        // Retrieve the book details based on the ISBN
+        const book = await Book.findOne({ ISBN: ISBN });
         console.log('Found book:', book);
 
         if (!book) {
@@ -102,68 +92,53 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    addUserBook: async (_, { userId, bookId, placement }) => {
-      const user = await User.findById(userId);
-      if (!user) {
-        throw new Error('User not found');
-      }
-
-      const book = await Book.findById(bookId);
-      if (!book) {
-        throw new Error('Book not found');
-      }
-
-      // Check if the book is already in the user's bookshelf
-      const existingEntry = user.bookshelf.find((entry) => entry.bookId.toString() === bookId);
-      if (existingEntry) {
-        throw new Error('Book already in the user\'s bookshelf');
-      }
-
-      // Push a new bookshelf entry
-      user.bookshelf.push({ bookId, placement });
-      await user.save();
-
-      return user;
-    },
-
-    updateUserBookshelf: async (_, { userId, bookshelf }, context) => {
-      // Check if the user is authorized to perform this action (e.g., they are the owner of the bookshelf)
-      if (context.user && context.user._id === userId) {
-        try {
-          // Update the user's bookshelf with the provided bookshelf data
-          const user = await User.findByIdAndUpdate(
-            userId,
-            { $set: { bookshelf } },
-            { new: true }
-          ).populate('bookshelf.bookId');
-
-          return user;
-        } catch (error) {
-          throw new Error('Error updating user bookshelf');
+    addToBookshelf: async (_, { ISBN, bookDetails }, context) => {
+      if (context.user) {
+        let book = await Book.findOne({ ISBN });
+    
+        if (!book && bookDetails) {
+          book = await Book.create(bookDetails);
         }
+    
+        if (!book) {
+          throw new Error('Book details must be provided for new books');
+        }
+    
+        const user = await User.findById(context.user._id);
+    
+        const alreadyExists = user.bookshelf.some(bookEntry => bookEntry.ISBN === ISBN);
+        if (alreadyExists) {
+          throw new Error('Book already exists in the bookshelf');
+        }
+    
+        const placements = user.bookshelf.map(bookEntry => bookEntry.placement);
+        let newPlacement = 1;
+        while (placements.includes(newPlacement) && newPlacement <= 100) {
+          newPlacement++;
+        }
+    
+        if (newPlacement > 100) {
+          throw new Error('Bookshelf is full');
+        }
+    
+        user.bookshelf.push({ ISBN: book.ISBN, placement: newPlacement });
+        await user.save();
+    
+        // Return the BookshelfEntry.
+        return {
+          ISBN: ISBN,
+          placement: newPlacement,
+          book: book // assuming the book object contains the necessary details
+        };
       } else {
-        throw new AuthenticationError('Unauthorized');
+        throw new AuthenticationError('Not logged in');
       }
     },
+    
 
-    addBatchBooks: async (_, { userId, books }) => {
-      const user = await User.findById(userId);
-      if (!user) {
-        throw new Error('User not found');
-      }
 
-      // Generate an array of BookshelfEntry objects with ObjectIds and random positions
-      const bookshelfEntries = books.map((book, index) => ({
-        bookId: new ObjectId(),
-        placement: Math.floor(Math.random() * 100) + 1,
-      }));
 
-      // Push the generated bookshelf entries to the user's bookshelf
-      user.bookshelf.push(...bookshelfEntries);
-      await user.save();
 
-      return bookshelfEntries;
-    },
   },
 };
 
