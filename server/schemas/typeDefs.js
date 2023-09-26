@@ -17,8 +17,10 @@ const typeDefs = gql`
 
   type Book {
     _id: ID
-    title: String
-    author: String
+    title: String!
+    author: String!
+    ISBN: String
+    firstSentence: String
   }
   input BatchBookInput {
   title: String!

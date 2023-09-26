@@ -36,7 +36,7 @@ const SearchBar = () => {
     // Handle multiple authors
     let author = "Unknown Author";
     if (result.author_name && result.author_name.length > 0) {
-      author = result.author_name.join(', ');
+      author = result.author_name.join(', '); // joining author names with comm
     }
 
     // Handle first_sentence
@@ -44,9 +44,13 @@ const SearchBar = () => {
     if (result.first_sentence && result.first_sentence.length > 0) {
       firstSentence = result.first_sentence[0];
     }
-
+    let ISBN = "Unknown ISBN";
+    if (result.isbn && result.isbn.length > 0) {
+      ISBN = result.isbn[0];
+    }
     console.log('Title: ', title);
     console.log('Author: ', author);
+    console.log('ISBN: ', ISBN);
     console.log('First Sentence: ', firstSentence);
   };
 

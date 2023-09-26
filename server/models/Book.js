@@ -10,7 +10,14 @@ const bookSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    // Other fields specific to your Book model
+    firstSentence: {
+        type: String,
+        required: false,
+    },
+    ISBN: {
+        type: String,
+        required: false,
+    },
 });
 
 const Book = mongoose.model('Book', bookSchema);

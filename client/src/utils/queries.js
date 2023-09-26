@@ -21,6 +21,8 @@ export const GET_BOOKS = gql`
       _id
       title
       author
+      ISBN
+      firstSentence
     }
   }
 `;
@@ -31,6 +33,8 @@ export const GET_BOOK_DETAILS = gql`
       _id
       title
       author
+      ISBN
+      firstSentence
     }
   }
 `;
