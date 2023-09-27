@@ -7,7 +7,7 @@ const typeDefs = gql`
     email: String
     password: String
     isAdmin: Boolean
-    bookshelf: [Book]
+    bookshelf: [BookshelfEntry]
   }
 
   type Auth {
@@ -16,7 +16,7 @@ const typeDefs = gql`
   }
 
   type Book {
-    _id: ID
+   
     title: String!
     author: String!
     ISBN: String

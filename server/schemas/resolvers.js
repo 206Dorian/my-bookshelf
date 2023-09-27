@@ -11,12 +11,21 @@ const resolvers = {
     Users: async () => {
       return await User.find().populate('bookshelf.ISBN');
     },
-    getUser: async (_, args, context) => {
-      return User.findById(context.user._id)
-        .populate('bookshelf')
-        .exec();
-    },
 
+    getUser: async (_, __, context) => {
+      if (context.user) {
+        const user = await User.findById(context.user._id);
+        if (user) {
+          // Manually populate the book details.
+          for (let entry of user.bookshelf) {
+            entry.book = await Book.findOne({ ISBN: entry.ISBN });
+          }
+          return user;
+        }
+      }
+      throw new AuthenticationError('Not logged in');
+    },
+ 
     getBooks: async () => {
       try {
         const books = await Book.find();
