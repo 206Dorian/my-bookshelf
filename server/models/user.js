@@ -27,13 +27,12 @@ const userSchema = new Schema(
       {
         ISBN: {
           type: String,
-          ref: 'Book', 
+          ref: 'Book',
         },
         placement: {
           type: Number,
           min: 1,
           max: 100,
-          unique: true,
           required: true,
         },
       },
