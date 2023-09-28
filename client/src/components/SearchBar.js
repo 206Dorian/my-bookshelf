@@ -36,10 +36,18 @@ const SearchBar = () => {
     setSelectedBook(bookDetails);
     console.log('Selected Book Set:', selectedBook);
   };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();  // Prevent the default form submission behavior
+    searchBooks();
+  };
+
   return (
-    <div>
-      <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
-      <button onClick={searchBooks}>Search</button>
+   <div>
+      <form onSubmit={handleSubmit}>
+        <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
+        <button type="submit">Search</button>  {/* Make sure this button is of type "submit" */}
+      </form>
       <div>
         {searchResults.map((result, index) => (
           <div key={index} onClick={() => userSelection(result)}>
