@@ -6,6 +6,8 @@ const SearchBar = () => {
   const [query, setQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedBookIndex, setSelectedBookIndex] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
 
   const searchBooks = async () => {
     try {
@@ -13,7 +15,7 @@ const SearchBar = () => {
         axios.get(`http://openlibrary.org/search.json?title=${query}`),
         axios.get(`http://openlibrary.org/search.json?author=${query}`)
       ]);
-
+      console.log(titleResponse.data)
       const titleDocs = titleResponse.data.docs.map(doc => ({ ...doc, type: 'title' }));
       const authorDocs = authorResponse.data.docs.map(doc => ({ ...doc, type: 'author' }));
 
@@ -29,18 +31,22 @@ const SearchBar = () => {
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault();  
+    event.preventDefault();
     searchBooks();
   };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = searchResults.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div className="container">
       <form onSubmit={handleSubmit} className="mb-3">
-        <input 
-          type="text" 
-          value={query} 
-          onChange={(e) => setQuery(e.target.value)} 
-          className="form-control" 
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="form-control"
         />
         <button type="submit" className="btn btn-primary mt-2">
           Search
@@ -48,7 +54,7 @@ const SearchBar = () => {
       </form>
       <div className="row">
         <div className="col-md-12">
-          {searchResults.map((result, index) => (
+          {currentItems.map((result, index) => (
             <div key={index} className="mb-2">
               <div onClick={() => userSelection(result, index)}>
                 <h3>{result.title}</h3>
@@ -70,6 +76,27 @@ const SearchBar = () => {
           ))}
         </div>
       </div>
+      <nav aria-label="Page navigation example">
+        <ul className="pagination">
+          <li className="page-item">
+            <button className="page-link" onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>
+              Previous
+            </button>
+          </li>
+          {[...Array(Math.ceil(searchResults.length / itemsPerPage)).keys()].map(page => (
+            <li className="page-item" key={page+1}>
+              <button className="page-link" onClick={() => setCurrentPage(page + 1)}>
+                {page + 1}
+              </button>
+            </li>
+          ))}
+          <li className="page-item">
+            <button className="page-link" onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === Math.ceil(searchResults.length / itemsPerPage)}>
+              Next
+            </button>
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 };

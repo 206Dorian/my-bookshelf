@@ -9,7 +9,7 @@ const BookDetailCard = ({ bookDetails, onClose }) => {
   const [message, setMessage] = useState(""); // to hold feedback messages
 
   const handleAddToBookshelf = async () => {
-    console.log(bookDetails)
+   
     try {
       if (!bookDetails.ISBN) {
         throw new Error('ISBN not available for the selected book.');
@@ -23,6 +23,7 @@ const BookDetailCard = ({ bookDetails, onClose }) => {
       console.error(error);
       setMessage(error.message); // set error message
     }
+    console.log(bookDetails)
   };
 
   return (
