@@ -5,8 +5,7 @@ import BookDetailCard from './BookDetailCard';
 const SearchBar = () => {
   const [query, setQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const [selectedBook, setSelectedBook] = useState(null);
-
+  const [selectedBookIndex, setSelectedBookIndex] = useState(null);
 
   const searchBooks = async () => {
     try {
@@ -25,42 +24,52 @@ const SearchBar = () => {
     }
   };
 
-  const userSelection = (result) => {
-    const bookDetails = {
-      title: result.title,
-      author: result.author_name ? result.author_name.join(', ') : "Unknown Author",
-      ISBN: result.isbn ? result.isbn[0] : "Unknown ISBN",
-      firstSentence: result.first_sentence ? result.first_sentence[0] : "First sentence not available",
-    };
-
-    setSelectedBook(bookDetails);
-    console.log('Selected Book Set:', selectedBook);
+  const userSelection = (result, index) => {
+    setSelectedBookIndex(index);
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault();  // Prevent the default form submission behavior
+    event.preventDefault();  
     searchBooks();
   };
 
   return (
-   <div>
-      <form onSubmit={handleSubmit}>
-        <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} />
-        <button type="submit">Search</button>  {/* Make sure this button is of type "submit" */}
-      </form>
-      <div>
-        {searchResults.map((result, index) => (
-          <div key={index} onClick={() => userSelection(result)}>
-            <h3>{result.title}</h3>
-          </div>
-        ))}
-      </div>
-      {selectedBook && (
-        <BookDetailCard
-          bookDetails={selectedBook}
-          onClose={() => setSelectedBook(null)}
+    <div className="container">
+      <form onSubmit={handleSubmit} className="mb-3">
+        <input 
+          type="text" 
+          value={query} 
+          onChange={(e) => setQuery(e.target.value)} 
+          className="form-control" 
         />
-      )}
+        <button type="submit" className="btn btn-primary mt-2">
+          Search
+        </button>
+      </form>
+      <div className="row">
+        <div className="col-md-12">
+          {searchResults.map((result, index) => (
+            <div key={index} className="mb-2">
+              <div onClick={() => userSelection(result, index)}>
+                <h3>{result.title}</h3>
+              </div>
+              {selectedBookIndex === index && (
+                <div className="mb-2">
+                  <BookDetailCard
+                    bookDetails={{
+                      title: result.title,
+                      author: result.author_name ? result.author_name.join(', ') : "Unknown Author",
+                      ISBN: result.isbn ? result.isbn[0] : "Unknown ISBN",
+                      firstSentence: result.first_sentence ? result.first_sentence[0] : "First sentence not available",
+                    }}
+                    onClose={() => setSelectedBookIndex(null)}
+                  />
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
