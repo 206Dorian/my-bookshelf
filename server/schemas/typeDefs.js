@@ -43,6 +43,7 @@ const typeDefs = gql`
     getUser: User
     getBooks: [Book]
     getBookDetails(ISBN: String!): Book
+    recentBooks(limit: Int): [Book]
   }
 
   type Mutation {

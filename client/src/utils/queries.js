@@ -39,3 +39,13 @@ export const GET_BOOK_DETAILS = gql`
     }
   }
 `;
+
+
+export const RECENT_BOOKS_QUERY = gql`
+query GetRecentBooks($limit: Int) {
+  recentBooks(limit: $limit) {
+    title
+    author
+  }
+}
+`;

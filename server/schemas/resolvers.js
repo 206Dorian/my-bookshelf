@@ -25,7 +25,7 @@ const resolvers = {
       }
       throw new AuthenticationError('Not logged in');
     },
- 
+
     getBooks: async () => {
       try {
         const books = await Book.find();
@@ -53,6 +53,20 @@ const resolvers = {
         throw new Error('Error fetching book details');
       }
     },
+    recentBooks: async (_parent, args, context) => {
+      try {
+        // Use the Book Mongoose model to query the most recent books.
+        // This assumes that your books have an 'addedDate' field.
+        const recentBooks = await Book.find()
+          .sort({ addedDate: -1 }) // sort by addedDate in descending order
+          .limit(args.limit) // limit the number of results
+          .exec(); // execute the query
+        return recentBooks;
+      } catch (error) {
+        throw new Error('Error fetching recent books', error);
+      }
+    },
+    
 
   },
   Mutation: {
@@ -104,35 +118,35 @@ const resolvers = {
     addToBookshelf: async (_, { ISBN, bookDetails }, context) => {
       if (context.user) {
         let book = await Book.findOne({ ISBN });
-    
+
         if (!book && bookDetails) {
           book = await Book.create(bookDetails);
         }
-    
+
         if (!book) {
           throw new Error('Book details must be provided for new books');
         }
-    
+
         const user = await User.findById(context.user._id);
-    
+
         const alreadyExists = user.bookshelf.some(bookEntry => bookEntry.ISBN === ISBN);
         if (alreadyExists) {
           throw new Error('Book already exists in the bookshelf');
         }
-    
+
         const placements = user.bookshelf.map(bookEntry => bookEntry.placement);
         let newPlacement = 1;
         while (placements.includes(newPlacement) && newPlacement <= 100) {
           newPlacement++;
         }
-    
+
         if (newPlacement > 100) {
           throw new Error('Bookshelf is full');
         }
-    
+
         user.bookshelf.push({ ISBN: book.ISBN, placement: newPlacement });
         await user.save();
-    
+
         // Return the BookshelfEntry.
         return {
           ISBN: ISBN,
@@ -143,7 +157,7 @@ const resolvers = {
         throw new AuthenticationError('Not logged in');
       }
     },
-    
+
 
 
 
