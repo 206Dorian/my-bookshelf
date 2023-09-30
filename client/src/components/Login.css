@@ -11,9 +11,9 @@
     --offWhite: #EDF6F9;
   }
   
-  body {
+  /* body {
     background-color: var(--DorianGrey);
-  }
+  } */
   
   h1 {
     color: var(--YinBlue);
