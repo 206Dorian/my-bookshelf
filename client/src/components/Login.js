@@ -61,7 +61,7 @@ export default function Login(props) {
   };
 
  return (
-    <div>
+    <div className="m-4">
       <div style={hideState.signin} className="container one">
         <div className="row justify-content-center">
           <div className="col-md-6">

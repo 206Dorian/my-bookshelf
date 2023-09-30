@@ -1,5 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { RECENT_BOOKS_QUERY } from '../utils/queries';
+import './BookSuggestion.css'
+
 const BookSuggestion = () => {
     const { loading, error, data } = useQuery(RECENT_BOOKS_QUERY, {
         variables: { limit: 5 },
@@ -10,10 +12,11 @@ const BookSuggestion = () => {
     
       return (
   
-        <div className="d-flex flex-row flex-wrap">
+        <div id='suggestionBox' className="d-flex flex-row flex-wrap p-3">
+            <p id='suggestionBannerText' className='m-2'>take a peak at what others are reading</p>
         {data.recentBooks.map((book, index) => (
           <div key={index} className="col">
-            <div className="card m-2">
+            <div id='suggestions' className="card m-2">
               <div className="card-body">
                 <h5 className="card-title">{book.title}</h5>
                 <p className="card-text">{book.author}</p>
