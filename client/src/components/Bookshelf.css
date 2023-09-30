@@ -1,3 +1,8 @@
+.BookEntry {
+  background-color: var(--dorianGrey);
+  color: var(--TimothyMagenta);
+}
+
 #bookshelfContainer{
 margin-top: 12rem;
 }

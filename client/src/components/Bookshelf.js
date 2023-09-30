@@ -1,4 +1,5 @@
 import React from 'react';
+import './Bookshelf.css'
 
 const Bookshelf = ({ books }) => {
   return (
@@ -6,7 +7,7 @@ const Bookshelf = ({ books }) => {
       <h2>Bookshelf</h2>
       <div>
         {books.map((entry, index) => (
-          <div key={index}>
+          <div className='BookEntry' key={index}>
             <h3>{entry.book?.title}</h3>
             <p>Author: {entry.book?.author}</p>
             <p>First Sentence: {entry.book?.firstSentence}</p>
