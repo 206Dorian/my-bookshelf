@@ -1,6 +1,19 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
+
+const dogEarSchema = new Schema({
+  ISBN: {
+    type: String,
+    ref: 'Book',
+  },
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  text: String,
+});
+
 const userSchema = new Schema(
   {
     username: {
@@ -35,8 +48,23 @@ const userSchema = new Schema(
           max: 100,
           required: true,
         },
+        dogEars: [dogEarSchema],
       },
     ],
+    friendRequests: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
+    username: String,
+ 
   },
   {
     toJSON: {
