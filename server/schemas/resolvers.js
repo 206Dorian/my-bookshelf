@@ -35,7 +35,7 @@ const resolvers = {
         }
       }
       throw new AuthenticationError('Not logged in');
-    },
+    }, 
     
     
     getBooks: async () => {
@@ -189,7 +189,6 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in!');
     },
-    
     acceptFriendRequest: async (_, { friendUsername }, context) => {
       if (context.user) {
         const user = await User.findById(context.user._id);
@@ -199,13 +198,17 @@ const resolvers = {
           throw new Error('User not found or no friend request from this user!');
         }
     
-        // Move the friend from the friendRequests list to the friends list
+        // Move the friend from the friendRequests list to the friends list for the user
         user.friendRequests = user.friendRequests.filter(
           (request) => request.toString() !== friend._id.toString()
         );
         user.friends.push(friend._id);
-        
+    
+        // Add the user to the friend's friend list
+        friend.friends.push(user._id);
+    
         await user.save();
+        await friend.save();
     
         // Return the friend object with both user ID and username
         return {
