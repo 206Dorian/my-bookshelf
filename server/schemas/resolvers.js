@@ -77,6 +77,38 @@ const resolvers = {
         throw new Error('Error fetching recent books', error);
       }
     },
+    getFriend: async (_, { username }, context) => {
+      if (context.user) {
+        // Fetch the friend user by username
+        const friend = await User.findOne({ username })
+          .populate('friends')
+          .populate('friendRequests');
+      
+        // Check if the friend exists
+        if (!friend) {
+          throw new Error('User not found');
+        }
+
+        // Check if the context user is a friend of the fetched user
+        if (!friend.friends.some(f => f._id.toString() === context.user._id)) {
+          throw new AuthenticationError('You are not friends');
+        }
+
+        // If everything is okay, populate the bookshelf and return the friend
+        const booksISBN = friend.bookshelf.map(entry => entry.ISBN);
+        const books = await Book.find({ ISBN: { $in: booksISBN } });
+        for (let entry of friend.bookshelf) {
+          const bookDetail = books.find(book => book.ISBN === entry.ISBN);
+          if (bookDetail) {
+            entry.book = bookDetail;
+          }
+        }
+
+        return friend;
+      }
+      throw new AuthenticationError('Not logged in');
+    },
+
   },
 
   Mutation: {
@@ -218,7 +250,6 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in!');
     },
-    
   
     declineFriendRequest: async (_, { friendUsername }, context) => {
       if (context.user) {

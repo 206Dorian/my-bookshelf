@@ -2,6 +2,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Home from './pages/Home.js'
 import Profile from './pages/Profile';
+import FriendProfile from './pages/FriendProfile';
+import SearchBar from './components/SearchBar';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {
   ApolloClient,
@@ -10,7 +12,7 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import SearchBar from './components/SearchBar';
+
 
 
 const httpLink = createHttpLink({
@@ -51,7 +53,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
-            {/* Define other routes as needed */}
+            <Route path="/friend/:username" element={<FriendProfile />} />
           </Routes>
         </div>
       </Router>

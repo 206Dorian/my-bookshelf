@@ -1,6 +1,7 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_USER} from '../utils/queries'; // 
+import { Link } from 'react-router-dom';
+import { GET_USER} from '../utils/queries'; 
 import Bookshelf from '../components/Bookshelf';
 
 
@@ -19,10 +20,21 @@ const Profile = () => {
       <h1>User Profile</h1>
       <p>Username: {user.username}</p>
       <p>Email: {user.email}</p>
-      <p>friends:{user.friends[0].username}</p>
+      <p>Friends:</p>
+      <ul>
+        {/* Map through the friends array and create a link for each friend */}
+        {user.friends.map((friend, index) => (
+          <li key={index}>
+            <Link to={`/friend/${friend.username}`}>
+              {friend.username}
+            </Link>
+          </li>
+        ))}
+      </ul>
       <Bookshelf books={user.bookshelf} /> 
     </div>
   );
 };
+
 
 export default Profile;
