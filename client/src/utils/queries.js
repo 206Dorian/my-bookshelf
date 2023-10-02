@@ -26,6 +26,26 @@ export const GET_USER = gql`
   }
 `;
 
+export const GET_FRIEND = gql`
+  query getFriend($username: String!) {
+    getFriend(username: $username) {
+      username
+      bookshelf {
+        ISBN
+        placement
+        addedDate
+        book {
+          title
+          author
+          ISBN
+          firstSentence
+        }
+      }
+    }
+  }
+`;
+
+
 export const SEARCH_USER = gql`
   query SearchUser($username: String!) {
     searchUser(username: $username) {

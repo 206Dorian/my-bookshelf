@@ -13,6 +13,12 @@ const typeDefs = gql`
     dogEars: [DogEar] 
   }
 
+  type Friend {
+  id: ID!
+  name: String!
+  # other fields
+}
+
   type DogEar {
   ISBN: String
   createdBy: ID
@@ -65,6 +71,7 @@ type FriendRequestResponse {
 
   type Query {
     getUser: User
+    getFriend(username: String!): User
     getBooks: [Book]
     getBookDetails(ISBN: String!): Book
     recentBooks(limit: Int): [Book]
