@@ -7,7 +7,7 @@ const dogEarSchema = new Schema({
     type: String,
     ref: 'Book',
   },
-  userId: {
+ createdBy: {
     type: Schema.Types.ObjectId,
     ref: 'User',
   },

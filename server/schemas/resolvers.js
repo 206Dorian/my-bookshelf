@@ -11,23 +11,32 @@ const resolvers = {
     getUser: async (_, __, context) => {
       if (context.user) {
         const user = await User.findById(context.user._id)
-        .populate('friends')
-        .populate('friendRequests');;
-        console.log(user)
+          .populate('friends')
+          .populate('friendRequests');
+    
         if (user) {
           // Fetch all books in one query
           const booksISBN = user.bookshelf.map(entry => entry.ISBN);
+          console.log('Searching for books with ISBNs:', booksISBN); 
           const books = await Book.find({ ISBN: { $in: booksISBN } });
-          // Map back the book details to the bookshelf
-          user.bookshelf = user.bookshelf.map(entry => ({
-            ...entry.toObject(),
-            book: books.find(book => book.ISBN === entry.ISBN)
-          }));
+          console.log('Found Books:', books); 
+    
+          // Explicitly iterate over the bookshelf and update the book field
+          for(let entry of user.bookshelf) {
+            const bookDetail = books.find(book => book.ISBN === entry.ISBN);
+            if (bookDetail) {
+              entry.book = bookDetail;
+            }
+          }
+    
+          console.log('Final Bookshelf:', user.bookshelf);
+    
           return user;
         }
       }
       throw new AuthenticationError('Not logged in');
     },
+    
     
     getBooks: async () => {
       try {
@@ -237,9 +246,9 @@ const resolvers = {
       throw new AuthenticationError('You need to be logged in!');
     },
     
-    addDogEar: async (parent, { userId, friendId, ISBN, text }, context) => {
+    addDogEar: async (parent, { createdBy, friendId, ISBN, text }, context) => {
       if (context.user && context.user._id === friendId) {
-        const owner = await User.findById(userId);
+        const owner = await User.findById(createdBy);
 
         // Find the specific book in owner's bookshelf.
         const bookEntry = owner.bookshelf.find(entry => entry.ISBN === ISBN);
