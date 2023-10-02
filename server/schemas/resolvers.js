@@ -13,6 +13,7 @@ const resolvers = {
         const user = await User.findById(context.user._id)
         .populate('friends')
         .populate('friendRequests');;
+        console.log(user)
         if (user) {
           // Fetch all books in one query
           const booksISBN = user.bookshelf.map(entry => entry.ISBN);

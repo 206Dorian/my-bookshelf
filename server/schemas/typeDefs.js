@@ -64,7 +64,7 @@ type FriendRequestResponse {
   
 
   type Query {
-    getUser(username: String!): User
+    getUser: User
     getBooks: [Book]
     getBookDetails(ISBN: String!): Book
     recentBooks(limit: Int): [Book]
