@@ -8,7 +8,31 @@ const typeDefs = gql`
     password: String
     isAdmin: Boolean
     bookshelf: [BookshelfEntry]
+    friendRequests: [User]
+    friends: [User]
+    dogEars: [DogEar] 
   }
+
+  type DogEar {
+  ISBN: String
+  createdBy: ID
+  text: String
+}
+
+
+type DogEarAction {
+  book: Book
+  user: User
+  friend: User
+  text: String
+}
+
+
+type FriendRequestResponse {
+  success: Boolean!
+  message: String
+  friend: User
+}
 
   type Auth {
     token: ID
@@ -16,11 +40,11 @@ const typeDefs = gql`
   }
 
   type Book {
-   
     title: String!
     author: String!
     ISBN: String
     firstSentence: String
+    addedDate: String
   }
 
   input BookInput {
@@ -34,13 +58,13 @@ const typeDefs = gql`
   type BookshelfEntry {
     ISBN: String
     placement: Int
+    addedDate: String
     book: Book 
   }
+  
 
   type Query {
-    user: User
-    Users: [User]
-    getUser: User
+    getUser(username: String!): User
     getBooks: [Book]
     getBookDetails(ISBN: String!): Book
     recentBooks(limit: Int): [Book]
@@ -52,8 +76,11 @@ const typeDefs = gql`
     login(username: String!, password: String!): Auth
     adminLogin(username: String!, password: String!): Auth
     addToBookshelf(ISBN: String!, bookDetails: BookInput): BookshelfEntry!
-
-  }
+    addDogEar(userId: ID!, friendId: ID!, ISBN: String!, text: String!): DogEarAction
+    sendFriendRequest(friendUsername: String!): User
+    acceptFriendRequest(friendUsername: String!): User
+   declineFriendRequest(friendUsername: String!): FriendRequestResponse
+    }
 `;
 
 module.exports = typeDefs;

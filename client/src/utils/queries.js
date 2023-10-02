@@ -1,10 +1,18 @@
 import { gql } from '@apollo/client';
 
 export const GET_USER = gql`
-  query GetUser {
+ query GetUser {
     getUser {
       username
       email
+      friends {
+        _id
+        username
+      }
+      friendRequests {
+        _id
+        username
+      }
       bookshelf {
         ISBN
         placement
@@ -18,9 +26,18 @@ export const GET_USER = gql`
   }
 `;
 
+export const SEARCH_USER = gql`
+  query SearchUser($username: String!) {
+    searchUser(username: $username) {
+      _id
+      username
+    }
+  }
+`;
+
 export const GET_BOOKS = gql`
-  query GetBooks {
-    getBooks {
+  query GetBooks($offset: Int, $limit: Int, $filter: String) {
+    getBooks(offset: $offset, limit: $limit, filter: $filter) {
       title
       author
       ISBN
@@ -40,12 +57,12 @@ export const GET_BOOK_DETAILS = gql`
   }
 `;
 
-
 export const RECENT_BOOKS_QUERY = gql`
 query GetRecentBooks($limit: Int) {
   recentBooks(limit: $limit) {
     title
     author
+    addedDate
   }
 }
 `;

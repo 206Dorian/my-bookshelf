@@ -8,24 +8,26 @@ const mongoose = require('mongoose');
 
 const resolvers = {
   Query: {
-    Users: async () => {
-      return await User.find().populate('bookshelf.ISBN');
-    },
-
     getUser: async (_, __, context) => {
       if (context.user) {
-        const user = await User.findById(context.user._id);
+        const user = await User.findById(context.user._id)
+        .populate('friends')
+        .populate('friendRequests');;
         if (user) {
-          // Manually populate the book details.
-          for (let entry of user.bookshelf) {
-            entry.book = await Book.findOne({ ISBN: entry.ISBN });
-          }
+          // Fetch all books in one query
+          const booksISBN = user.bookshelf.map(entry => entry.ISBN);
+          const books = await Book.find({ ISBN: { $in: booksISBN } });
+          // Map back the book details to the bookshelf
+          user.bookshelf = user.bookshelf.map(entry => ({
+            ...entry.toObject(),
+            book: books.find(book => book.ISBN === entry.ISBN)
+          }));
           return user;
         }
       }
       throw new AuthenticationError('Not logged in');
     },
-
+    
     getBooks: async () => {
       try {
         const books = await Book.find();
@@ -56,7 +58,6 @@ const resolvers = {
     recentBooks: async (_parent, args, context) => {
       try {
         // Use the Book Mongoose model to query the most recent books.
-        // This assumes that your books have an 'addedDate' field.
         const recentBooks = await Book.find()
           .sort({ addedDate: -1 }) // sort by addedDate in descending order
           .limit(args.limit) // limit the number of results
@@ -66,9 +67,8 @@ const resolvers = {
         throw new Error('Error fetching recent books', error);
       }
     },
-    
-
   },
+
   Mutation: {
     addUser: async (parent, args) => {
       const user = await User.create(args);
@@ -118,9 +118,10 @@ const resolvers = {
     addToBookshelf: async (_, { ISBN, bookDetails }, context) => {
       if (context.user) {
         let book = await Book.findOne({ ISBN });
-
+        console.log('Found book:', book);
         if (!book && bookDetails) {
           book = await Book.create(bookDetails);
+          console.log('Created book:', book);
         }
 
         if (!book) {
@@ -157,11 +158,110 @@ const resolvers = {
         throw new AuthenticationError('Not logged in');
       }
     },
+    sendFriendRequest: async (_, { friendUsername }, context) => {
+      if (context.user) {
+        const user = await User.findById(context.user._id);
+        const friend = await User.findOne({ username: friendUsername });
+    
+        if (!friend) {
+          throw new Error('User not found!');
+        }
+    
+        // Add the friend to the user's friendRequests list
+        user.friendRequests.push(friend._id);
+        await user.save();
+    
+        // Return the friend object with both user ID and username
+        return {
+          _id: friend._id,
+          username: friend.username,
+        };
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
+    
+    acceptFriendRequest: async (_, { friendUsername }, context) => {
+      if (context.user) {
+        const user = await User.findById(context.user._id);
+        const friend = await User.findOne({ username: friendUsername });
+    
+        if (!friend || !user.friendRequests.includes(friend._id)) {
+          throw new Error('User not found or no friend request from this user!');
+        }
+    
+        // Move the friend from the friendRequests list to the friends list
+        user.friendRequests = user.friendRequests.filter(
+          (request) => request.toString() !== friend._id.toString()
+        );
+        user.friends.push(friend._id);
+        
+        await user.save();
+    
+        // Return the friend object with both user ID and username
+        return {
+          _id: friend._id,
+          username: friend.username,
+        };
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
+    
+  
+    declineFriendRequest: async (_, { friendUsername }, context) => {
+      if (context.user) {
+        const user = await User.findById(context.user._id);
+        const friend = await User.findOne({ username: friendUsername });
+    
+        if (!friend) {
+          throw new Error('User not found!');
+        }
+    
+        // Remove the friend from the user's friendRequests list
+        user.friendRequests = user.friendRequests.filter(
+          (request) => request.toString() !== friend._id.toString()
+        );
+    
+        await user.save();
+    
+        // Return a response object indicating success and the friend details
+        return {
+          success: true,
+          message: 'Friend request declined successfully.',
+          friend: {
+            userId: friend._id,
+            username: friend.username,
+          },
+        };
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
+    
+    addDogEar: async (parent, { userId, friendId, ISBN, text }, context) => {
+      if (context.user && context.user._id === friendId) {
+        const owner = await User.findById(userId);
 
+        // Find the specific book in owner's bookshelf.
+        const bookEntry = owner.bookshelf.find(entry => entry.ISBN === ISBN);
 
+        if (bookEntry) {
+          bookEntry.dogEars.push({ ISBN, createdBy: friendId, text });
+          await owner.save();
+        } else {
+          throw new Error('Book not found in user\'s bookshelf');
+        }
 
+        const book = await Book.findOne({ ISBN });
+        const friend = await User.findById(friendId);
 
-
+        return {
+          book: book,
+          user: owner,
+          friend: friend,
+          text: text
+        };
+      }
+      throw new AuthenticationError('You need to be logged in as the correct friend!');
+    },
   },
 };
 

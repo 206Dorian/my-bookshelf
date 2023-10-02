@@ -26,7 +26,9 @@ export const ADD_USER = gql`
 
 export const DELETE_USER = gql`
   mutation deleteUser($username: String!) {
-    deleteUser(username: $username)
+    deleteUser(username: $username) {
+      _id
+    }
   }
 `;
 
@@ -35,6 +37,7 @@ export const ADD_TO_BOOKSHELF = gql`
     addToBookshelf(ISBN: $ISBN, bookDetails: $bookDetails) {
       ISBN
       placement
+      addedDate
       book {
         title
         author
@@ -44,3 +47,39 @@ export const ADD_TO_BOOKSHELF = gql`
   }
 `;
 
+export const SEND_FRIEND_REQUEST = gql`
+  mutation SendFriendRequest($friendUsername: String!) {sendFriendRequest(friendUsername: $friendUsername) {
+      _id
+      username
+      status
+    }
+  }
+`;
+
+export const ACCEPT_FRIEND_REQUEST = gql`
+  mutation AcceptFriendRequest($friendUsername: String!) {
+    acceptFriendRequest(friendUsername: $friendUsername) {
+      _id
+      username
+    }
+  }
+`;
+
+export const DECLINE_FRIEND_REQUEST = gql`
+  mutation DeclineFriendRequest($friendUsername: String!) {
+    declineFriendRequest(friendUsername: $friendUsername) {
+      _id
+      username
+    }
+  }
+`;
+
+
+export const ADD_DOG_EAR = gql`
+  mutation AddDogEar($friendId: ID!, $ISBN: String!, $note: String) {
+    addDogEar(friendId: $friendId, ISBN: $ISBN, note: $note) {
+      _id
+      note
+    }
+  }
+`;
