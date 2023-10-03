@@ -77,6 +77,13 @@ const resolvers = {
         throw new Error('Error fetching recent books', error);
       }
     },
+    getUserNotifications: async (_, __, context) => {
+      if (!context.user) {
+          throw new AuthenticationError('Not logged in');
+      }
+      const notifications = await Notification.find({ recipient: context.user._id });
+      return notifications;
+  },
     getFriend: async (_, { username }, context) => {
       if (context.user) {
         // Fetch the friend user by username
@@ -108,7 +115,17 @@ const resolvers = {
       }
       throw new AuthenticationError('Not logged in');
     },
-
+    searchUsers: async (_, { username }, context) => {
+      if (!context.user) {
+          throw new AuthenticationError('Not logged in');
+      }
+      try {
+          const users = await User.find({ username: { $regex: username, $options: 'i' } });
+          return users;
+      } catch (error) {
+          throw new Error('Error fetching users');
+      }
+  },
   },
 
   Mutation: {
@@ -306,6 +323,33 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in as the correct friend!');
     },
+    sendFriendRequest: async (_, { friendUsername }, context) => {
+      if (context.user) {
+          const user = await User.findById(context.user._id);
+          const friend = await User.findOne({ username: friendUsername });
+      
+          if (!friend) {
+              throw new Error('User not found!');
+          }
+      
+          user.friendRequests.push(friend._id);
+          await user.save();
+      
+          // Create a notification for the friend request
+          await Notification.create({
+              recipient: friend._id,
+              sender: user._id,
+              type: 'FRIEND_REQUEST',
+              content: `${user.username} sent you a friend request.`,
+          });
+      
+          return {
+              _id: friend._id,
+              username: friend.username,
+          };
+      }
+      throw new AuthenticationError('You need to be logged in!');
+  },
   },
 };
 

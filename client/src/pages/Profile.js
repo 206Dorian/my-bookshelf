@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import { GET_USER} from '../utils/queries'; 
 import Bookshelf from '../components/Bookshelf';
+import SearchFriend from '../components/SearchFriend';  
 
 
 const Profile = () => {
@@ -15,8 +16,14 @@ const Profile = () => {
   const user = userData?.getUser;
   console.log(user);
 
+  const handleUserSelected = (user) => {
+    console.log('Selected user:', user);
+    // You can navigate to the user's profile or do whatever is needed
+  };
+  
   return (
     <div>
+       <SearchFriend onUserSelected={handleUserSelected} />
       <h1>User Profile</h1>
       <p>Username: {user.username}</p>
       <p>Email: {user.email}</p>
