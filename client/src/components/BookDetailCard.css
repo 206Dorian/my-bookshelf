@@ -1,3 +1,18 @@
-#bookDetailCard{
-background-color: blueviolet;
+:root {
+    --TimothyMagenta: #92374D;
+    --JennPlum: #8C5383;
+    --YinBlue: #4A5899;
+    --SteelBlue: #507AA3;
+    --GulfCoast: #559cad;
+    --DorianGrey: #8BA7AC;
+    --Silver: #C1B2AB;
+    --OffWhite: #EDF6F9;
+}
+
+
+
+#bookDetailCard {
+    background-color: var(--dorianGrey);
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
