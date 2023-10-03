@@ -44,8 +44,8 @@ function App() {
       <Router>
         <div className="App">
           <header className="App-header">
-            <h1>
-              My Bookshelf also known as My 100
+            <h1 className='Title'>
+              My Bookshelf / My 100
             </h1>
             <SearchBar />
           </header>

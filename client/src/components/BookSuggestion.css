@@ -4,6 +4,7 @@ background-color: var(--YinBlue);
 
 #suggestions{
     background-color: var(--dorianGrey);
+    height: 135px; 
 }
 
 #suggestionBannerText{
