@@ -55,26 +55,25 @@ const SearchBar = () => {
       </form>
       <div className="row">
         <div className="col-md-12">
-          {currentItems.map((result, index) => (
-            <div key={index} className="mb-2">
-              <div onClick={() => userSelection(result, index)}>
-                <h3>{result.title}</h3>
-              </div>
-              {selectedBookIndex === index && (
-                <div className="mb-2">
-                  <BookDetailCard
-                    bookDetails={{
-                      title: result.title,
-                      author: result.author_name ? result.author_name.join(', ') : "Unknown Author",
-                      ISBN: result.isbn ? result.isbn[0] : "Unknown ISBN",
-                      firstSentence: result.first_sentence ? result.first_sentence[0] : "First sentence not available",
-                    }}
-                    onClose={() => setSelectedBookIndex(null)}
-                  />
-                </div>
-              )}
-            </div>
-          ))}
+        {currentItems.map((result, index) => (
+  <div key={index} className="mb-2">
+    <button className="btn btn-block btn-light" onClick={() => userSelection(result, index)}>
+      <h3>{result.title}</h3>
+    </button>
+    {selectedBookIndex === index && (
+      <BookDetailCard
+        bookDetails={{
+          title: result.title,
+          author: result.author_name ? result.author_name.join(', ') : "Unknown Author",
+          ISBN: result.isbn ? result.isbn[0] : "Unknown ISBN",
+          firstSentence: result.first_sentence ? result.first_sentence[0] : "First sentence not available",
+        }}
+        onClose={() => setSelectedBookIndex(null)}
+      />
+    )}
+  </div>
+))}
+
         </div>
       </div>
       <nav aria-label="Page navigation example">
