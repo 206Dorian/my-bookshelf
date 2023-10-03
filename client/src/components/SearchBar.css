@@ -9,15 +9,15 @@
     --offWhite: #EDF6F9;
   }
   .btn-light {
-    background-color: var(--dorianGrey);
-    color: var(--TimothyMagenta);
+    background-color: var(--silver);
+    color: var(--offWhite);
     border: none;
     transition: background-color 0.2s ease;
   }
   
   .btn-light:hover, .btn-light:focus {
-    background-color: var(--YinBlue);
-    color: var(--offWhite);
+    background-color: var(--offWhite);
+    color: var(--silver);
   }
   
   /* Styling the input and search button */
