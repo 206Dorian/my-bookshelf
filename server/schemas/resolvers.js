@@ -120,6 +120,7 @@ const resolvers = {
     throw new AuthenticationError('Not logged in');
   },
 
+  
     searchUsers: async (_, { username }, context) => {
       if (!context.user) {
           throw new AuthenticationError('Not logged in');
