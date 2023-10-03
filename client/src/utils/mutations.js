@@ -51,7 +51,7 @@ export const SEND_FRIEND_REQUEST = gql`
   mutation SendFriendRequest($friendUsername: String!) {sendFriendRequest(friendUsername: $friendUsername) {
       _id
       username
-      status
+  
     }
   }
 `;

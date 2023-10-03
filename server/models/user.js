@@ -14,6 +14,9 @@ const dogEarSchema = new Schema({
   text: String,
 });
 
+
+
+
 const userSchema = new Schema(
   {
     username: {
@@ -63,8 +66,12 @@ const userSchema = new Schema(
         ref: 'User',
       },
     ],
-    username: String,
- 
+    notifications: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Notification',
+      },
+    ],
   },
   {
     toJSON: {

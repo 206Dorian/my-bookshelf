@@ -1,4 +1,4 @@
-const { User, Book } = require('../models');
+const { User, Book, Notification } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
 require('dotenv').config();
@@ -12,14 +12,14 @@ const resolvers = {
       if (context.user) {
         const user = await User.findById(context.user._id)
           .populate('friends')
-          .populate('friendRequests');
+          .populate('friendRequests')
+          .populate('notifications');
     
         if (user) {
           // Fetch all books in one query
           const booksISBN = user.bookshelf.map(entry => entry.ISBN);
-          console.log('Searching for books with ISBNs:', booksISBN); 
           const books = await Book.find({ ISBN: { $in: booksISBN } });
-          console.log('Found Books:', books); 
+ 
     
           // Explicitly iterate over the bookshelf and update the book field
           for(let entry of user.bookshelf) {
@@ -29,7 +29,7 @@ const resolvers = {
             }
           }
     
-          console.log('Final Bookshelf:', user.bookshelf);
+     
     
           return user;
         }
@@ -49,11 +49,9 @@ const resolvers = {
 
     getBookDetails: async (_, { ISBN }) => {
       try {
-        console.log('Searching for book with ISBN:', ISBN);
-
+   
         // Retrieve the book details based on the ISBN
         const book = await Book.findOne({ ISBN: ISBN });
-        console.log('Found book:', book);
 
         if (!book) {
           throw new Error('Book not found');
@@ -77,38 +75,59 @@ const resolvers = {
         throw new Error('Error fetching recent books', error);
       }
     },
-    getFriend: async (_, { username }, context) => {
-      if (context.user) {
-        // Fetch the friend user by username
-        const friend = await User.findOne({ username })
-          .populate('friends')
-          .populate('friendRequests');
-      
-        // Check if the friend exists
-        if (!friend) {
-          throw new Error('User not found');
-        }
-
-        // Check if the context user is a friend of the fetched user
-        if (!friend.friends.some(f => f._id.toString() === context.user._id)) {
-          throw new AuthenticationError('You are not friends');
-        }
-
-        // If everything is okay, populate the bookshelf and return the friend
-        const booksISBN = friend.bookshelf.map(entry => entry.ISBN);
-        const books = await Book.find({ ISBN: { $in: booksISBN } });
-        for (let entry of friend.bookshelf) {
-          const bookDetail = books.find(book => book.ISBN === entry.ISBN);
-          if (bookDetail) {
-            entry.book = bookDetail;
-          }
-        }
-
-        return friend;
+    getUserNotifications: async (_, __, context) => {
+      if (!context.user) {
+          throw new AuthenticationError('Not logged in');
       }
-      throw new AuthenticationError('Not logged in');
-    },
-
+      const notifications = await Notification.find({ recipient: context.user._id });
+      return notifications;
+  },
+  getFriend: async (_, { username }, context) => {
+    if (context.user) {
+      // Fetch the friend user by username
+      const friend = await User.findOne({ username })
+        .populate('friends')
+        .populate('friendRequests');
+  
+      // Check if the friend exists
+      if (!friend) {
+        throw new Error('User not found');
+      }
+  
+      // Check if the context user is a friend of the fetched user
+      let isFriend = friend.friends.some(f => f._id.toString() === context.user._id);
+  
+      // Populate the bookshelf
+      const booksISBN = friend.bookshelf.map(entry => entry.ISBN);
+      const books = await Book.find({ ISBN: { $in: booksISBN } });
+      for (let entry of friend.bookshelf) {
+        const bookDetail = books.find(book => book.ISBN === entry.ISBN);
+        if (bookDetail) {
+          entry.book = bookDetail;
+        }
+      }
+  
+      // Add the isFriend flag to the returned object. 
+      // We're creating a new object so as not to mutate the original friend object.
+    return {
+            ...friend.toObject(),
+            isFriend: isFriend
+        };
+    }
+    throw new AuthenticationError('Not logged in');
+  },
+  
+    searchUsers: async (_, { username }, context) => {
+      if (!context.user) {
+          throw new AuthenticationError('Not logged in');
+      }
+      try {
+          const users = await User.find({ username: { $regex: username, $options: 'i' } });
+          return users;
+      } catch (error) {
+          throw new Error('Error fetching users');
+      }
+  },
   },
 
   Mutation: {
@@ -160,10 +179,10 @@ const resolvers = {
     addToBookshelf: async (_, { ISBN, bookDetails }, context) => {
       if (context.user) {
         let book = await Book.findOne({ ISBN });
-        console.log('Found book:', book);
+  
         if (!book && bookDetails) {
           book = await Book.create(bookDetails);
-          console.log('Created book:', book);
+  
         }
 
         if (!book) {
@@ -202,25 +221,32 @@ const resolvers = {
     },
     sendFriendRequest: async (_, { friendUsername }, context) => {
       if (context.user) {
-        const user = await User.findById(context.user._id);
-        const friend = await User.findOne({ username: friendUsername });
-    
-        if (!friend) {
-          throw new Error('User not found!');
-        }
-    
-        // Add the friend to the user's friendRequests list
-        user.friendRequests.push(friend._id);
-        await user.save();
-    
-        // Return the friend object with both user ID and username
-        return {
-          _id: friend._id,
-          username: friend.username,
-        };
+          const user = await User.findById(context.user._id);
+          const friend = await User.findOne({ username: friendUsername });
+      
+          if (!friend) {
+              throw new Error('User not found!');
+          }
+      
+          friend.friendRequests.push(user._id);
+          await friend.save();
+          
+      
+          // Create a notification for the friend request
+          await Notification.create({
+              recipient: friend._id,
+              sender: user._id,
+              type: 'FRIEND_REQUEST',
+              content: `${user.username} sent you a friend request.`,
+          });
+      
+          return {
+              _id: friend._id,
+              username: friend.username,
+          };
       }
       throw new AuthenticationError('You need to be logged in!');
-    },
+  },
     acceptFriendRequest: async (_, { friendUsername }, context) => {
       if (context.user) {
         const user = await User.findById(context.user._id);
@@ -306,6 +332,7 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in as the correct friend!');
     },
+ 
   },
 };
 

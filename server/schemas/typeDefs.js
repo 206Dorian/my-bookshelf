@@ -11,6 +11,8 @@ const typeDefs = gql`
     friendRequests: [User]
     friends: [User]
     dogEars: [DogEar] 
+    notifications: [Notification]
+    isFriend: Boolean
   }
 
   type Friend {
@@ -67,6 +69,14 @@ type FriendRequestResponse {
     addedDate: String
     book: Book 
   }
+  type Notification {
+    _id: ID!
+    sender: User!
+    type: String!
+    content: String!
+    isRead: Boolean!
+    createdAt: String!
+}
   
 
   type Query {
@@ -75,6 +85,8 @@ type FriendRequestResponse {
     getBooks: [Book]
     getBookDetails(ISBN: String!): Book
     recentBooks(limit: Int): [Book]
+    getUserNotifications: [Notification]
+    searchUsers(username: String!): [User]
   }
 
   type Mutation {

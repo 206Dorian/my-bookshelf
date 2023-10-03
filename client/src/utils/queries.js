@@ -1,35 +1,47 @@
 import { gql } from '@apollo/client';
 
 export const GET_USER = gql`
- query GetUser{
-    getUser{
+  query getUser {
+    getUser {
+      _id
       username
       email
-      friends {
-        _id
-        username
+      isAdmin
+      bookshelf {
+        ISBN
+        placement
+        addedDate
+        book {
+          title
+          author
+        }
       }
       friendRequests {
         _id
         username
       }
-      bookshelf {
-        ISBN
-        placement
-        book {
-          title
-          author
-          firstSentence
-        }
+      friends {
+        _id
+        username
       }
     }
   }
 `;
 
+export const SEARCH_USER = gql`
+  query getFriend($username: String!) {
+    getFriend(username: $username) {
+      _id
+      username
+      isFriend 
+    }
+  }
+`;
 export const GET_FRIEND = gql`
   query getFriend($username: String!) {
     getFriend(username: $username) {
       username
+      isFriend 
       bookshelf {
         ISBN
         placement
@@ -41,16 +53,6 @@ export const GET_FRIEND = gql`
           firstSentence
         }
       }
-    }
-  }
-`;
-
-
-export const SEARCH_USER = gql`
-  query SearchUser($username: String!) {
-    searchUser(username: $username) {
-      _id
-      username
     }
   }
 `;
@@ -86,3 +88,5 @@ query GetRecentBooks($limit: Int) {
   }
 }
 `;
+
+

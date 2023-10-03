@@ -23,7 +23,7 @@ const BookDetailCard = ({ bookDetails, onClose }) => {
       console.error(error);
       setMessage(error.message); // set error message
     }
-    console.log(bookDetails)
+
   };
 
   return (
