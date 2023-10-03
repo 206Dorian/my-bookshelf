@@ -84,38 +84,42 @@ const resolvers = {
   },
   getFriend: async (_, { username }, context) => {
     if (context.user) {
-      // Fetch the friend user by username
+      console.log("Context user:", context.user);
+
       const friend = await User.findOne({ username })
         .populate('friends')
-        .populate('friendRequests');
+        .populate('friendRequests')
+      
+      console.log("Fetched friend:", friend);
   
-      // Check if the friend exists
       if (!friend) {
         throw new Error('User not found');
       }
   
-      // Check if the context user is a friend of the fetched user
       let isFriend = friend.friends.some(f => f._id.toString() === context.user._id);
+      console.log("Is friend:", isFriend);
   
-      // Populate the bookshelf
       const booksISBN = friend.bookshelf.map(entry => entry.ISBN);
       const books = await Book.find({ ISBN: { $in: booksISBN } });
-      for (let entry of friend.bookshelf) {
-        const bookDetail = books.find(book => book.ISBN === entry.ISBN);
-        if (bookDetail) {
-          entry.book = bookDetail;
-        }
-      }
   
-      // Add the isFriend flag to the returned object. 
-      // We're creating a new object so as not to mutate the original friend object.
-    return {
-            ...friend.toObject(),
-            isFriend: isFriend
+      // Creating a new array for bookshelf with attached book details
+      const newBookshelf = friend.bookshelf.map(entry => {
+        const bookDetail = books.find(book => book.ISBN === entry.ISBN);
+        return {
+          ...entry.toObject(),  // Convert mongoose doc to a regular object
+          book: bookDetail ? bookDetail.toObject() : null  // Same here for bookDetail
         };
+      });
+  
+      return {
+        ...friend.toObject(),
+        bookshelf: newBookshelf,  // Overwrite the bookshelf with the new one
+        isFriend: isFriend
+      };
     }
     throw new AuthenticationError('Not logged in');
   },
+
   
     searchUsers: async (_, { username }, context) => {
       if (!context.user) {
