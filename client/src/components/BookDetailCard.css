@@ -1,16 +1,14 @@
 :root {
-    --TimothyMagenta: #92374D;
+    --TimothyMagenta: #6b0e25;
     --JennPlum: #8C5383;
-    --YinBlue: #4A5899;
+    --YinBlue: #05647a;
     --SteelBlue: #507AA3;
     --GulfCoast: #559cad;
-    --DorianGrey: #8BA7AC;
-    --Silver: #C1B2AB;
-    --OffWhite: #EDF6F9;
-}
-
-
-
+    --dorianGrey: #8BA7AC;
+    --silver: #C1B2AB;
+    --offWhite: #EDF6F9;
+  }
+  
 #bookDetailCard {
     background-color: var(--dorianGrey);
     margin-top: 20px;
