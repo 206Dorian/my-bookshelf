@@ -228,8 +228,9 @@ const resolvers = {
               throw new Error('User not found!');
           }
       
-          user.friendRequests.push(friend._id);
-          await user.save();
+          friend.friendRequests.push(user._id);
+          await friend.save();
+          
       
           // Create a notification for the friend request
           await Notification.create({
