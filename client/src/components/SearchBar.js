@@ -15,7 +15,6 @@ const SearchBar = () => {
         axios.get(`http://openlibrary.org/search.json?title=${query}`),
         axios.get(`http://openlibrary.org/search.json?author=${query}`)
       ]);
-      console.log(titleResponse.data)
       const titleDocs = titleResponse.data.docs.map(doc => ({ ...doc, type: 'title' }));
       const authorDocs = authorResponse.data.docs.map(doc => ({ ...doc, type: 'author' }));
 

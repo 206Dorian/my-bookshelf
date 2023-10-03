@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { GET_USER} from '../utils/queries'; 
 import Bookshelf from '../components/Bookshelf';
 import SearchFriend from '../components/SearchFriend';  
-
+import Notifications from '../components/Notifications';
 
 const Profile = () => {
 
@@ -14,7 +14,6 @@ const Profile = () => {
   if (userError) return <p>User Error: {userError.message}</p>;
 
   const user = userData?.getUser;
-  console.log(user);
 
   const handleUserSelected = (user) => {
     console.log('Selected user:', user);
@@ -25,6 +24,7 @@ const Profile = () => {
     <div>
        <SearchFriend onUserSelected={handleUserSelected} />
       <h1>User Profile</h1>
+      <Notifications />
       <p>Username: {user.username}</p>
       <p>Email: {user.email}</p>
       <p>Friends:</p>

@@ -506,4 +506,4 @@ function generatePlacement() {
     placement: generatePlacement(), // Generate random placement
   }));
   
-  console.log(formattedBookData);
+

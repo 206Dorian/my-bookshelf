@@ -11,8 +11,6 @@ const SearchFriend = ({ onUserSelected }) => {
     fetchPolicy: 'network-only'  // <-- Bypass cache and fetch from the network
   });
 
-  console.log("Fetched Data (getFriend):", data);  // <-- Log the fetched data
-
   const [sendFriendRequest, { data: mutationData, error: mutationError }] = useMutation(SEND_FRIEND_REQUEST);
 
   const handleSearch = (e) => {
@@ -27,12 +25,16 @@ const SearchFriend = ({ onUserSelected }) => {
   };
 
   const handleSendFriendRequest = async () => {
+    if (!username) {
+      alert("Username is required!");
+      return;
+    }
     try {
-      const response = await sendFriendRequest({ variables: { username } });
-      if (response.data.sendFriendRequest.success) {
+      const response = await sendFriendRequest({ variables: { friendUsername: username } });
+      if (response.data?.sendFriendRequest.success) {
         alert('Friend request sent successfully!');
       } else {
-        alert(response.data.sendFriendRequest.message);
+        alert(response.data?.sendFriendRequest.message);
       }
     } catch (err) {
       console.error("Error sending friend request:", err);
@@ -53,7 +55,7 @@ const SearchFriend = ({ onUserSelected }) => {
       {mutationData && <p>{mutationData.sendFriendRequest.message}</p>}
       {data && data.getFriend && (
         <div>
-          <div onClick={() => handleSelect(data.getFriend)}>
+          <div onClick={() => handleSelect(data.getFriend)} role="button" tabIndex={0}>
             {data.getFriend.username}
           </div>
           {!data.getFriend.isFriend && (

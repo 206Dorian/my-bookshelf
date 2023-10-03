@@ -1,4 +1,4 @@
-const { User, Book } = require('../models');
+const { User, Book, Notification } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
 require('dotenv').config();
@@ -12,14 +12,14 @@ const resolvers = {
       if (context.user) {
         const user = await User.findById(context.user._id)
           .populate('friends')
-          .populate('friendRequests');
+          .populate('friendRequests')
+          .populate('notifications');
     
         if (user) {
           // Fetch all books in one query
           const booksISBN = user.bookshelf.map(entry => entry.ISBN);
-          console.log('Searching for books with ISBNs:', booksISBN); 
           const books = await Book.find({ ISBN: { $in: booksISBN } });
-          console.log('Found Books:', books); 
+ 
     
           // Explicitly iterate over the bookshelf and update the book field
           for(let entry of user.bookshelf) {
@@ -29,7 +29,7 @@ const resolvers = {
             }
           }
     
-          console.log('Final Bookshelf:', user.bookshelf);
+     
     
           return user;
         }
@@ -49,11 +49,9 @@ const resolvers = {
 
     getBookDetails: async (_, { ISBN }) => {
       try {
-        console.log('Searching for book with ISBN:', ISBN);
-
+   
         // Retrieve the book details based on the ISBN
         const book = await Book.findOne({ ISBN: ISBN });
-        console.log('Found book:', book);
 
         if (!book) {
           throw new Error('Book not found');
@@ -181,10 +179,10 @@ const resolvers = {
     addToBookshelf: async (_, { ISBN, bookDetails }, context) => {
       if (context.user) {
         let book = await Book.findOne({ ISBN });
-        console.log('Found book:', book);
+  
         if (!book && bookDetails) {
           book = await Book.create(bookDetails);
-          console.log('Created book:', book);
+  
         }
 
         if (!book) {
