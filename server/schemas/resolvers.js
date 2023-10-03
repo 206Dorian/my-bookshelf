@@ -84,37 +84,41 @@ const resolvers = {
       const notifications = await Notification.find({ recipient: context.user._id });
       return notifications;
   },
-    getFriend: async (_, { username }, context) => {
-      if (context.user) {
-        // Fetch the friend user by username
-        const friend = await User.findOne({ username })
-          .populate('friends')
-          .populate('friendRequests');
-      
-        // Check if the friend exists
-        if (!friend) {
-          throw new Error('User not found');
-        }
-
-        // Check if the context user is a friend of the fetched user
-        if (!friend.friends.some(f => f._id.toString() === context.user._id)) {
-          throw new AuthenticationError('You are not friends');
-        }
-
-        // If everything is okay, populate the bookshelf and return the friend
-        const booksISBN = friend.bookshelf.map(entry => entry.ISBN);
-        const books = await Book.find({ ISBN: { $in: booksISBN } });
-        for (let entry of friend.bookshelf) {
-          const bookDetail = books.find(book => book.ISBN === entry.ISBN);
-          if (bookDetail) {
-            entry.book = bookDetail;
-          }
-        }
-
-        return friend;
+  getFriend: async (_, { username }, context) => {
+    if (context.user) {
+      // Fetch the friend user by username
+      const friend = await User.findOne({ username })
+        .populate('friends')
+        .populate('friendRequests');
+  
+      // Check if the friend exists
+      if (!friend) {
+        throw new Error('User not found');
       }
-      throw new AuthenticationError('Not logged in');
-    },
+  
+      // Check if the context user is a friend of the fetched user
+      let isFriend = friend.friends.some(f => f._id.toString() === context.user._id);
+  
+      // Populate the bookshelf
+      const booksISBN = friend.bookshelf.map(entry => entry.ISBN);
+      const books = await Book.find({ ISBN: { $in: booksISBN } });
+      for (let entry of friend.bookshelf) {
+        const bookDetail = books.find(book => book.ISBN === entry.ISBN);
+        if (bookDetail) {
+          entry.book = bookDetail;
+        }
+      }
+  
+      // Add the isFriend flag to the returned object. 
+      // We're creating a new object so as not to mutate the original friend object.
+    return {
+            ...friend.toObject(),
+            isFriend: isFriend
+        };
+    }
+    throw new AuthenticationError('Not logged in');
+  },
+  
     searchUsers: async (_, { username }, context) => {
       if (!context.user) {
           throw new AuthenticationError('Not logged in');
@@ -219,25 +223,31 @@ const resolvers = {
     },
     sendFriendRequest: async (_, { friendUsername }, context) => {
       if (context.user) {
-        const user = await User.findById(context.user._id);
-        const friend = await User.findOne({ username: friendUsername });
-    
-        if (!friend) {
-          throw new Error('User not found!');
-        }
-    
-        // Add the friend to the user's friendRequests list
-        user.friendRequests.push(friend._id);
-        await user.save();
-    
-        // Return the friend object with both user ID and username
-        return {
-          _id: friend._id,
-          username: friend.username,
-        };
+          const user = await User.findById(context.user._id);
+          const friend = await User.findOne({ username: friendUsername });
+      
+          if (!friend) {
+              throw new Error('User not found!');
+          }
+      
+          user.friendRequests.push(friend._id);
+          await user.save();
+      
+          // Create a notification for the friend request
+          await Notification.create({
+              recipient: friend._id,
+              sender: user._id,
+              type: 'FRIEND_REQUEST',
+              content: `${user.username} sent you a friend request.`,
+          });
+      
+          return {
+              _id: friend._id,
+              username: friend.username,
+          };
       }
       throw new AuthenticationError('You need to be logged in!');
-    },
+  },
     acceptFriendRequest: async (_, { friendUsername }, context) => {
       if (context.user) {
         const user = await User.findById(context.user._id);
@@ -323,33 +333,7 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in as the correct friend!');
     },
-    sendFriendRequest: async (_, { friendUsername }, context) => {
-      if (context.user) {
-          const user = await User.findById(context.user._id);
-          const friend = await User.findOne({ username: friendUsername });
-      
-          if (!friend) {
-              throw new Error('User not found!');
-          }
-      
-          user.friendRequests.push(friend._id);
-          await user.save();
-      
-          // Create a notification for the friend request
-          await Notification.create({
-              recipient: friend._id,
-              sender: user._id,
-              type: 'FRIEND_REQUEST',
-              content: `${user.username} sent you a friend request.`,
-          });
-      
-          return {
-              _id: friend._id,
-              username: friend.username,
-          };
-      }
-      throw new AuthenticationError('You need to be logged in!');
-  },
+ 
   },
 };
 

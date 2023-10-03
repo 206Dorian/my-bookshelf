@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
-import { useQuery } from '@apollo/client';
-import { SEARCH_USER } from '../utils/queries';  // Adjust the path based on your project structure
+import { useQuery, useMutation } from '@apollo/client';
+import { SEARCH_USER } from '../utils/queries';
+import { SEND_FRIEND_REQUEST } from '../utils/mutations';
 
 const SearchFriend = ({ onUserSelected }) => {
   const [username, setUsername] = useState('');
   const { loading, error, data } = useQuery(SEARCH_USER, {
     variables: { username },
     skip: !username,
+    fetchPolicy: 'network-only'  // <-- Bypass cache and fetch from the network
   });
+
+  console.log("Fetched Data (getFriend):", data);  // <-- Log the fetched data
+
+  const [sendFriendRequest, { data: mutationData, error: mutationError }] = useMutation(SEND_FRIEND_REQUEST);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -17,6 +23,19 @@ const SearchFriend = ({ onUserSelected }) => {
   const handleSelect = (user) => {
     if (onUserSelected) {
       onUserSelected(user);
+    }
+  };
+
+  const handleSendFriendRequest = async () => {
+    try {
+      const response = await sendFriendRequest({ variables: { username } });
+      if (response.data.sendFriendRequest.success) {
+        alert('Friend request sent successfully!');
+      } else {
+        alert(response.data.sendFriendRequest.message);
+      }
+    } catch (err) {
+      console.error("Error sending friend request:", err);
     }
   };
 
@@ -30,9 +49,16 @@ const SearchFriend = ({ onUserSelected }) => {
       />
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
+      {mutationError && <p>Error sending friend request: {mutationError.message}</p>}
+      {mutationData && <p>{mutationData.sendFriendRequest.message}</p>}
       {data && data.getFriend && (
-        <div onClick={() => handleSelect(data.getFriend)}>
-          {data.getFriend.username}
+        <div>
+          <div onClick={() => handleSelect(data.getFriend)}>
+            {data.getFriend.username}
+          </div>
+          {!data.getFriend.isFriend && (
+            <button onClick={handleSendFriendRequest}>Send Friend Request</button>
+          )}
         </div>
       )}
     </div>

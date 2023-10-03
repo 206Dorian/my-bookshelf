@@ -33,6 +33,7 @@ export const SEARCH_USER = gql`
     getFriend(username: $username) {
       _id
       username
+      isFriend 
     }
   }
 `;
@@ -40,6 +41,7 @@ export const GET_FRIEND = gql`
   query getFriend($username: String!) {
     getFriend(username: $username) {
       username
+      isFriend 
       bookshelf {
         ISBN
         placement

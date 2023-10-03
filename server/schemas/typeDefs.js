@@ -12,6 +12,7 @@ const typeDefs = gql`
     friends: [User]
     dogEars: [DogEar] 
     notifications: [Notification]
+    isFriend: Boolean
   }
 
   type Friend {
