@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import BookDetailCard from './BookDetailCard';
+import './SearchBar.css';
+
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
