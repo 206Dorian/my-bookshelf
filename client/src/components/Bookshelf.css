@@ -1,8 +1,11 @@
 .BookEntry {
+  height: 150px; /* Set a fixed height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--dorianGrey);
   background-color: var(--dorianGrey);
-  color: var(--TimothyMagenta);
-  width: 75%; 
-  margin: 0 auto;
+  margin-bottom: 20px;
 }
 
 #bookshelfContainer{
@@ -51,4 +54,45 @@ background-color: var(--dorianGrey);
   .slot:hover {
     background-color: #e0e0e0;
   }
-  
+  /* Existing styles ... */
+
+/* Add the spine style */
+
+.BookEntry .spine {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-align: center;
+  width: 1em;
+  background-color: var(--dorianGrey);
+  color: var(--TimothyMagenta);
+}
+
+/* When the book is active, it will fill the screen */
+.BookEntry.active {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  z-index: 1000; /* Ensure it's on top of other content */
+  overflow: auto; /* In case the book content exceeds screen height */
+  padding: 2rem;
+  box-sizing: border-box;
+}
+.activeBookOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  z-index: 1000;
+  overflow: auto;
+  padding: 2rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
