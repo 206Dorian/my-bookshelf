@@ -15,7 +15,7 @@ function FriendProfile() {
   if (error) return <p>Error: {error.message}</p>;
 
   const friend = data?.getFriend;
-
+console.log(friend)
   return (
     <div>
       <h1>{friend.username}'s Bookshelf</h1>
