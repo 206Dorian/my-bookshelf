@@ -10,7 +10,6 @@ const typeDefs = gql`
     bookshelf: [BookshelfEntry]
     friendRequests: [User]
     friends: [User]
-    dogEars: [DogEar] 
     notifications: [Notification]
     isFriend: Boolean
   }
@@ -68,6 +67,7 @@ type FriendRequestResponse {
     placement: Int
     addedDate: String
     book: Book 
+    dogEars: [DogEar] 
   }
   type Notification {
     _id: ID!

@@ -321,11 +321,13 @@ const resolvers = {
       if (context.user && context.user._id === userId) {
           const friend = await User.findById(friendId);
   
-          // Check if the book exists in the friend's bookshelf
-          const bookEntry = friend.bookshelf.find(entry => entry.ISBN === ISBN);
-          if (!bookEntry) {
+          const bookInShelf = friend.bookshelf.find(entry => entry.ISBN === ISBN);
+          if (bookInShelf) {
+              bookInShelf.dogEars.push({ ISBN, createdBy: userId, text });
+          } else {
               throw new Error('Book not found in friend\'s bookshelf');
           }
+          
   
           // Add the dog ear
           if (!friend.dogEars) {
@@ -334,7 +336,7 @@ const resolvers = {
           friend.dogEars.push({ ISBN, createdBy: userId, text });
   
           await friend.save();
-  
+          console.log('Saved Friend with Dog Ear:', friend);
           const book = await Book.findOne({ ISBN });
   
           return {

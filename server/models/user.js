@@ -11,7 +11,11 @@ const dogEarSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
-  text: String,
+  text: {
+    type: String,
+    default: ''
+}
+,
 });
 
 

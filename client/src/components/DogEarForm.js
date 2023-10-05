@@ -15,16 +15,16 @@ const DogEarForm = ({ ownerId, ISBN, addDogEarMutation }) => {
             text
         });
         console.log(Auth.getProfile());
-
-        await addDogEarMutation({
-            variables: {
-                userId: Auth.getProfile()._id, // This should be the logged-in user
-                friendId: ownerId,  // This is the friend's ID passed as a prop
-                ISBN,
-                text
-            }
-        });
-        console.log(addDogEarMutation)
+        const result = await addDogEarMutation({
+          variables: {
+              userId: Auth.getProfile()._id,
+              friendId: ownerId,
+              ISBN,
+              text
+          }
+       });
+       console.log("Mutation result:", result);
+       
     } catch (err) {
         console.error("Error executing mutation:", err);
     }
