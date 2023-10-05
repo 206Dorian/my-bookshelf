@@ -1,9 +1,11 @@
 import decode from 'jwt-decode';
 
 class AuthService {
-  getProfile() {
-    return decode(this.getToken());
-  }
+getProfile() {
+  const decodedToken = decode(this.getToken());
+  return decodedToken.data; // Accessing the data key here
+}
+
 
   loggedIn() {
     // Checks if there is a saved token and it's still valid

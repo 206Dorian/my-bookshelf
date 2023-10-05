@@ -76,10 +76,18 @@ export const DECLINE_FRIEND_REQUEST = gql`
 
 
 export const ADD_DOG_EAR = gql`
-  mutation AddDogEar($friendId: ID!, $ISBN: String!, $note: String) {
-    addDogEar(friendId: $friendId, ISBN: $ISBN, note: $note) {
-      _id
-      note
+  mutation AddDogEar($userId: ID!, $friendId: ID!, $ISBN: String!, $text: String!) {
+    addDogEar(userId: $userId, friendId: $friendId, ISBN: $ISBN, text: $text) {
+      book {
+        title
+      }
+      user {
+        username
+      }
+      friend {
+        username
+      }
+      text
     }
   }
 `;

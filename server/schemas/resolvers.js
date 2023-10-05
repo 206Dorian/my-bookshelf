@@ -310,15 +310,15 @@ const resolvers = {
       throw new AuthenticationError('You need to be logged in!');
     },
     
-    addDogEar: async (parent, { createdBy, friendId, ISBN, text }, context) => {
+    addDogEar: async (parent, { userId, friendId, ISBN, text }, context) => {
       if (context.user && context.user._id === friendId) {
-        const owner = await User.findById(createdBy);
+        const owner = await User.findById(userId);
 
         // Find the specific book in owner's bookshelf.
         const bookEntry = owner.bookshelf.find(entry => entry.ISBN === ISBN);
 
         if (bookEntry) {
-          bookEntry.dogEars.push({ ISBN, createdBy: friendId, text });
+          bookEntry.dogEars.push({ ISBN, createdBy: userId, text });
           await owner.save();
         } else {
           throw new Error('Book not found in user\'s bookshelf');
