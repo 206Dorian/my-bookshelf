@@ -4,6 +4,7 @@ import BookDetailCard from './BookDetailCard';
 
 const Bookshelf = ({ books, ownerId }) => {
   const [selectedBook, setSelectedBook] = useState(null);
+  console.log(books);
 
   const handleBookClick = (entry) => {
     if (selectedBook === entry) {
@@ -31,8 +32,14 @@ const Bookshelf = ({ books, ownerId }) => {
         ))}
       </div>
       {selectedBook && (
+        
         <BookDetailCard 
-          bookDetails={selectedBook} 
+        bookDetails={{
+          title: selectedBook.book.title,
+          author: selectedBook.book.author,
+          ISBN: selectedBook.ISBN,
+          firstSentence: selectedBook.book.firstSentence,
+        }} 
           onClose={() => setSelectedBook(null)} 
           ownerId={ownerId} 
         />

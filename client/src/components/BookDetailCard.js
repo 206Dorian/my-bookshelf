@@ -3,17 +3,21 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_TO_BOOKSHELF, ADD_DOG_EAR } from '../utils/mutations';
 import './BookDetailCard.css'
-import DogEarForm from '../components/DogEarForm';
 import Auth from '../utils/auth';
 
 
-const BookDetailCard = ({ bookDetails, onClose, ownerId }) => {
+const BookDetailCard = ({ bookDetails, onClose, ownerId, showDogEar = true  }) => {
   const [addToBookshelf] = useMutation(ADD_TO_BOOKSHELF);
-  const [message, setMessage] = useState(""); // to hold feedback messages
   const [addDogEar] = useMutation(ADD_DOG_EAR); // Initialize the ADD_DOG_EAR mutation
+  const [text, setText] = useState('');
+  const [message, setMessage] = useState("");
 
   const loggedInUserId = Auth.getProfile()._id;
-  const handleAddToBookshelf = async () => {
+
+  const handleAddToBookshelf = async (e) => {
+    e.stopPropagation();
+
+
 
     try {
       console.log(loggedInUserId);
@@ -32,6 +36,8 @@ const BookDetailCard = ({ bookDetails, onClose, ownerId }) => {
         firstSentence: bookDetails.book.firstSentence
       };
 
+      console.log(cleanBookDetails)
+
       // Use cleanBookDetails in the mutation
       await addToBookshelf({ variables: { ISBN: bookDetails.ISBN, bookDetails: cleanBookDetails } });
 
@@ -43,6 +49,26 @@ const BookDetailCard = ({ bookDetails, onClose, ownerId }) => {
       setMessage(error.message); // set error message
     }
   };
+  const handleDogEarSubmit = async (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    try {
+      const result = await addDogEar({
+        variables: {
+          userId: Auth.getProfile()._id,
+          friendId: ownerId,
+          ISBN: bookDetails.ISBN,
+          text
+        }
+      });
+      console.log("Mutation result:", result);
+      setText(''); // Clear the textarea after submission
+      
+    } catch (err) {
+      console.error("Error executing mutation:", err);
+    }
+  };
 
   return (
     <div id="bookDetailCard">
@@ -52,13 +78,19 @@ const BookDetailCard = ({ bookDetails, onClose, ownerId }) => {
       <h1>{bookDetails.firstSentence}</h1>
       {message && <p>{message}</p>} {/* display message if it exists */}
       <button onClick={handleAddToBookshelf}>Add to Bookshelf</button>
-      <DogEarForm
-        ownerId={ownerId}
-        ISBN={bookDetails.ISBN}
-        addDogEarMutation={addDogEar}
-      />
-
-
+      <div className={`dogear-form ${showDogEar ? '' : 'hidden'}`}>
+                <form onSubmit={handleDogEarSubmit}>
+                    <div>
+                        <label>
+                            Add Dog Ear Note:
+                            <textarea value={text} onChange={e => setText(e.target.value)} required />
+                        </label>
+                    </div>
+                    <div>
+                        <button type="submit">Add Dog Ear</button>
+                    </div>
+                </form>
+            </div>
       <button onClick={onClose}>Close</button>
     </div>
   );

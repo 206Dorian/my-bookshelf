@@ -8,6 +8,9 @@
     --Silver: #C1B2AB;
     --OffWhite: #EDF6F9;
 }
+.hidden {
+    display: none;
+}
 
 
 

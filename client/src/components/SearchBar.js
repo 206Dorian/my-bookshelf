@@ -68,6 +68,7 @@ const SearchBar = () => {
           ISBN: result.isbn ? result.isbn[0] : "Unknown ISBN",
           firstSentence: result.first_sentence ? result.first_sentence[0] : "First sentence not available",
         }}
+        showDogEar={false} 
         onClose={() => setSelectedBookIndex(null)}
       />
     )}
