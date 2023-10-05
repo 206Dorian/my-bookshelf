@@ -7,7 +7,7 @@ import DogEarForm from '../components/DogEarForm';
 import Auth from '../utils/auth';
 
 
-const BookDetailCard = ({ bookDetails, onClose }) => {
+const BookDetailCard = ({ bookDetails, onClose, ownerId }) => {
   const [addToBookshelf] = useMutation(ADD_TO_BOOKSHELF);
   const [message, setMessage] = useState(""); // to hold feedback messages
   const [addDogEar] = useMutation(ADD_DOG_EAR); // Initialize the ADD_DOG_EAR mutation
@@ -18,13 +18,23 @@ const BookDetailCard = ({ bookDetails, onClose }) => {
     try {
       console.log(loggedInUserId);
       console.log(Auth.loggedIn());
+      console.log(Auth.getToken());
 
-      console.log(this.getToken());
       if (!bookDetails.ISBN) {
         throw new Error('ISBN not available for the selected book.');
       }
 
-      await addToBookshelf({ variables: { ISBN: bookDetails.ISBN, bookDetails } });
+      // Create a cleaned up version of the bookDetails
+      const cleanBookDetails = {
+        title: bookDetails.book.title,
+        author: bookDetails.book.author,
+        ISBN: bookDetails.ISBN,
+        firstSentence: bookDetails.book.firstSentence
+      };
+
+      // Use cleanBookDetails in the mutation
+      await addToBookshelf({ variables: { ISBN: bookDetails.ISBN, bookDetails: cleanBookDetails } });
+
       window.location.reload();
       setMessage("Book added to bookshelf successfully!"); // set success message
       onClose();
@@ -32,7 +42,6 @@ const BookDetailCard = ({ bookDetails, onClose }) => {
       console.error(error);
       setMessage(error.message); // set error message
     }
-
   };
 
   return (
@@ -44,10 +53,12 @@ const BookDetailCard = ({ bookDetails, onClose }) => {
       {message && <p>{message}</p>} {/* display message if it exists */}
       <button onClick={handleAddToBookshelf}>Add to Bookshelf</button>
       <DogEarForm
-        friendId={loggedInUserId}
+        ownerId={ownerId}
         ISBN={bookDetails.ISBN}
         addDogEarMutation={addDogEar}
       />
+
+
       <button onClick={onClose}>Close</button>
     </div>
   );

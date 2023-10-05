@@ -98,7 +98,7 @@ const resolvers = {
   
       let isFriend = friend.friends.some(f => f._id.toString() === context.user._id);
       console.log("Is friend:", isFriend);
-  
+  console.log(friend._id)
       const booksISBN = friend.bookshelf.map(entry => entry.ISBN);
       const books = await Book.find({ ISBN: { $in: booksISBN } });
   
@@ -311,33 +311,42 @@ const resolvers = {
     },
     
     addDogEar: async (parent, { userId, friendId, ISBN, text }, context) => {
-      if (context.user && context.user._id === friendId) {
-        const owner = await User.findById(userId);
+      console.log("addDogEar resolver called");
+      console.log("Received Args:", { userId, friendId, ISBN, text });
 
-        // Find the specific book in owner's bookshelf.
-        const bookEntry = owner.bookshelf.find(entry => entry.ISBN === ISBN);
-
-        if (bookEntry) {
-          bookEntry.dogEars.push({ ISBN, createdBy: userId, text });
-          await owner.save();
-        } else {
-          throw new Error('Book not found in user\'s bookshelf');
-        }
-
-        const book = await Book.findOne({ ISBN });
-        const friend = await User.findById(friendId);
-
-        return {
-          book: book,
-          user: owner,
-          friend: friend,
-          text: text
-        };
+      if (!friendId) {
+        throw new Error('Friend ID is missing.');
+    }
+      // Verify the logged-in user is the one trying to add the dog ear
+      if (context.user && context.user._id === userId) {
+          const friend = await User.findById(friendId);
+  
+          // Check if the book exists in the friend's bookshelf
+          const bookEntry = friend.bookshelf.find(entry => entry.ISBN === ISBN);
+          if (!bookEntry) {
+              throw new Error('Book not found in friend\'s bookshelf');
+          }
+  
+          // Add the dog ear
+          if (!friend.dogEars) {
+              friend.dogEars = [];
+          }
+          friend.dogEars.push({ ISBN, createdBy: userId, text });
+  
+          await friend.save();
+  
+          const book = await Book.findOne({ ISBN });
+  
+          return {
+              book: book,
+              user: await User.findById(userId),  // User A (one who added the dog ear)
+              friend: friend,  // User B (one whose bookshelf the dog ear was added to)
+              text: text
+          };
       }
-      throw new AuthenticationError('You need to be logged in as the correct friend!');
-    },
- 
+      throw new AuthenticationError('You need to be logged in!');
   },
+  },  
 };
 
 module.exports = resolvers; 

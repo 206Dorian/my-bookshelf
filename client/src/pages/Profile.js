@@ -40,7 +40,7 @@ const Profile = () => {
           </li>
         ))}
       </ul>
-      <Bookshelf books={user.bookshelf} /> 
+      <Bookshelf books={user.bookshelf} ownerId={user._id} />
     </div>
   );
 };

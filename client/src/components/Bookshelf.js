@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Bookshelf.css';
 import BookDetailCard from './BookDetailCard';
 
-const Bookshelf = ({ books }) => {
+const Bookshelf = ({ books, ownerId }) => {
   const [selectedBook, setSelectedBook] = useState(null);
 
   const handleBookClick = (entry) => {
@@ -34,6 +34,7 @@ const Bookshelf = ({ books }) => {
         <BookDetailCard 
           bookDetails={selectedBook} 
           onClose={() => setSelectedBook(null)} 
+          ownerId={ownerId} 
         />
       )}
     </div>

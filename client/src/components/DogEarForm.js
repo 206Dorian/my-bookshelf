@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Auth from "../utils/auth";
 
-const DogEarForm = ({ friendId, ISBN, addDogEarMutation }) => {
+const DogEarForm = ({ ownerId, ISBN, addDogEarMutation }) => {
   const [text, setText] = useState('');
 
   const handleSubmit = async (e) => {
@@ -10,7 +10,7 @@ const DogEarForm = ({ friendId, ISBN, addDogEarMutation }) => {
     try {
         console.log({
             userId: Auth.getProfile()._id,
-            friendId: friendId,
+            friendId: ownerId,
             ISBN,
             text
         });
@@ -19,11 +19,12 @@ const DogEarForm = ({ friendId, ISBN, addDogEarMutation }) => {
         await addDogEarMutation({
             variables: {
                 userId: Auth.getProfile()._id, // This should be the logged-in user
-                friendId: friendId,  // This is the friend's ID passed as a prop
+                friendId: ownerId,  // This is the friend's ID passed as a prop
                 ISBN,
                 text
             }
         });
+        console.log(addDogEarMutation)
     } catch (err) {
         console.error("Error executing mutation:", err);
     }
