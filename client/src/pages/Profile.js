@@ -5,6 +5,7 @@ import { GET_USER} from '../utils/queries';
 import Bookshelf from '../components/Bookshelf';
 import SearchFriend from '../components/SearchFriend';  
 import Notifications from '../components/Notifications';
+import LogoutButton from '../components/Logout.js';
 
 const Profile = () => {
 
@@ -22,6 +23,7 @@ const Profile = () => {
   
   return (
     <div>
+      <LogoutButton />
        <SearchFriend onUserSelected={handleUserSelected} />
       <h1>User Profile</h1>
       <Notifications />
