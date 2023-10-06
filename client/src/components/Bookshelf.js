@@ -1,4 +1,3 @@
-// Bookshelf.js
 import React, { useState } from 'react';
 import './Bookshelf.css';
 import BookDetailCard from './BookDetailCard';
@@ -24,19 +23,12 @@ const Bookshelf = ({ books, ownerId }) => {
             key={index}
             onClick={() => handleBookClick(entry)}
           >
-            <div className="spine">{entry.book?.title}</div>
-            {entry.dogEars && entry.dogEars.length > 0 && (
-              <div className="dogEars">
-                <h4>Dog Ears:</h4>
-                <ul>
-                  {entry.dogEars.map(dogEar => (
-                    <li key={dogEar._id}>
-                      <p>{dogEar.text}</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            <div className="spine">
+              {entry.dogEars && entry.dogEars.length > 0 && (
+                <i className="fas fa-star"></i>
+              )}
+              {entry.book?.title}
+            </div>
           </div>
         ))}
       </div>

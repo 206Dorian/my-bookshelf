@@ -6,7 +6,7 @@ import './BookDetailCard.css'
 import Auth from '../utils/auth';
 
 
-const BookDetailCard = ({ bookDetails, onClose, ownerId, showDogEar = true  }) => {
+const BookDetailCard = ({ bookDetails, onClose, ownerId, showDogEar = true }) => {
   const [addToBookshelf] = useMutation(ADD_TO_BOOKSHELF);
   const [addDogEar] = useMutation(ADD_DOG_EAR); // Initialize the ADD_DOG_EAR mutation
   const [text, setText] = useState('');
@@ -64,7 +64,7 @@ const BookDetailCard = ({ bookDetails, onClose, ownerId, showDogEar = true  }) =
       });
       console.log("Mutation result:", result);
       setText(''); // Clear the textarea after submission
-      
+
     } catch (err) {
       console.error("Error executing mutation:", err);
     }
@@ -79,18 +79,31 @@ const BookDetailCard = ({ bookDetails, onClose, ownerId, showDogEar = true  }) =
       {message && <p>{message}</p>} {/* display message if it exists */}
       <button onClick={handleAddToBookshelf}>Add to Bookshelf</button>
       <div className={`dogear-form ${showDogEar ? '' : 'hidden'}`}>
-                <form onSubmit={handleDogEarSubmit}>
-                    <div>
-                        <label>
-                            Add Dog Ear Note:
-                            <textarea value={text} onChange={e => setText(e.target.value)} required />
-                        </label>
-                    </div>
-                    <div>
-                        <button type="submit">Add Dog Ear</button>
-                    </div>
-                </form>
-            </div>
+        <form onSubmit={handleDogEarSubmit}>
+          <div>
+            <label>
+              Add Dog Ear Note:
+              <textarea value={text} onChange={e => setText(e.target.value)} required />
+            </label>
+          </div>
+          <div>
+            <button type="submit">Add Dog Ear</button>
+          </div>
+        </form>
+      </div>
+      <div>
+      {bookDetails.dogEars && bookDetails.dogEars.length > 0 && (
+    <div>
+        <h3>Dog Ear Notes:</h3>
+        <ul>
+            {bookDetails.dogEars.map((dogEar, index) => (
+                <li key={index}>{dogEar.text}</li>
+            ))}
+        </ul>
+    </div>
+)}
+
+      </div>
       <button onClick={onClose}>Close</button>
     </div>
   );

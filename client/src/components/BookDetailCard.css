@@ -12,10 +12,15 @@
     display: none;
 }
 
-
-
 #bookDetailCard {
-    background-color: var(--dorianGrey);
-    margin-top: 20px;
-    margin-bottom: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1001; /* Ensure it's on top of other content */
+    overflow: auto;
+    background-color: white; /* To ensure it covers everything beneath */
+    padding: 2rem;
+    box-sizing: border-box;
 }
