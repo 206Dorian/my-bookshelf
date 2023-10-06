@@ -67,6 +67,12 @@ background-color: var(--dorianGrey);
   color: var(--TimothyMagenta);
 }
 
+.spine .fa-star {
+  margin-right: 35px;
+  color: gold; /* or any color you prefer */
+}
+
+
 /* When the book is active, it will fill the screen */
 .BookEntry.active {
   position: fixed;

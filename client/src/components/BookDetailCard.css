@@ -4,13 +4,23 @@
     --YinBlue: #05647a;
     --SteelBlue: #507AA3;
     --GulfCoast: #559cad;
-    --dorianGrey: #8BA7AC;
-    --silver: #C1B2AB;
-    --offWhite: #EDF6F9;
-  }
-  
+    --DorianGrey: #8BA7AC;
+    --Silver: #C1B2AB;
+    --OffWhite: #EDF6F9;
+}
+.hidden {
+    display: none;
+}
+
 #bookDetailCard {
-    background-color: var(--dorianGrey);
-    margin-top: 20px;
-    margin-bottom: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1001; /* Ensure it's on top of other content */
+    overflow: auto;
+    background-color: white; /* To ensure it covers everything beneath */
+    padding: 2rem;
+    box-sizing: border-box;
 }

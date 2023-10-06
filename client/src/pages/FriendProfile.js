@@ -20,7 +20,7 @@ console.log(friend)
     <div>
       <h1>{friend.username}'s Bookshelf</h1>
       {/* Render the friend's bookshelf */}
-      <Bookshelf books={friend.bookshelf} />
+      <Bookshelf books={friend.bookshelf} ownerId={friend._id} />
     </div>
   );
 }

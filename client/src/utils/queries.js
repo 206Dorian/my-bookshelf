@@ -11,6 +11,11 @@ export const GET_USER = gql`
         ISBN
         placement
         addedDate
+        dogEars {
+          ISBN
+          createdBy
+          text
+        }
         book {
           title
           author
@@ -40,12 +45,18 @@ export const SEARCH_USER = gql`
 export const GET_FRIEND = gql`
   query getFriend($username: String!) {
     getFriend(username: $username) {
+      _id
       username
       isFriend 
       bookshelf {
         ISBN
         placement
         addedDate
+        dogEars {
+          ISBN
+          createdBy
+          text
+        }
         book {
           title
           author
