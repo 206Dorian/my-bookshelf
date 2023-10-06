@@ -1,16 +1,16 @@
+// Bookshelf.js
 import React, { useState } from 'react';
 import './Bookshelf.css';
 import BookDetailCard from './BookDetailCard';
 
 const Bookshelf = ({ books, ownerId }) => {
   const [selectedBook, setSelectedBook] = useState(null);
-  console.log(books);
 
   const handleBookClick = (entry) => {
     if (selectedBook === entry) {
-      setSelectedBook(null); // Close the active book view
+      setSelectedBook(null);
     } else {
-      setSelectedBook(entry); // Show the clicked book in full screen
+      setSelectedBook(entry);
     }
   };
 
@@ -19,29 +19,32 @@ const Bookshelf = ({ books, ownerId }) => {
       <h2 className="mb-4">Bookshelf</h2>
       <div className="row">
         {books.map((entry, index) => (
-          <div 
-            className={`col-2 m-1 BookEntry ${selectedBook === entry.book ? 'active' : ''}`} 
-            key={index} 
-            onClick={() => {
-              console.log("Book clicked!");
-              handleBookClick(entry);
-            }}
+          <div
+            className={`col-2 m-1 BookEntry ${selectedBook === entry ? 'active' : ''}`}
+            key={index}
+            onClick={() => handleBookClick(entry)}
           >
             <div className="spine">{entry.book?.title}</div>
+            {entry.dogEars && entry.dogEars.length > 0 && (
+              <div className="dogEars">
+                <h4>Dog Ears:</h4>
+                <ul>
+                  {entry.dogEars.map(dogEar => (
+                    <li key={dogEar._id}>
+                      <p>{dogEar.text}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         ))}
       </div>
       {selectedBook && (
-        
-        <BookDetailCard 
-        bookDetails={{
-          title: selectedBook.book.title,
-          author: selectedBook.book.author,
-          ISBN: selectedBook.ISBN,
-          firstSentence: selectedBook.book.firstSentence,
-        }} 
-          onClose={() => setSelectedBook(null)} 
-          ownerId={ownerId} 
+        <BookDetailCard
+          bookDetails={selectedBook}
+          onClose={() => setSelectedBook(null)}
+          ownerId={ownerId}
         />
       )}
     </div>

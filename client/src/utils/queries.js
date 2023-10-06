@@ -11,6 +11,11 @@ export const GET_USER = gql`
         ISBN
         placement
         addedDate
+        dogEars {
+          ISBN
+          createdBy
+          text
+        }
         book {
           title
           author
@@ -47,6 +52,11 @@ export const GET_FRIEND = gql`
         ISBN
         placement
         addedDate
+        dogEars {
+          ISBN
+          createdBy
+          text
+        }
         book {
           title
           author
