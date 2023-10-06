@@ -1,22 +1,21 @@
-import { useState } from "react";
-import { useMutation } from "@apollo/client";
-import { LOGIN } from "../utils/mutations";
-import Auth from "../utils/auth";
+import { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { LOGIN } from '../utils/mutations';
+import Auth from '../utils/auth';
 import './Login.css';
-import Signup from "./Signup.js";
-
+import Signup from './Signup.js';
 
 export default function Login(props) {
-  const [formState, setFormState] = useState({ username: "", password: "" });
+  const [formState, setFormState] = useState({ username: '', password: '' });
   const [login, error] = useMutation(LOGIN);
   const [hideState, setHideState] = useState({
     signin: {},
     create: {
-      display: "none",
+      display: 'none',
     },
   });
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     const { name, value } = event.target;
     setFormState({
       ...formState,
@@ -24,11 +23,14 @@ export default function Login(props) {
     });
   };
 
-  const handleFormSubmit = async (event) => {
+  const handleFormSubmit = async event => {
     event.preventDefault();
     try {
       const mutationResponse = await login({
-        variables: { username: formState.username, password: formState.password },
+        variables: {
+          username: formState.username,
+          password: formState.password,
+        },
       });
       const token = mutationResponse.data.login.token;
       const username = mutationResponse.data.login.user.username;
@@ -37,14 +39,14 @@ export default function Login(props) {
       console.log(e);
     }
   };
- 
+
   const hider = async () => {
     setHideState({
       signin: {
-        display: "none",
+        display: 'none',
       },
       create: {
-        display: "block",
+        display: 'block',
       },
     });
   };
@@ -52,23 +54,26 @@ export default function Login(props) {
   const shower = async () => {
     setHideState({
       signin: {
-        display: "block",
+        display: 'block',
       },
       create: {
-        display: "none",
+        display: 'none',
       },
     });
   };
 
- return (
+  return (
     <div className="m-4">
       <div style={hideState.signin} className="container one">
         <div className="row justify-content-center">
           <div className="col-md-6">
             <div className="card">
-              
               <div className="card-body">
-                <form autoComplete="off" className="form-title" onSubmit={handleFormSubmit}>
+                <form
+                  autoComplete="off"
+                  className="form-title"
+                  onSubmit={handleFormSubmit}
+                >
                   <div className="form-label">
                     <label htmlFor="username">Username</label>
                     <input
@@ -96,24 +101,24 @@ export default function Login(props) {
                   </div>
 
                   <div className="form-group form-text">
-                    <button id="login-btn" className="btn btn-primary" type="submit">
+                    <button
+                      id="login-btn"
+                      className="btn btn-primary"
+                      type="submit"
+                    >
                       Login
                     </button>
                   </div>
                 </form>
 
                 <div className="form-group form-text">
-                  <hr/>
-                  <button
-                    className="btn btn-primary"
-                    onClick={hider}
-                  >
+                  <hr />
+                  <button className="btn btn-primary" onClick={hider}>
                     Create Account
                   </button>
                 </div>
 
                 {error && <div className="text-danger">{error.message}</div>}
-                
               </div>
             </div>
           </div>
@@ -122,19 +127,14 @@ export default function Login(props) {
 
       <div style={hideState.create}>
         <div className="container">
-        
           <div className="row justify-content-center">
             <div className="col-md-6">
               <div className="card">
                 <div className="card-body">
-                
                   <div className="form-group form-text">
-                  <Signup />
+                    <Signup />
                     <hr />
-                    <button
-                      className="btn btn-primary"
-                      onClick={shower}
-                    >
+                    <button className="btn btn-primary" onClick={shower}>
                       Back to Login
                     </button>
                   </div>

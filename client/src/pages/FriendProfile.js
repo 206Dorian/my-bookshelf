@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
-import { GET_FRIEND } from '../utils/queries'; 
+import { GET_FRIEND } from '../utils/queries';
 import Bookshelf from '../components/Bookshelf';
 
 function FriendProfile() {
@@ -9,7 +9,7 @@ function FriendProfile() {
 
   // Use the getFriend query to fetch the friend's bookshelf data using the username
   const { loading, error, data } = useQuery(GET_FRIEND, {
-    variables: { username }
+    variables: { username },
   });
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;

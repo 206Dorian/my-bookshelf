@@ -1,17 +1,24 @@
 :root {
   --TimothyMagenta: #6b0e25;
-  --JennPlum: #8C5383;
+  --JennPlum: #8c5383;
   --YinBlue: #05647a;
-  --SteelBlue: #507AA3;
+  --SteelBlue: #507aa3;
   --GulfCoast: #559cad;
-  --dorianGrey: #8BA7AC;
-  --silver: #C1B2AB;
-  --offWhite: #EDF6F9;
+  --dorianGrey: #8ba7ac;
+  --silver: #c1b2ab;
+  --offWhite: #edf6f9;
 }
 
 .App {
   text-align: center;
-  background: linear-gradient(to bottom, #507AA3, #559cad, #8BA7AC ,#559cad, #507AA3);
+  background: linear-gradient(
+    to bottom,
+    #507aa3,
+    #559cad,
+    #8ba7ac,
+    #559cad,
+    #507aa3
+  );
   height: 100vh;
 }
 

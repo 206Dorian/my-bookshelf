@@ -10,14 +10,13 @@ const usernameToUpdate = 'tim'; // Replace with the username of the user you wan
 
 // Find the specific user by their username
 User.findOne({ username: usernameToUpdate })
-  .then((user) => {
+  .then(user => {
     if (!user) {
       console.error('User not found');
       mongoose.connection.close();
       return;
     }
 
-   
     // Save the changes back to the database
     return user.save();
   })
@@ -26,7 +25,7 @@ User.findOne({ username: usernameToUpdate })
     // Close the database connection
     mongoose.connection.close();
   })
-  .catch((err) => {
+  .catch(err => {
     console.error('Error updating user:', err);
     mongoose.connection.close();
   });

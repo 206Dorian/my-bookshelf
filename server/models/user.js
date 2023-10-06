@@ -1,25 +1,20 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
-
 const dogEarSchema = new Schema({
   ISBN: {
     type: String,
     ref: 'Book',
   },
- createdBy: {
+  createdBy: {
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
   text: {
     type: String,
-    default: ''
-}
-,
+    default: '',
+  },
 });
-
-
-
 
 const userSchema = new Schema(
   {
@@ -101,9 +96,3 @@ userSchema.methods.isCorrectPassword = async function (password) {
 const User = model('User', userSchema);
 
 module.exports = User;
-
-
-
-
-
-

@@ -2,32 +2,32 @@ const { Schema, model } = require('mongoose');
 
 const notificationSchema = new Schema({
   recipient: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: true
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
   },
   sender: {
-      type: Schema.Types.ObjectId,
-      ref: 'User',
-      required: true
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
   },
   type: {
-      type: String,
-      enum: ['FRIEND_REQUEST', 'MESSAGE', /* other types */],
-      required: true
+    type: String,
+    enum: ['FRIEND_REQUEST', 'MESSAGE' /* other types */],
+    required: true,
   },
   content: {
-      type: String,
-      required: true
+    type: String,
+    required: true,
   },
   isRead: {
-      type: Boolean,
-      default: false
+    type: Boolean,
+    default: false,
   },
   createdAt: {
-      type: Date,
-      default: Date.now
-  }
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const Notification = model('Notification', notificationSchema);

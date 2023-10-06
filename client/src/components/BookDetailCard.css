@@ -1,26 +1,26 @@
 :root {
-    --TimothyMagenta: #6b0e25;
-    --JennPlum: #8C5383;
-    --YinBlue: #05647a;
-    --SteelBlue: #507AA3;
-    --GulfCoast: #559cad;
-    --DorianGrey: #8BA7AC;
-    --Silver: #C1B2AB;
-    --OffWhite: #EDF6F9;
+  --TimothyMagenta: #6b0e25;
+  --JennPlum: #8c5383;
+  --YinBlue: #05647a;
+  --SteelBlue: #507aa3;
+  --GulfCoast: #559cad;
+  --DorianGrey: #8ba7ac;
+  --Silver: #c1b2ab;
+  --OffWhite: #edf6f9;
 }
 .hidden {
-    display: none;
+  display: none;
 }
 
 #bookDetailCard {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 1001; /* Ensure it's on top of other content */
-    overflow: auto;
-    background-color: white; /* To ensure it covers everything beneath */
-    padding: 2rem;
-    box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1001; /* Ensure it's on top of other content */
+  overflow: auto;
+  background-color: white; /* To ensure it covers everything beneath */
+  padding: 2rem;
+  box-sizing: border-box;
 }

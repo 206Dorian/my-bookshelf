@@ -5,7 +5,7 @@ import BookDetailCard from './BookDetailCard';
 const Bookshelf = ({ books, ownerId }) => {
   const [selectedBook, setSelectedBook] = useState(null);
 
-  const handleBookClick = (entry) => {
+  const handleBookClick = entry => {
     if (selectedBook === entry) {
       setSelectedBook(null);
     } else {
@@ -19,7 +19,9 @@ const Bookshelf = ({ books, ownerId }) => {
       <div className="row">
         {books.map((entry, index) => (
           <div
-            className={`col-2 m-1 BookEntry ${selectedBook === entry ? 'active' : ''}`}
+            className={`col-2 m-1 BookEntry ${
+              selectedBook === entry ? 'active' : ''
+            }`}
             key={index}
             onClick={() => handleBookClick(entry)}
           >

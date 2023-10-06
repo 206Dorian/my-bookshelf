@@ -1,52 +1,53 @@
 :root {
   --TimothyMagenta: #6b0e25;
-  --JennPlum: #8C5383;
+  --JennPlum: #8c5383;
   --YinBlue: #05647a;
-  --SteelBlue: #507AA3;
+  --SteelBlue: #507aa3;
   --GulfCoast: #559cad;
-  --dorianGrey: #8BA7AC;
-  --silver: #C1B2AB;
-  --offWhite: #EDF6F9;
+  --dorianGrey: #8ba7ac;
+  --silver: #c1b2ab;
+  --offWhite: #edf6f9;
 }
 
+.btn-light {
+  background-color: var(--silver);
+  color: var(--offWhite);
+  border: none;
+  transition: background-color 0.2s ease;
+}
 
-  .btn-light {
-    background-color: var(--silver);
-    color: var(--offWhite);
-    border: none;
-    transition: background-color 0.2s ease;
-  }
-  
-  .btn-light:hover, .btn-light:focus {
-    background-color: var(--offWhite);
-    color: var(--silver);
-  }
-  
-  /* Styling the input and search button */
-  .form-control {
-    border-color: var(--GulfCoast);
-    border-radius: 0;  /* Optional: to remove rounded corners */
-  }
-  
-  .btn-primary {
-    background-color: var(--TimothyMagenta);
-    border-color: var(--JennPlum);
-    border-radius: 0;  /* Optional: to remove rounded corners */
-  }
-  
-  .btn-primary:hover, .btn-primary:focus {
-    background-color: var(--JennPlum);
-  }
-  
-  /* Enhancing pagination styles */
-  .pagination .page-link {
-    color: var(--YinBlue);
-    border-color: var(--GulfCoast);
-    border-radius: 0;  /* Optional: to remove rounded corners */
-  }
-  
-  .pagination .page-link:hover {
-    background-color: var(--JennPlum);
-    border-color: var(--JennPlum);
-    color: var(--offWhite);
-  }
+.btn-light:hover,
+.btn-light:focus {
+  background-color: var(--offWhite);
+  color: var(--silver);
+}
+
+/* Styling the input and search button */
+.form-control {
+  border-color: var(--GulfCoast);
+  border-radius: 0; /* Optional: to remove rounded corners */
+}
+
+.btn-primary {
+  background-color: var(--TimothyMagenta);
+  border-color: var(--JennPlum);
+  border-radius: 0; /* Optional: to remove rounded corners */
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--JennPlum);
+}
+
+/* Enhancing pagination styles */
+.pagination .page-link {
+  color: var(--YinBlue);
+  border-color: var(--GulfCoast);
+  border-radius: 0; /* Optional: to remove rounded corners */
+}
+
+.pagination .page-link:hover {
+  background-color: var(--JennPlum);
+  border-color: var(--JennPlum);
+  color: var(--offWhite);
+}

@@ -1,23 +1,22 @@
-#suggestionBox{
-background-color: var(--YinBlue);
+#suggestionBox {
+  background-color: var(--YinBlue);
 }
 
-#suggestions{
-    background-color: var(--dorianGrey);
-    height: 150px; 
+#suggestions {
+  background-color: var(--dorianGrey);
+  height: 150px;
 }
 
-#suggestionBannerText{
-    display: block;
-    color: var(--offWhite);
-
+#suggestionBannerText {
+  display: block;
+  color: var(--offWhite);
 }
 
 @media (max-width: 576px) {
-    .mobile-footer {
-      position: fixed;
-      width: 100%;
-      bottom: 0;
-      z-index: 1000;
-    }
+  .mobile-footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    z-index: 1000;
   }
+}

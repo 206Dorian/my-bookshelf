@@ -13,8 +13,18 @@ export const LOGIN = gql`
 `;
 
 export const ADD_USER = gql`
-  mutation AddUser($username: String!, $email: String!, $password: String!, $isAdmin: Boolean!) {
-    addUser(username: $username, email: $email, password: $password, isAdmin: $isAdmin) {
+  mutation AddUser(
+    $username: String!
+    $email: String!
+    $password: String!
+    $isAdmin: Boolean!
+  ) {
+    addUser(
+      username: $username
+      email: $email
+      password: $password
+      isAdmin: $isAdmin
+    ) {
       token
       user {
         _id
@@ -48,10 +58,10 @@ export const ADD_TO_BOOKSHELF = gql`
 `;
 
 export const SEND_FRIEND_REQUEST = gql`
-  mutation SendFriendRequest($friendUsername: String!) {sendFriendRequest(friendUsername: $friendUsername) {
+  mutation SendFriendRequest($friendUsername: String!) {
+    sendFriendRequest(friendUsername: $friendUsername) {
       _id
       username
-  
     }
   }
 `;
@@ -74,9 +84,13 @@ export const DECLINE_FRIEND_REQUEST = gql`
   }
 `;
 
-
 export const ADD_DOG_EAR = gql`
-  mutation AddDogEar($userId: ID!, $friendId: ID!, $ISBN: String!, $text: String!) {
+  mutation AddDogEar(
+    $userId: ID!
+    $friendId: ID!
+    $ISBN: String!
+    $text: String!
+  ) {
     addDogEar(userId: $userId, friendId: $friendId, ISBN: $ISBN, text: $text) {
       book {
         title

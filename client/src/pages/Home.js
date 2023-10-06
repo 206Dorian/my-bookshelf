@@ -1,14 +1,14 @@
-import React from 'react'
-import Login from '../components/Login.js'
-import BookSuggestion from '../components/BookSuggestion.js'
+import React from 'react';
+import Login from '../components/Login.js';
+import BookSuggestion from '../components/BookSuggestion.js';
 
 const Home = () => {
   return (
     <div>
-    <Login/>
-    <BookSuggestion />
+      <Login />
+      <BookSuggestion />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

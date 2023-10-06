@@ -8,17 +8,18 @@ const SearchFriend = ({ onUserSelected }) => {
   const { loading, error, data } = useQuery(SEARCH_USER, {
     variables: { username },
     skip: !username,
-    fetchPolicy: 'network-only'  // <-- Bypass cache and fetch from the network
+    fetchPolicy: 'network-only', // <-- Bypass cache and fetch from the network
   });
 
-  const [sendFriendRequest, { data: mutationData, error: mutationError }] = useMutation(SEND_FRIEND_REQUEST);
+  const [sendFriendRequest, { data: mutationData, error: mutationError }] =
+    useMutation(SEND_FRIEND_REQUEST);
 
-  const handleSearch = (e) => {
+  const handleSearch = e => {
     e.preventDefault();
     setUsername(e.target.value);
   };
 
-  const handleSelect = (user) => {
+  const handleSelect = user => {
     if (onUserSelected) {
       onUserSelected(user);
     }
@@ -26,18 +27,20 @@ const SearchFriend = ({ onUserSelected }) => {
 
   const handleSendFriendRequest = async () => {
     if (!username) {
-      alert("Username is required!");
+      alert('Username is required!');
       return;
     }
     try {
-      const response = await sendFriendRequest({ variables: { friendUsername: username } });
+      const response = await sendFriendRequest({
+        variables: { friendUsername: username },
+      });
       if (response.data?.sendFriendRequest.success) {
         alert('Friend request sent successfully!');
       } else {
         alert(response.data?.sendFriendRequest.message);
       }
     } catch (err) {
-      console.error("Error sending friend request:", err);
+      console.error('Error sending friend request:', err);
     }
   };
 
@@ -51,15 +54,23 @@ const SearchFriend = ({ onUserSelected }) => {
       />
       {loading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
-      {mutationError && <p>Error sending friend request: {mutationError.message}</p>}
+      {mutationError && (
+        <p>Error sending friend request: {mutationError.message}</p>
+      )}
       {mutationData && <p>{mutationData.sendFriendRequest.message}</p>}
       {data && data.getFriend && (
         <div>
-          <div onClick={() => handleSelect(data.getFriend)} role="button" tabIndex={0}>
+          <div
+            onClick={() => handleSelect(data.getFriend)}
+            role="button"
+            tabIndex={0}
+          >
             {data.getFriend.username}
           </div>
           {!data.getFriend.isFriend && (
-            <button onClick={handleSendFriendRequest}>Send Friend Request</button>
+            <button onClick={handleSendFriendRequest}>
+              Send Friend Request
+            </button>
           )}
         </div>
       )}

@@ -21,11 +21,9 @@ module.exports = {
       const decodedToken = jwt.verify(token, secret);
       // console.log('Decoded Token:', decodedToken);
       req.user = decodedToken.data; // Attach the user object to req.user
-  
     } catch (error) {
       console.log('Invalid token:', error.message);
     }
-
 
     return req; // Return the modified req object
   },

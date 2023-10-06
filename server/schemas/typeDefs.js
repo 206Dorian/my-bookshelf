@@ -15,31 +15,29 @@ const typeDefs = gql`
   }
 
   type Friend {
-  id: ID!
-  name: String!
-  # other fields
-}
+    id: ID!
+    name: String!
+    # other fields
+  }
 
   type DogEar {
-  ISBN: String
-  createdBy: ID
-  text: String
-}
+    ISBN: String
+    createdBy: ID
+    text: String
+  }
 
+  type DogEarAction {
+    book: Book
+    user: User
+    friend: User
+    text: String
+  }
 
-type DogEarAction {
-  book: Book
-  user: User
-  friend: User
-  text: String
-}
-
-
-type FriendRequestResponse {
-  success: Boolean!
-  message: String
-  friend: User
-}
+  type FriendRequestResponse {
+    success: Boolean!
+    message: String
+    friend: User
+  }
 
   type Auth {
     token: ID
@@ -61,13 +59,12 @@ type FriendRequestResponse {
     firstSentence: String
   }
 
-
   type BookshelfEntry {
     ISBN: String
     placement: Int
     addedDate: String
-    book: Book 
-    dogEars: [DogEar] 
+    book: Book
+    dogEars: [DogEar]
   }
   type Notification {
     _id: ID!
@@ -76,8 +73,7 @@ type FriendRequestResponse {
     content: String!
     isRead: Boolean!
     createdAt: String!
-}
-  
+  }
 
   type Query {
     getUser: User
@@ -90,16 +86,26 @@ type FriendRequestResponse {
   }
 
   type Mutation {
-    addUser(username: String!, email: String!, password: String!, isAdmin: Boolean!): Auth
+    addUser(
+      username: String!
+      email: String!
+      password: String!
+      isAdmin: Boolean!
+    ): Auth
     deleteUser(username: String!): User
     login(username: String!, password: String!): Auth
     adminLogin(username: String!, password: String!): Auth
     addToBookshelf(ISBN: String!, bookDetails: BookInput): BookshelfEntry!
-    addDogEar(userId: ID!, friendId: ID!, ISBN: String!, text: String!): DogEarAction
+    addDogEar(
+      userId: ID!
+      friendId: ID!
+      ISBN: String!
+      text: String!
+    ): DogEarAction
     sendFriendRequest(friendUsername: String!): User
     acceptFriendRequest(friendUsername: String!): User
-   declineFriendRequest(friendUsername: String!): FriendRequestResponse
-    }
+    declineFriendRequest(friendUsername: String!): FriendRequestResponse
+  }
 `;
 
 module.exports = typeDefs;

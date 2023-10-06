@@ -1,20 +1,27 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_TO_BOOKSHELF, ADD_DOG_EAR } from '../utils/mutations';
-import './BookDetailCard.css'
+import './BookDetailCard.css';
 import Auth from '../utils/auth';
 
-const BookDetailCard = ({ bookDetails, onClose, ownerId, showDogEar = true }) => {
+const BookDetailCard = ({
+  bookDetails,
+  onClose,
+  ownerId,
+  showDogEar = true,
+}) => {
   const [addToBookshelf] = useMutation(ADD_TO_BOOKSHELF);
   const [addDogEar] = useMutation(ADD_DOG_EAR);
   const [text, setText] = useState('');
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
 
   const loggedInUserId = Auth.getProfile()._id;
 
-  const hasExistingDogEar = bookDetails.dogEars.some(dogEar => dogEar.createdBy === loggedInUserId);
+  const hasExistingDogEar = bookDetails.dogEars.some(
+    dogEar => dogEar.createdBy === loggedInUserId
+  );
 
-  const handleAddToBookshelf = async (e) => {
+  const handleAddToBookshelf = async e => {
     e.stopPropagation();
 
     try {
@@ -26,13 +33,15 @@ const BookDetailCard = ({ bookDetails, onClose, ownerId, showDogEar = true }) =>
         title: bookDetails.book.title,
         author: bookDetails.book.author,
         ISBN: bookDetails.ISBN,
-        firstSentence: bookDetails.book.firstSentence
+        firstSentence: bookDetails.book.firstSentence,
       };
 
-      await addToBookshelf({ variables: { ISBN: bookDetails.ISBN, bookDetails: cleanBookDetails } });
+      await addToBookshelf({
+        variables: { ISBN: bookDetails.ISBN, bookDetails: cleanBookDetails },
+      });
 
       window.location.reload();
-      setMessage("Book added to bookshelf successfully!");
+      setMessage('Book added to bookshelf successfully!');
       onClose();
     } catch (error) {
       console.error(error);
@@ -40,7 +49,7 @@ const BookDetailCard = ({ bookDetails, onClose, ownerId, showDogEar = true }) =>
     }
   };
 
-  const handleDogEarSubmit = async (e) => {
+  const handleDogEarSubmit = async e => {
     e.stopPropagation();
     e.preventDefault();
 
@@ -50,8 +59,8 @@ const BookDetailCard = ({ bookDetails, onClose, ownerId, showDogEar = true }) =>
           userId: loggedInUserId,
           friendId: ownerId,
           ISBN: bookDetails.ISBN,
-          text
-        }
+          text,
+        },
       });
       setText('');
     } catch (err) {
@@ -67,7 +76,7 @@ const BookDetailCard = ({ bookDetails, onClose, ownerId, showDogEar = true }) =>
       <h1>{bookDetails.firstSentence}</h1>
       {message && <p>{message}</p>}
       <button onClick={handleAddToBookshelf}>Add to Bookshelf</button>
-      
+
       {bookDetails.dogEars && bookDetails.dogEars.length > 0 && (
         <div>
           <h3>Dog Ear Notes:</h3>
@@ -86,7 +95,11 @@ const BookDetailCard = ({ bookDetails, onClose, ownerId, showDogEar = true }) =>
             <div>
               <label>
                 Add Dog Ear Note:
-                <textarea value={text} onChange={e => setText(e.target.value)} required />
+                <textarea
+                  value={text}
+                  onChange={e => setText(e.target.value)}
+                  required
+                />
               </label>
             </div>
             <div>
