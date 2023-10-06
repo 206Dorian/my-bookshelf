@@ -1,7 +1,7 @@
 :root {
-  --TimothyMagenta: #92374D;
+  --TimothyMagenta: #6b0e25;
   --JennPlum: #8C5383;
-  --YinBlue: #4A5899;
+  --YinBlue: #05647a;
   --SteelBlue: #507AA3;
   --GulfCoast: #559cad;
   --dorianGrey: #8BA7AC;
@@ -18,4 +18,5 @@
 .Title {
   font-size: 3.5em;
   color: var(--TimothyMagenta);
+  margin: 0px;
 }
