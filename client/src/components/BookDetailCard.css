@@ -1,12 +1,12 @@
 :root {
-  --TimothyMagenta: #6b0e25;
-  --JennPlum: #8c5383;
+  --TimothyMagenta: #97758E;
+  --JennPlum: #877F92;
   --YinBlue: #05647a;
   --SteelBlue: #507aa3;
   --GulfCoast: #559cad;
-  --DorianGrey: #8ba7ac;
-  --Silver: #c1b2ab;
-  --OffWhite: #edf6f9;
+  --dorianGrey: #8ba7ac;
+  --silver: #c1b2ab;
+  --offWhite: #edf6f9;
 }
 .hidden {
   display: none;
