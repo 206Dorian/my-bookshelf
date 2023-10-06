@@ -84,22 +84,20 @@ const resolvers = {
   },
   getFriend: async (_, { username }, context) => {
     if (context.user) {
-      console.log("Context user:", context.user);
+  
 
       const friend = await User.findOne({ username })
         .populate('friends')
         .populate('friendRequests')
       
-      console.log("Fetched friend:", friend);
-  
       if (!friend) {
         throw new Error('User not found');
       }
   
       let isFriend = friend.friends.some(f => f._id.toString() === context.user._id);
-      console.log("Is friend:", isFriend);
-  console.log(friend._id)
+
       const booksISBN = friend.bookshelf.map(entry => entry.ISBN);
+
       const books = await Book.find({ ISBN: { $in: booksISBN } });
   
       // Creating a new array for bookshelf with attached book details
@@ -311,9 +309,7 @@ const resolvers = {
     },
     
     addDogEar: async (parent, { userId, friendId, ISBN, text }, context) => {
-      console.log("addDogEar resolver called");
-      console.log("Received Args:", { userId, friendId, ISBN, text });
-
+ 
       if (!friendId) {
         throw new Error('Friend ID is missing.');
     }
@@ -336,7 +332,6 @@ const resolvers = {
           friend.dogEars.push({ ISBN, createdBy: userId, text });
   
           await friend.save();
-          console.log('Saved Friend with Dog Ear:', friend);
           const book = await Book.findOne({ ISBN });
   
           return {

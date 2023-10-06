@@ -18,7 +18,7 @@ const Profile = () => {
 
   const handleUserSelected = (user) => {
     console.log('Selected user:', user);
-    // You can navigate to the user's profile or do whatever is needed
+
   };
   
   return (
