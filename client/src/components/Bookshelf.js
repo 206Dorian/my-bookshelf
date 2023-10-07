@@ -19,7 +19,7 @@ const Bookshelf = ({ books, ownerId }) => {
       <div className="row">
         {books.map((entry, index) => (
           <div
-            className={`col-2 m-1 BookEntry ${
+            className={`col-1 m-2 BookEntry ${
               selectedBook === entry ? 'active' : ''
             }`}
             key={index}

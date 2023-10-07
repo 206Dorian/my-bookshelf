@@ -1,5 +1,5 @@
 .BookEntry {
-  height: 150px; /* Set a fixed height */
+  height: 150px; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -54,23 +54,29 @@
 .slot:hover {
   background-color: #e0e0e0;
 }
-/* Existing styles ... */
-
-/* Add the spine style */
-
 .BookEntry .spine {
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   text-align: center;
-  width: 1em;
-  background-color: var(--dorianGrey);
-  color: var(--TimothyMagenta);
+  font-weight: 300;
+  font-size: 18px;
+  width: 40rem;
+  min-height: 9rem;
+  background: conic-gradient(
+    var(--TimothyMagenta) 0% 5%, 
+    var(--dorianGrey) 17% 19%, 
+    var(--TimothyMagenta) 99% 95%
+ 
+    
+  );
+  color: var(--OffWhite);
 }
 
 .spine .fa-star {
   margin-right: 35px;
-  color: gold; /* or any color you prefer */
+  color: gold;
 }
+
 
 /* When the book is active, it will fill the screen */
 .BookEntry.active {

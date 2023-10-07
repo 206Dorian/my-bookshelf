@@ -69,7 +69,7 @@ const BookDetailCard = ({
   };
 
   return (
-    <div id="bookDetailCard">
+    <div className='d-flex flex-column align-items-center justify-content-center'  id="bookDetailCard">
       <h1>{bookDetails.title}</h1>
       <h1>{bookDetails.author}</h1>
       <h1>ISBN: {bookDetails.ISBN}</h1>
@@ -90,7 +90,11 @@ const BookDetailCard = ({
 
       {/* Conditionally render the DogEar form based on hasExistingDogEar */}
       {!hasExistingDogEar && (
-        <div className={`dogear-form ${showDogEar ? '' : 'hidden'}`}>
+        <div className={`dogear-form
+        m-4
+        p-4
+        col-3
+        ${showDogEar ? '' : 'hidden'}`}>
           <form onSubmit={handleDogEarSubmit}>
             <div>
               <label>
