@@ -5,3 +5,8 @@
 .MyZone{
     background-color: silver;
 }
+
+.friend-name {
+    font-size: 30px; /* Adjust as needed */
+    color: var(--GulfCoast); 
+}

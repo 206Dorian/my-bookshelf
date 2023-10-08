@@ -40,7 +40,9 @@ const Profile = () => {
             {/* Map through the friends array and create a link for each friend */}
             {user.friends.map((friend, index) => (
               <li key={index}>
-                <Link to={`/friend/${friend.username}`}>{friend.username}</Link>
+                <Link to={`/friend/${friend.username}`} className="friend-name">
+                  {friend.username}
+                </Link>
               </li>
             ))}
           </ul>
