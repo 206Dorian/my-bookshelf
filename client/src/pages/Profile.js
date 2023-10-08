@@ -30,7 +30,6 @@ const Profile = () => {
       <h1>User Profile</h1>
       <Notifications />
       <p>Username: {user.username}</p>
-      <p>Email: {user.email}</p>
       <p>Friends:</p>
       <ul>
         {/* Map through the friends array and create a link for each friend */}
