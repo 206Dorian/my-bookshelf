@@ -4,7 +4,7 @@ import './BookSuggestion.css';
 
 const BookSuggestion = () => {
   const { loading, error, data } = useQuery(RECENT_BOOKS_QUERY, {
-    variables: { limit: 5 },
+    variables: { limit: 3 },
   });
 
   if (loading) return <p>Loading...</p>;
