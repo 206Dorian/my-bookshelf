@@ -17,9 +17,10 @@ const BookDetailCard = ({
 
   const loggedInUserId = Auth.getProfile()._id;
 
-  const hasExistingDogEar = bookDetails.dogEars.some(
-    dogEar => dogEar.createdBy === loggedInUserId
-  );
+  const hasExistingDogEar = bookDetails.dogEars 
+  ? bookDetails.dogEars.some(dogEar => dogEar.createdBy === loggedInUserId)
+  : false;
+
 
   const handleAddToBookshelf = async e => {
     e.stopPropagation();
@@ -30,11 +31,13 @@ const BookDetailCard = ({
       }
 
       const cleanBookDetails = {
-        title: bookDetails.book.title,
-        author: bookDetails.book.author,
-        ISBN: bookDetails.ISBN,
-        firstSentence: bookDetails.book.firstSentence,
+        title: bookDetails?.title || 'Unknown Title',
+        author: bookDetails?.author || 'Unknown Author',
+        ISBN: bookDetails?.ISBN || 'Unknown ISBN',
+        firstSentence: bookDetails?.firstSentence || 'First sentence not available',
       };
+      
+      console.log(cleanBookDetails)
 
       await addToBookshelf({
         variables: { ISBN: bookDetails.ISBN, bookDetails: cleanBookDetails },
@@ -67,7 +70,7 @@ const BookDetailCard = ({
       console.error(err);
     }
   };
-
+  console.log('bookDetails:', bookDetails);
   return (
     <div className='d-flex flex-column align-items-center justify-content-center'  id="bookDetailCard">
       <h1>{bookDetails.title}</h1>
