@@ -11,19 +11,19 @@
 
 .App {
   text-align: center;
-  background: linear-gradient(
-    to bottom,
-    #507aa3,
-    #559cad,
-    #8ba7ac,
-    #559cad,
-    #507aa3
-  );
+  background: linear-gradient(to bottom,
+      #507aa3,
+      #559cad,
+      #8ba7ac,
+      #559cad,
+      #507aa3);
   height: 100vh;
 }
 
 .Title {
   font-size: 3.5em;
   color: var(--TimothyMagenta);
-  margin: 0px;
+  margin: 20px;
+  font-weight: bold;
+
 }
