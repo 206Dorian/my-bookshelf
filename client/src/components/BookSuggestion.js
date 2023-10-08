@@ -11,7 +11,7 @@ const BookSuggestion = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div id="suggestionBox" className="d-flex flex-row flex-wrap p-3">
+    <div id="suggestionBox" className="d-flex flex-wrap  flex-column p-3 col-2">
       <p id="suggestionBannerText" className="m-2">
         take a peak at what others are reading
       </p>
