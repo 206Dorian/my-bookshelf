@@ -28,15 +28,15 @@ const Profile = () => {
     <div>
       <LogoutButton />
       <div className='row'>
-        <div className='MyZone col-4' >
+        <div className='MyZone col-4 offset-1' >
           <h1>User Profile</h1>
           <p>Username: {user.username}</p>
         </div>
-        <div className='FriendZone col-4 m-5' >
+        <div className='FriendZone col-5 offset-1' >
           <Notifications />
           <h3>Friends:</h3>
           <SearchFriend onUserSelected={handleUserSelected} />
-          <ul>
+          <ul style={{ listStyleType: "none", paddingLeft: "0" }}>
             {/* Map through the friends array and create a link for each friend */}
             {user.friends.map((friend, index) => (
               <li key={index}>
