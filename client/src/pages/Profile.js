@@ -6,6 +6,7 @@ import Bookshelf from '../components/Bookshelf';
 import SearchFriend from '../components/SearchFriend';
 import Notifications from '../components/Notifications';
 import LogoutButton from '../components/Logout.js';
+import './Profile.css';
 
 const Profile = () => {
   const {
@@ -26,19 +27,25 @@ const Profile = () => {
   return (
     <div>
       <LogoutButton />
-      <SearchFriend onUserSelected={handleUserSelected} />
-      <h1>User Profile</h1>
-      <Notifications />
-      <p>Username: {user.username}</p>
-      <p>Friends:</p>
-      <ul>
-        {/* Map through the friends array and create a link for each friend */}
-        {user.friends.map((friend, index) => (
-          <li key={index}>
-            <Link to={`/friend/${friend.username}`}>{friend.username}</Link>
-          </li>
-        ))}
-      </ul>
+      <div className='row'>
+        <div className='MyZone col-4' >
+          <h1>User Profile</h1>
+          <p>Username: {user.username}</p>
+        </div>
+        <div className='FriendZone col-4 m-5' >
+          <Notifications />
+          <h3>Friends:</h3>
+          <SearchFriend onUserSelected={handleUserSelected} />
+          <ul>
+            {/* Map through the friends array and create a link for each friend */}
+            {user.friends.map((friend, index) => (
+              <li key={index}>
+                <Link to={`/friend/${friend.username}`}>{friend.username}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
       <Bookshelf books={user.bookshelf} ownerId={user._id} />
     </div>
   );
