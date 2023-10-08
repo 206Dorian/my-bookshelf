@@ -88,42 +88,45 @@ const SearchBar = () => {
           ))}
         </div>
       </div>
-      <nav aria-label="Page navigation example">
-        <ul className="pagination">
-          <li className="page-item">
-            <button
-              className="page-link"
-              onClick={() => setCurrentPage(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              Previous
-            </button>
-          </li>
-          {[
-            ...Array(Math.ceil(searchResults.length / itemsPerPage)).keys(),
-          ].map(page => (
-            <li className="page-item" key={page + 1}>
+      {/* Conditionally render pagination if there are search results */}
+      {searchResults.length > 0 && (
+        <nav aria-label="Page navigation example">
+          <ul className="pagination">
+            <li className="page-item">
               <button
                 className="page-link"
-                onClick={() => setCurrentPage(page + 1)}
+                onClick={() => setCurrentPage(currentPage - 1)}
+                disabled={currentPage === 1}
               >
-                {page + 1}
+                Previous
               </button>
             </li>
-          ))}
-          <li className="page-item">
-            <button
-              className="page-link"
-              onClick={() => setCurrentPage(currentPage + 1)}
-              disabled={
-                currentPage === Math.ceil(searchResults.length / itemsPerPage)
-              }
-            >
-              Next
-            </button>
-          </li>
-        </ul>
-      </nav>
+            {[
+              ...Array(Math.ceil(searchResults.length / itemsPerPage)).keys(),
+            ].map(page => (
+              <li className="page-item" key={page + 1}>
+                <button
+                  className="page-link"
+                  onClick={() => setCurrentPage(page + 1)}
+                >
+                  {page + 1}
+                </button>
+              </li>
+            ))}
+            <li className="page-item">
+              <button
+                className="page-link"
+                onClick={() => setCurrentPage(currentPage + 1)}
+                disabled={
+                  currentPage === Math.ceil(searchResults.length / itemsPerPage)
+                }
+              >
+                Next
+              </button>
+            </li>
+          </ul>
+        </nav>
+      )}
     </div>
   );
 };
