@@ -73,6 +73,8 @@
 }
 
 .spine .fa-star {
+  position: absolute;
+  display: block;
   margin-right: 35px;
   color: gold;
 }
