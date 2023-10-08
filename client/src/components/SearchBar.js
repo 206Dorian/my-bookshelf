@@ -53,6 +53,7 @@ const SearchBar = () => {
           value={query}
           onChange={e => setQuery(e.target.value)}
           className="form-control"
+          placeholder="Search books here"
         />
         <button type="submit" className="btn btn-primary mt-2">
           Search
