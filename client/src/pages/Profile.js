@@ -7,6 +7,7 @@ import SearchFriend from '../components/SearchFriend';
 import Notifications from '../components/Notifications';
 import LogoutButton from '../components/Logout.js';
 import './Profile.css';
+import BookSuggestion from '../components/BookSuggestion';
 
 const Profile = () => {
   const {
@@ -48,7 +49,10 @@ const Profile = () => {
           </ul>
         </div>
       </div>
+
       <Bookshelf books={user.bookshelf} ownerId={user._id} />
+
+      <BookSuggestion />
     </div>
   );
 };
