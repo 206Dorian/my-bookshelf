@@ -47,22 +47,30 @@ const SearchBar = () => {
 
   return (
     <div className="container">
-      <form onSubmit={handleSubmit} className="mb-3">
-        <input
-          type="text"
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-          className="form-control"
-          placeholder="Search books here"
-        />
-        <button type="submit" className="btn btn-primary mt-2">
-          Search
-        </button>
-      </form>
+     <form onSubmit={handleSubmit} className="mb-3">
+    <div className="row">
+        <div className="col-md-8 mx-auto">  {/* The mx-auto class centers the column */}
+            <input
+              type="text"
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              className="form-control"
+              placeholder="Search books here"
+            />
+        </div>
+        <div className="col-md-4 mx-auto">  {/* The mx-auto class centers the column */}
+            <button type="submit col-3" className="btn btn-primary">
+              Search
+            </button>
+        </div>
+    </div>
+</form>
+
+
       <div className="row">
         <div className="col-md-12">
           {currentItems.map((result, index) => (
-            <div key={index} className="mb-2">
+            <div key={index} className="mb-3">
               <button
                 className="btn btn-block btn-light"
                 onClick={() => userSelection(result, index)}
