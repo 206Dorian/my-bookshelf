@@ -58,10 +58,11 @@ const SearchBar = () => {
               placeholder="Search books here"
             />
         </div>
-        <div className="col-md-4 mx-auto">  {/* The mx-auto class centers the column */}
-            <button type="submit col-3" className="btn btn-primary">
-              Search
-            </button>
+        <div className="col-md-3 mx-auto">  {/* The mx-auto class centers the column */}
+        <button type="submit" className="btn btn-primary col-12">
+    Search
+</button>
+
         </div>
     </div>
 </form>
