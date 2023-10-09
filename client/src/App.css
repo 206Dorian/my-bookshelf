@@ -20,6 +20,14 @@
   height: 100vh;
 }
 
+body {
+  font-family: 'Exo 2', sans-serif; /* Using the Exo 2 font */
+}
+
+h1 {
+  font-family: 'Philosopher', serif; /* Using the Philosopher font */
+}
+
 .Title {
   font-size: 3.5em;
   color: var(--TimothyMagenta);
