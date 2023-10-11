@@ -76,7 +76,10 @@ const SearchBar = () => {
                 className="btn btn-block btn-light"
                 onClick={() => userSelection(result, index)}
               >
-                <h3>{result.title}</h3>
+                <h3>Title: {result.title}</h3>
+                <h3>Author: { result.author_name
+                      ? result.author_name.join(', ')
+                      : 'Unknown Author'}</h3>
               </button>
               {selectedBookIndex === index && (
                 <BookDetailCard
