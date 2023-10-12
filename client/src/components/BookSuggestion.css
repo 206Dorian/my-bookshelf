@@ -1,16 +1,29 @@
+
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
 #suggestionBox {
   background-color: var(--YinBlue);
-  height: 110vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
 }
 
 #suggestions {
   background-color: var(--dorianGrey);
-  height: 125px;
+  width: calc(33.3333% - 20px); /* Adjust the width and margin as needed for spacing between cards */
+  margin: 10px; 
+
 }
 
 #suggestionBannerText {
-  display: block;
   color: var(--offWhite);
+  width: 100%; 
+  text-align: center; 
+  margin-bottom: 10px;
 }
 
 @media (max-width: 576px) {
