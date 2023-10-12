@@ -10,27 +10,16 @@ const SearchBar = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
-  const searchBooks = async () => {
-    try {
-      const [titleResponse, authorResponse] = await Promise.all([
-        axios.get(`http://openlibrary.org/search.json?title=${query}`),
-        axios.get(`http://openlibrary.org/search.json?author=${query}`),
-      ]);
-      const titleDocs = titleResponse.data.docs.map(doc => ({
-        ...doc,
-        type: 'title',
-      }));
-      const authorDocs = authorResponse.data.docs.map(doc => ({
-        ...doc,
-        type: 'author',
-      }));
+  // New state for language selection
+  const [selectedLanguage, setSelectedLanguage] = useState('eng');
 
-      const combinedResults = [...titleDocs, ...authorDocs];
-      setSearchResults(combinedResults);
-    } catch (error) {
-      console.error('An error occurred while fetching data: ', error);
-    }
-  };
+  const supportedLanguages = [
+    { code: 'eng', label: 'English' },
+    { code: 'spa', label: 'Spanish' },
+    { code: 'fre', label: 'French' },
+    // Add more as needed
+  ];
+
 
   const userSelection = (result, index) => {
     setSelectedBookIndex(index);
@@ -41,15 +30,54 @@ const SearchBar = () => {
     searchBooks();
   };
 
+
+  const searchBooks = async () => {
+    try {
+      const [titleResponse, authorResponse] = await Promise.all([
+        axios.get(`http://openlibrary.org/search.json?title=${query}&has_fulltext=true&lang=${selectedLanguage}`),
+        axios.get(`http://openlibrary.org/search.json?author=${query}&has_fulltext=true&lang=${selectedLanguage}`),
+      ]);
+  
+      // Log the entire responses
+      console.log("Title Response:", titleResponse.data);
+      console.log("Author Response:", authorResponse.data);
+  
+      const titleDocs = titleResponse.data.docs
+      .filter(doc => doc.language && doc.language.includes(selectedLanguage))  // dynamically filter by selected language
+      .map(doc => ({
+        ...doc,
+        type: 'title',
+      }));
+    
+    const authorDocs = authorResponse.data.docs
+      .filter(doc => doc.language && doc.language.includes(selectedLanguage))  // dynamically filter by selected language
+      .map(doc => ({
+        ...doc,
+        type: 'author',
+      }));
+    
+  
+      // Log the filtered results
+      console.log("Filtered Title Docs:", titleDocs);
+      console.log("Filtered Author Docs:", authorDocs);
+  
+      const combinedResults = [...titleDocs, ...authorDocs];
+      setSearchResults(combinedResults);
+    } catch (error) {
+      console.error('An error occurred while fetching data: ', error);
+    }
+  };
+  
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = searchResults.slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div className="container">
-     <form onSubmit={handleSubmit} className="mb-3">
-    <div className="row">
-        <div className="col-md-8 mx-auto">  {/* The mx-auto class centers the column */}
+      <form onSubmit={handleSubmit} className="mb-3">
+        <div className="row">
+          <div className="col-md-6 mx-auto">
             <input
               type="text"
               value={query}
@@ -57,16 +85,25 @@ const SearchBar = () => {
               className="form-control"
               placeholder="Search books here"
             />
+          </div>
+          <div className="col-md-2 mx-auto">
+            <select
+              className="form-control"
+              value={selectedLanguage}
+              onChange={e => setSelectedLanguage(e.target.value)}
+            >
+              {supportedLanguages.map(lang => (
+                <option key={lang.code} value={lang.code}>
+                  {lang.label}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="col-md-2 mx-auto">
+            <button type="submit" className="btn btn-primary col-12">Search</button>
+          </div>
         </div>
-        <div className="col-md-3 mx-auto">  {/* The mx-auto class centers the column */}
-        <button type="submit" className="btn btn-primary col-12">
-    Search
-</button>
-
-        </div>
-    </div>
-</form>
-
+      </form>
 
       <div className="row">
         <div className="col-md-12">
@@ -77,9 +114,9 @@ const SearchBar = () => {
                 onClick={() => userSelection(result, index)}
               >
                 <h3>Title: {result.title}</h3>
-                <h3>Author: { result.author_name
-                      ? result.author_name.join(', ')
-                      : 'Unknown Author'}</h3>
+                <h3>Author: {result.author_name
+                  ? result.author_name.join(', ')
+                  : 'Unknown Author'}</h3>
               </button>
               {selectedBookIndex === index && (
                 <BookDetailCard
