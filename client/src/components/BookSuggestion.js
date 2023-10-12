@@ -11,10 +11,10 @@ const BookSuggestion = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div id="suggestionBox" className="d-flex flex-wrap  flex-column p-3 col-2">
-      <p id="suggestionBannerText" className="m-2">
-        take a peak at what others are reading
-      </p>
+    <div id="suggestionBox" className="d-flex flex-wrap  flex-column p-2 col-2">
+      <h3 id="suggestionBannerText" className="m-2">
+        Take a peak at what others are reading
+      </h3>
       {data.recentBooks.map((book, index) => (
         <div key={index} className="col">
           <div id="suggestions" className="card m-2">
