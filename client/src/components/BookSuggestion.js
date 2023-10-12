@@ -6,7 +6,7 @@ import './BookSuggestion.css';
 
 const BookSuggestion = () => {
   const { loading, error, data } = useQuery(RECENT_BOOKS_QUERY, {
-    variables: { limit: 3 },
+    variables: { limit: 5 },
   });
 
   if (loading) return <p>Loading...</p>;
@@ -17,6 +17,7 @@ const BookSuggestion = () => {
       <p id="suggestionBannerText" className="m-2">
        
       </p>
+
       {data.recentBooks.map((book, index) => (
         <div key={index} id="suggestions" className="card m-2">
           <div className="card-body">
