@@ -1,0 +1,13 @@
+.logo {
+    min-height: 70px;
+    min-width: 70px;
+    margin-left: 15px;
+}
+
+.custom-toggler {
+    margin-left: auto;
+  }
+
+.logout-btn {
+    margin-right: 15px;
+}

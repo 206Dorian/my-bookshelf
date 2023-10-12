@@ -3,7 +3,8 @@ import './App.css';
 import Home from './pages/Home.js';
 import Profile from './pages/Profile';
 import FriendProfile from './pages/FriendProfile';
-import SearchBar from './components/SearchBar';
+import Header from './components/Header';
+import Footer from './components/Footer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import {
   ApolloClient,
@@ -41,18 +42,24 @@ function App() {
     <ApolloProvider client={client}>
       <Router>
         <div className="App">
-          <header className="App-header">
-            <h1 className="Title">My Bookshelf / My 100</h1>
-            <SearchBar />
-          </header>
+          
+            
+            <Header/>
+         
 
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/friend/:username" element={<FriendProfile />} />
           </Routes>
+
+          <Footer/>
+            
+            
+          
         </div>
       </Router>
+      
     </ApolloProvider>
   );
 }
