@@ -3,8 +3,6 @@ import { useMutation } from '@apollo/client';
 import { ADD_TO_BOOKSHELF, ADD_DOG_EAR } from '../utils/mutations';
 import './BookDetailCard.css';
 import Auth from '../utils/auth';
-import {franc} from 'franc';
-
 
 const BookDetailCard = ({
   bookDetails,
@@ -12,26 +10,11 @@ const BookDetailCard = ({
   ownerId,
   showDogEar = true,
 }) => {
-  const getFirstSentenceInEnglish = (sentences) => {
-    for (const sentence of sentences) {
-      const detectedLanguage = franc(sentence);
-      console.log(`Sentence: "${sentence}" detected as: ${detectedLanguage}`);
-      
-      if (detectedLanguage === 'eng') { // If the detected language is English
-        console.log("Chosen English Sentence:", sentence);
-        return sentence;
-      }
-    }
-    console.log("No English Sentence found. Using the first one:", sentences[0]);
-    return sentences[0]; // default to the first sentence if none are detected as English
-}
 
-console.log("bookDetails.firstSentence type:", typeof bookDetails.firstSentence, bookDetails.firstSentence);
-
-  const firstSentence = Array.isArray(bookDetails.firstSentence) 
-      ? getFirstSentenceInEnglish(bookDetails.firstSentence) 
+  // If `bookDetails.firstSentence` is an array, choose the first sentence. Otherwise, use it as-is.
+  const firstSentence = Array.isArray(bookDetails.firstSentence)
+      ? bookDetails.firstSentence[0]
       : bookDetails.firstSentence;
-
 
   const [addToBookshelf] = useMutation(ADD_TO_BOOKSHELF);
   const [addDogEar] = useMutation(ADD_DOG_EAR);
@@ -43,7 +26,6 @@ console.log("bookDetails.firstSentence type:", typeof bookDetails.firstSentence,
   const hasExistingDogEar = bookDetails.dogEars 
   ? bookDetails.dogEars.some(dogEar => dogEar.createdBy === loggedInUserId)
   : false;
-
 
   const handleAddToBookshelf = async e => {
     e.stopPropagation();

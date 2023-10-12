@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import BookDetailCard from './BookDetailCard';
 import './SearchBar.css';
+import { franc } from 'franc';
+
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
@@ -20,6 +22,18 @@ const SearchBar = () => {
     // Add more as needed
   ];
 
+  const isSentenceInLanguage = (sentence, targetLanguageCode) => {
+    const detectedLanguage = franc(sentence);
+    return detectedLanguage === targetLanguageCode;
+  };
+
+
+  const getFirstSentenceInLanguage = (sentences, targetLanguageCode) => {
+    // This will return the first sentence that matches the desired language.
+    // If none matches, undefined will be returned.
+    return sentences.find(sentence => isSentenceInLanguage(sentence, targetLanguageCode));
+  };
+
 
   const userSelection = (result, index) => {
     setSelectedBookIndex(index);
@@ -37,37 +51,37 @@ const SearchBar = () => {
         axios.get(`http://openlibrary.org/search.json?title=${query}&has_fulltext=true&lang=${selectedLanguage}`),
         axios.get(`http://openlibrary.org/search.json?author=${query}&has_fulltext=true&lang=${selectedLanguage}`),
       ]);
-  
+
       // Log the entire responses
       console.log("Title Response:", titleResponse.data);
       console.log("Author Response:", authorResponse.data);
-  
+
       const titleDocs = titleResponse.data.docs
-      .filter(doc => doc.language && doc.language.includes(selectedLanguage))  // dynamically filter by selected language
-      .map(doc => ({
-        ...doc,
-        type: 'title',
-      }));
-    
-    const authorDocs = authorResponse.data.docs
-      .filter(doc => doc.language && doc.language.includes(selectedLanguage))  // dynamically filter by selected language
-      .map(doc => ({
-        ...doc,
-        type: 'author',
-      }));
-    
-  
+        .filter(doc => doc.language && doc.language.includes(selectedLanguage))  // dynamically filter by selected language
+        .map(doc => ({
+          ...doc,
+          type: 'title',
+        }));
+
+      const authorDocs = authorResponse.data.docs
+        .filter(doc => doc.language && doc.language.includes(selectedLanguage))  // dynamically filter by selected language
+        .map(doc => ({
+          ...doc,
+          type: 'author',
+        }));
+
+
       // Log the filtered results
       console.log("Filtered Title Docs:", titleDocs);
       console.log("Filtered Author Docs:", authorDocs);
-  
+
       const combinedResults = [...titleDocs, ...authorDocs];
       setSearchResults(combinedResults);
     } catch (error) {
       console.error('An error occurred while fetching data: ', error);
     }
   };
-  
+
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -127,7 +141,7 @@ const SearchBar = () => {
                       : 'Unknown Author',
                     ISBN: result.isbn ? result.isbn[0] : 'Unknown ISBN',
                     firstSentence: result.first_sentence
-                      ? result.first_sentence[0]
+                      ? getFirstSentenceInLanguage(result.first_sentence, selectedLanguage)
                       : 'First sentence not available',
                   }}
                   showDogEar={false}
