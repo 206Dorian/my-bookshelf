@@ -1,0 +1,21 @@
+:root {
+    --TimothyMagenta: #97758E;
+    --JennPlum: #877F92;
+    --YinBlue: #05647a;
+    --SteelBlue: #507aa3;
+    --GulfCoast: #559cad;
+    --dorianGrey: #8ba7ac;
+    --silver: #c1b2ab;
+    --offWhite: #edf6f9;
+  }
+.copyright {
+    color: var(--YinBlue);
+}
+
+.footer-container {
+    height: 30px !important;
+    background-color: var(--offWhite);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -9,19 +9,17 @@
     --offWhite: #edf6f9;
   }
 
-.FriendZone{
-    background-color: silver;
+.offcanvas-header{
+background-color: var(--dorianGrey)!important;
+width: 100%; 
+display: flex;
+justify-content: center;
 }
 
-.MyZone{
-    background-color: silver;
+.offcanvas-title {
+    text-align: center;
 }
 
-.friend-name {
-    font-size: 30px; /* Adjust as needed */
-    color: var(--GulfCoast); 
-}
-
-.offcanvas-reveal-btn {
-    border-radius: 5px;
+.offcanvas-body {
+    background-color: var(--silver);
 }
