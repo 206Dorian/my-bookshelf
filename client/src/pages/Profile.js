@@ -5,7 +5,7 @@ import { GET_USER } from '../utils/queries';
 import Bookshelf from '../components/Bookshelf';
 import SearchFriend from '../components/SearchFriend';
 import Notifications from '../components/Notifications';
-import LogoutButton from '../components/Logout.js';
+import SearchBar from '../components/SearchBar';
 import './Profile.css';
 import BookSuggestion from '../components/BookSuggestion';
 
@@ -27,8 +27,10 @@ const Profile = () => {
 
   return (
     <div>
-      <LogoutButton />
       <div className='row'>
+        <div className='search'>
+          <SearchBar/>
+          </div>
         <div className='MyZone col-4 offset-1' >
           <h1>User Profile</h1>
           <p>Username: {user.username}</p>
