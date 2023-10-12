@@ -20,21 +20,25 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 1001; /* Ensure it's on top of other content */
+  z-index: 1001;
+  /* Ensure it's on top of other content */
   overflow: auto;
   /* background-color: silver;  */
   padding: 2rem;
   box-sizing: border-box;
   background: linear-gradient(to bottom,
-  #507aa3,
-  #559cad,
-  #8ba7ac,
-  #559cad,
-  #507aa3);
-height: 100vh;
+      #507aa3,
+      #559cad,
+      #8ba7ac,
+      #559cad,
+      #507aa3);
+  height: 100vh;
+  color: black;
+
 }
 
-.dogear-form{
+.dogear-form {
   background-color: var(--JennPlum);
-  
+
 }
+
