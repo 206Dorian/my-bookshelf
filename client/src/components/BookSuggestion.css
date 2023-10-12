@@ -1,11 +1,11 @@
 #suggestionBox {
   background-color: var(--YinBlue);
-  height: 100vh;
+  height: 100%;
 }
 
 #suggestions {
   background-color: var(--dorianGrey);
-  height: 150px;
+  height: 125px;
 }
 
 #suggestionBannerText {
