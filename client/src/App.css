@@ -30,9 +30,20 @@ body {
   font-family: 'Exo 2', sans-serif; /* Using the Exo 2 font */
 }
 
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
 h1 {
   font-family: 'Exo 2', sans-serif;; /* Using the Philosopher font */
 }
+
+#root {
+  height: 100%;
+}
+
 
 .Title {
   font-size: 3.5em;

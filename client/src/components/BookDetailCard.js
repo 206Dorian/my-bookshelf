@@ -10,6 +10,12 @@ const BookDetailCard = ({
   ownerId,
   showDogEar = true,
 }) => {
+
+  // If `bookDetails.firstSentence` is an array, choose the first sentence. Otherwise, use it as-is.
+  const firstSentence = Array.isArray(bookDetails.firstSentence)
+      ? bookDetails.firstSentence[0]
+      : bookDetails.firstSentence;
+
   const [addToBookshelf] = useMutation(ADD_TO_BOOKSHELF);
   const [addDogEar] = useMutation(ADD_DOG_EAR);
   const [text, setText] = useState('');
@@ -20,7 +26,6 @@ const BookDetailCard = ({
   const hasExistingDogEar = bookDetails.dogEars 
   ? bookDetails.dogEars.some(dogEar => dogEar.createdBy === loggedInUserId)
   : false;
-
 
   const handleAddToBookshelf = async e => {
     e.stopPropagation();
@@ -73,16 +78,16 @@ const BookDetailCard = ({
   console.log('bookDetails:', bookDetails);
   return (
     <div className='d-flex flex-column align-items-center justify-content-center'  id="bookDetailCard">
-      <h1>{bookDetails.title}</h1>
-      <h1>{bookDetails.author}</h1>
-      <h1>ISBN: {bookDetails.ISBN}</h1>
-      <h1>{bookDetails.firstSentence}</h1>
+      <p>{bookDetails.title}</p>
+      <p>{bookDetails.author}</p>
+      <p>ISBN: {bookDetails.ISBN}</p>
+      <p>{firstSentence}</p>
       {message && <p>{message}</p>}
       <button onClick={handleAddToBookshelf}>Add to Bookshelf</button>
 
       {bookDetails.dogEars && bookDetails.dogEars.length > 0 && (
         <div>
-          <h3>Dog Ear Notes:</h3>
+          <p>Dog Ear Notes:</p>
           <ul>
             {bookDetails.dogEars.map((dogEar, index) => (
               <li key={index}>{dogEar.text}</li>

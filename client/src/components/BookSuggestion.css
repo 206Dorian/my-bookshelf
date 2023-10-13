@@ -8,6 +8,7 @@ body, html {
   background-color: var(--YinBlue);
   display: flex;
   flex-wrap: wrap;
+
   justify-content: space-between;
   align-items: center;
   height: 100%;
@@ -20,6 +21,7 @@ body, html {
   background-color: var(--dorianGrey);
   width: calc(33.3333% - 20px); /* Adjust the width and margin as needed for spacing between cards */
   margin: 10px; 
+
 }
 
 
