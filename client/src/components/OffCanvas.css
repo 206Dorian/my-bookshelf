@@ -9,6 +9,7 @@
     --offWhite: #edf6f9;
   }
 
+  /* Header bar for both offcanvas areas */
 .offcanvas-header{
 background-color: var(--dorianGrey)!important;
 width: 100%; 
@@ -16,10 +17,19 @@ display: flex;
 justify-content: center;
 }
 
+/* Title in offcanvas areas, i.e. My Friends and Recent Additions */
 .offcanvas-title {
     text-align: center;
 }
 
+/* Body of offcanvas area*/
 .offcanvas-body {
     background-color: var(--silver);
+    display: flex;
+    justify-content: center;
+}
+
+/* Offcanvas area for friends specifically */
+.offcanvas-friends {
+    width: 300px !important;
 }

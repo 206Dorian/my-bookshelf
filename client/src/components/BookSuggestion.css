@@ -1,28 +1,27 @@
-
 body, html {
   margin: 0;
   padding: 0;
 }
 
+/* Box in offcanvas holding book suggestions */
 #suggestionBox {
   background-color: var(--YinBlue);
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  text-align: center;
 }
 
+/* Book suggestion cards */
 #suggestions {
   background-color: var(--dorianGrey);
   width: calc(33.3333% - 20px); /* Adjust the width and margin as needed for spacing between cards */
   margin: 10px; 
 }
 
-#suggestionBannerText {
-  color: var(--offWhite);
-  width: 100%; 
-  text-align: center; 
-  margin-bottom: 10px;
-}
 
 @media (max-width: 576px) {
   .mobile-footer {

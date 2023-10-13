@@ -15,7 +15,7 @@ const Bookshelf = ({ books, ownerId }) => {
 
   return (
     <div className="container mt-5" id="bookshelfContainer">
-      <h2 className="mb-4">Bookshelf</h2>
+      <h3 className="mb-4">Your Bookshelf</h3>
       <div className="row">
         {books.map((entry, index) => (
           <div

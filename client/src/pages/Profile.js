@@ -1,22 +1,25 @@
 import React from 'react';
 import {useQuery} from '@apollo/client';
-import {Link} from 'react-router-dom';
+
 import {GET_USER} from '../utils/queries';
 import Bookshelf from '../components/Bookshelf';
-import SearchFriend from '../components/SearchFriend';
-import Notifications from '../components/Notifications';
 import SearchBar from '../components/SearchBar';
 import './Profile.css';
 import Button from 'react-bootstrap/Button';
 import OffcanvasComponent from '../components/OffCanvas';
+import OffcanvasComponent2 from '../components/OffCanvas2';
 
 const Profile = () => {
     const {loading: userLoading, error: userError, data: userData} = useQuery(GET_USER);
 
     const [showOffcanvas, setShowOffcanvas] = React.useState(false);
+    const [showOffcanvas2, setShowOffcanvas2] = React.useState(false);
 
     const handleShowOffcanvas = () => setShowOffcanvas(true);
     const handleCloseOffcanvas = () => setShowOffcanvas(false);
+
+    const handleShowOffcanvas2 = () => setShowOffcanvas2(true);
+    const handleCloseOffcanvas2 = () => setShowOffcanvas2(false);
 
     if (userLoading) 
         return <p>Loading...</p>;
@@ -29,52 +32,23 @@ const Profile = () => {
 
     const user = userData?.getUser;
 
-    const handleUserSelected = user => {
-        console.log('Selected user:', user);
-    };
-
     return (
         <div className='profile-cont'>
-            <div className='row'>
-                <div className='search'>
-                    <SearchBar/>
-                </div>
-                <div className='MyZone col-4 offset-1'>
-                    <h1>User Profile</h1>
-                    <p>Username: {
+            <div className=''>     
+                <div className='MyZone col-10 offset-1'>
+                <br/>
+                    <h3>Welcome, {
                         user.username
-                    }</p>
-                </div>
-                <div className='FriendZone col-4 offset-1'>
-                    <Notifications/>
-                    <h3>Friends:</h3>
-                    <SearchFriend onUserSelected={handleUserSelected}/>
-                    <ul style={
-                        {
-                            listStyleType: "none",
-                            paddingLeft: "0"
-                        }
-                    }>
-                        {/* Map through the friends array and create a link for each friend */}
-                        {
-                        user.friends.map((friend, index) => (
-                            <li key={index}>
-                                <Link to={
-                                        `/friend/${
-                                            friend.username
-                                        }`
-                                    }
-                                    className="friend-name">
-                                    {
-                                    friend.username
-                                } </Link>
-                            </li>
-                        ))
-                    } </ul>
-                </div>
-            </div>
+                    }!</h3>
+                    <br/>
+                    <div className='search'>
+                    <SearchBar/>
 
-            <Bookshelf books={
+    </div>
+  </div>
+  </div>
+               
+             <Bookshelf books={
                     user.bookshelf
                 }
                 ownerId={
@@ -85,9 +59,18 @@ const Profile = () => {
                 Show me what others are adding to their bookshelf...
             </Button>
 
-            {/* Offcanvas Component */}
+            {/* Offcanvas Component for showing trending books*/}
             <OffcanvasComponent show={showOffcanvas}
                 handleClose={handleCloseOffcanvas}/>
+                {/* Offcanvas Component to show friend features */}   
+      <OffcanvasComponent2/>
+      <Button variant="primary offcanvas-reveal-btn"
+                onClick={handleShowOffcanvas2}>
+                My Friends
+            </Button>
+
+            <OffcanvasComponent2 show={showOffcanvas2}
+                handleClose={handleCloseOffcanvas2}/>
         </div>
     );
 };
