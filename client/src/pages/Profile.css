@@ -9,19 +9,25 @@
     --offWhite: #edf6f9;
   }
 
-.FriendZone{
-    background-color: silver;
-}
+  /* Div holding welcome and search book bar */
+  .MyZone{
+    color: var(--offWhite);
+ }
 
-.MyZone{
-    background-color: silver;
-}
-
-.friend-name {
-    font-size: 30px; /* Adjust as needed */
-    color: var(--GulfCoast); 
-}
-
+ /* Buttons used to reveal offcanvas features */
 .offcanvas-reveal-btn {
     border-radius: 5px;
+    margin-bottom: 40px;
 }
+
+.profile-cont {
+  text-align: center;
+  margin-bottom: 100px;
+  background: inherit; 
+}
+
+
+
+
+
+

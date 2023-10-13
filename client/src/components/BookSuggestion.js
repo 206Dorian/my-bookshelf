@@ -14,12 +14,10 @@ const BookSuggestion = () => {
 
   return (
     <div id="suggestionBox">
-      <p id="suggestionBannerText" className="m-2">
-       
-      </p>
 
-      {data.recentBooks.map((book, index) => (
-        <div key={index} id="suggestions" className="card m-2">
+       {data.recentBooks.map((book, index) => (
+        <div key={index} id="suggestions" className="card m-1">
+
           <div className="card-body">
             <h5 className="card-title">{book.title}</h5>
             <p className="card-text">{book.author}</p>

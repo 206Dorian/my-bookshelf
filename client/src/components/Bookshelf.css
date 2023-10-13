@@ -1,11 +1,67 @@
+:root {
+  --TimothyMagenta: #97758E;
+  --JennPlum: #877F92;
+  --YinBlue: #05647a;
+  --SteelBlue: #507aa3;
+  --GulfCoast: #559cad;
+  --dorianGrey: #8ba7ac;
+  --silver: #c1b2ab;
+  --offWhite: #edf6f9;
+}
+
+.shelf-title {
+  color: var(--offWhite);
+}
 .BookEntry {
-  height: 150px; 
+  position: relative;
+  height: 400px; /* Adjust height based on the aspect ratio of your image */
+  min-width: 100px; /* Set a specific width */
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--dorianGrey);
-  background-color: var(--dorianGrey);
   margin-bottom: 20px;
+}
+
+.BookEntry img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom; /* Adjust as needed */
+}
+
+.spine {
+  position: absolute;
+  bottom: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-20%, 50%) rotate(180deg); /* Center horizontally and rotate */
+  font-size: 20px;
+  color: var(--YinBlue);
+  text-align: center;
+  writing-mode: vertical-rl;
+  font-weight: 300;
+  width: 100%;
+  min-height: 300px !important; 
+  max-height: 300px !important;
+  white-space: normal; /* Allow wrapping */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  z-index: 1; /* Ensure the spine is above the image */
+}
+
+/* Additional styles to override Bootstrap */
+.BookEntry.col-1 {
+  flex: 0 0 auto;
+  max-width: 8.33333%;
+}
+
+.spine .fa-star {
+  position: absolute;
+  display: block;
+  margin-right: 8px;
+  margin-bottom: 0px;
+  color: gold;
 }
 
 #bookshelfContainer {
@@ -18,8 +74,9 @@
   margin: auto;
   width: 60%;
   height: 80%;
-  background-color: var(--dorianGrey);
+  background-color: var(--dorianGray);
 }
+
 
 /* Add your CSS classes to style the bookshelf component */
 .bookshelf {
@@ -44,41 +101,10 @@
   background-color: #f9f9f9;
 }
 
-/* Additional styles as needed for book title, author, etc. */
-.slot div {
-  margin-bottom: 5px;
-  font-weight: bold;
+.BookEntry:hover {
+  transform: scale(1.05); 
+  transition: transform 0.3s ease; 
 }
-
-/* Add hover effect for slots if desired */
-.slot:hover {
-  background-color: #e0e0e0;
-}
-.BookEntry .spine {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  text-align: center;
-  font-weight: 300;
-  font-size: 18px;
-  width: 40rem;
-  min-height: 9rem;
-  background: conic-gradient(
-    var(--TimothyMagenta) 0% 5%, 
-    var(--dorianGrey) 17% 19%, 
-    var(--TimothyMagenta) 99% 95%
- 
-    
-  );
-  color: var(--OffWhite);
-}
-
-.spine .fa-star {
-  position: absolute;
-  display: block;
-  margin-right: 35px;
-  color: gold;
-}
-
 
 /* When the book is active, it will fill the screen */
 .BookEntry.active {

@@ -1,0 +1,27 @@
+:root {
+    --TimothyMagenta: #97758E;
+    --JennPlum: #877F92;
+    --YinBlue: #05647a;
+    --SteelBlue: #507aa3;
+    --GulfCoast: #559cad;
+    --dorianGrey: #8ba7ac;
+    --silver: #c1b2ab;
+    --offWhite: #edf6f9;
+  }
+
+/* Area of friend offcanvas holding Notifications, FriendList, and search for friends */
+.FriendZone, .Notifications {
+    width: 300px;
+    text-align: center;
+}
+
+/* For styling accept/decline btns.  */
+.request-btn {
+/* Coming soon!*/
+}
+
+/* Hyperlinked list of friends */
+.friend-name {
+    font-size: 20px; /* Adjust as needed */
+    color: var(--offWhite); 
+}
