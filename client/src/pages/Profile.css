@@ -17,4 +17,17 @@
  /* Buttons used to reveal offcanvas features */
 .offcanvas-reveal-btn {
     border-radius: 5px;
+    margin-bottom: 40px;
 }
+
+.profile-cont {
+  text-align: center;
+  margin-bottom: 100px;
+  background: inherit; 
+}
+
+
+
+
+
+
