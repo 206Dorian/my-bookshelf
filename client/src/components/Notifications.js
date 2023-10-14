@@ -5,6 +5,7 @@ import {
   ACCEPT_FRIEND_REQUEST,
   DECLINE_FRIEND_REQUEST,
 } from '../utils/mutations';
+import './FriendList.css';
 
 const Notifications = () => {
   const { loading, error, data } = useQuery(GET_USER);
@@ -38,15 +39,15 @@ const Notifications = () => {
 
   return (
     <div>
-      <h3>Friend Requests</h3>
+      <h4>Friend Requests</h4>
       {data?.getUser?.friendRequests.length ? (
         data.getUser.friendRequests.map(request => (
           <div key={request._id}>
             <span>{request.username}</span>
-            <button onClick={() => handleAccept(request.username)}>
+            <button onClick={() => handleAccept(request.username)} className='request-btn'>
               Accept
             </button>
-            <button onClick={() => handleDecline(request.username)}>
+            <button onClick={() => handleDecline(request.username)}className='request-btn'>
               Decline
             </button>
           </div>
