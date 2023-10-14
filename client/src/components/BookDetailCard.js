@@ -82,36 +82,41 @@ const BookDetailCard = ({
 
   return (
     <div className='d-flex flex-column align-items-center justify-content-center' id="bookDetailCard">
-      <div className='scribbles'>
-        <p>{bookDetails.scribbles}</p>
-        {/* If the viewer is the owner, they can update the scribble */}
-        {isOwner && <UpdateScribbles userId={ownerId} ISBN={bookDetails.ISBN} />}
-        <p>{bookDetails.title}</p>
-        <p>{bookDetails.author}</p>
-        <p>ISBN: {bookDetails.ISBN}</p>
-        <p>{firstSentence}</p>
-        {message && <p>{message}</p>}
-        <button onClick={handleAddToBookshelf}>Add to Bookshelf</button>
-        <div>
-          {/* Display notes */}
-          {bookDetails.notes?.map((note, index) => (
-            <div key={index}>
-              <span>{note.key}:</span> {note.value}
-            </div>
-          ))}
+    <div className="details">
+      <p>{bookDetails.title}</p>
+      <p>{bookDetails.author}</p>
+      <p>ISBN: {bookDetails.ISBN}</p>
+      <p>{firstSentence}</p>
+      {message && <p>{message}</p>}
+    </div>
+  
+    <div className='scribbles'>
+      <p>{bookDetails.scribbles}</p>
+      {isOwner && <UpdateScribbles userId={ownerId} ISBN={bookDetails.ISBN} />}
+    </div>
+  
+    <button onClick={handleAddToBookshelf}>Add to Bookshelf</button>
+  
+    <div className="notes">
+      {/* Display notes */}
+      {bookDetails.notes?.map((note, index) => (
+        <div key={index}>
+          <span>{note.key}:</span> {note.value}
         </div>
-
-        {bookDetails.dogEars && bookDetails.dogEars.length > 0 && (
-          <div>
-            <p>Dog Ear Notes:</p>
-            <ul>
-              {bookDetails.dogEars.map((dogEar, index) => (
-                <li key={index}>{dogEar.text}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-
+      ))}
+    </div>
+  
+    {bookDetails.dogEars && bookDetails.dogEars.length > 0 && (
+      <div className="dogEars">
+        <p>Dog Ear Notes:</p>
+        <ul>
+          {bookDetails.dogEars.map((dogEar, index) => (
+            <li key={index}>{dogEar.text}</li>
+          ))}
+        </ul>
+      </div>
+    )}
+  
         {/* Conditionally render the DogEar form based on hasExistingDogEar */}
         {!hasExistingDogEar && (
           <div className={`dogear-form
@@ -138,7 +143,7 @@ const BookDetailCard = ({
           </div>
           
         )}
-  </div>
+ 
         <button onClick={onClose}>Close</button>
     
       </div>
