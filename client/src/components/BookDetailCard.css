@@ -103,9 +103,5 @@ textarea {
 
 #left-page, #right-page {
   background-color: var(--offWhite);
-}
-
-#left-page {
-  border-right:#877F92;
   border-style: groove;
 }

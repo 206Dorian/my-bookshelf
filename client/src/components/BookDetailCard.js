@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Modal, Button, Row, Col} from 'react-bootstrap';
+import {Modal, Row, Col} from 'react-bootstrap';
 import {useMutation} from '@apollo/client';
 import {ADD_TO_BOOKSHELF, ADD_DOG_EAR} from '../utils/mutations';
 import UpdateScribbles from './UpdateScribbles';

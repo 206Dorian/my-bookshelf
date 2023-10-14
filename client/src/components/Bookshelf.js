@@ -24,16 +24,18 @@ const Bookshelf = ({ books, ownerId }) => {
             }`}
             key={index}
             onClick={() => handleBookClick(entry)}
+           
           >
+             {entry.dogEars && entry.dogEars.length > 0 && (
+              <i className="fas fa-star"></i>
+            )}
             <img
               src="https://res.cloudinary.com/dlxjksvbc/image/upload/v1697234029/book-spines_ck6olr.png"
               alt="Book Spine"
               className="book-spine"
             />
             <div className="spine">
-              {entry.dogEars && entry.dogEars.length > 0 && (
-                <i className="fas fa-star"></i>
-              )}
+
               {entry.book?.title}
             </div>
           </div>

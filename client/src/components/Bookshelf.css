@@ -56,12 +56,13 @@
   max-width: 8.33333%;
 }
 
-.spine .fa-star {
+
+.fa-star {
   position: absolute;
   display: block;
-  margin-right: 8px;
-  margin-bottom: 0px;
-  color: gold;
+  margin-right: 5px;
+  margin-top: 333px;
+   color: gold;
 }
 
 #bookshelfContainer {
