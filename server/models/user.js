@@ -50,6 +50,9 @@ const userSchema = new Schema(
           max: 100,
           required: true,
         },
+        scribbles: {
+          type: String,
+        },        
         dogEars: [dogEarSchema],
       },
     ],

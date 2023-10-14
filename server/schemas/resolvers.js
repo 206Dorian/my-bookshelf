@@ -339,6 +339,25 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in!');
     },
+    updateScribbles:  async (_, { userId, ISBN, scribbles }, context) => {
+  
+      try {
+        if (!context.user || context.user._id !== userId) {
+          throw new Error('Authentication error: You cannot update this data.');
+        }
+        const user = await User.findOne({ _id: userId });
+        const book = user.bookshelf.find(book => book.ISBN === ISBN);
+        if (!book) throw new Error('Book not found on user bookshelf');
+    
+        book.scribbles = scribbles ? scribbles : [];
+        await user.save();
+    
+        return user;
+      } catch (error) {
+        console.error(error);
+        throw new Error('Could not update scribbles');
+      }
+    }
   },
 };
 

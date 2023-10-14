@@ -52,6 +52,7 @@ const typeDefs = gql`
     addedDate: String
   }
 
+
   input BookInput {
     title: String
     author: String
@@ -62,6 +63,7 @@ const typeDefs = gql`
   type BookshelfEntry {
     ISBN: String
     placement: Int
+    scribbles: String
     addedDate: String
     book: Book
     dogEars: [DogEar]
@@ -95,6 +97,7 @@ const typeDefs = gql`
     deleteUser(username: String!): User
     login(username: String!, password: String!): Auth
     adminLogin(username: String!, password: String!): Auth
+    updateScribbles(userId: ID!, ISBN: String!, scribbles: String!): User
     addToBookshelf(ISBN: String!, bookDetails: BookInput): BookshelfEntry!
     addDogEar(
       userId: ID!
