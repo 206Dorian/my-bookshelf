@@ -105,3 +105,15 @@ export const ADD_DOG_EAR = gql`
     }
   }
 `;
+
+export const UPDATE_SCRIBBLES = gql`
+mutation UpdateScribbles($userId: ID!, $ISBN: String!, $scribbles: String!) {
+  updateScribbles(userId: $userId, ISBN: $ISBN, scribbles: $scribbles) {
+    _id
+    bookshelf {
+      ISBN
+      scribbles
+    }
+  }
+}
+`;

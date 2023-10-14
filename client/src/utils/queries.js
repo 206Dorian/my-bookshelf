@@ -10,6 +10,7 @@ export const GET_USER = gql`
       bookshelf {
         ISBN
         placement
+        scribbles
         addedDate
         dogEars {
           ISBN
@@ -51,6 +52,7 @@ export const GET_FRIEND = gql`
       bookshelf {
         ISBN
         placement
+        scribbles
         addedDate
         dogEars {
           ISBN
