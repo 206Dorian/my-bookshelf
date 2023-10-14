@@ -9,16 +9,12 @@
   --offWhite: #edf6f9;
 }
 
+/* Add this to your CSS file or styling section */
 .hidden {
   display: none;
 }
 
 #bookDetailCard {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
   z-index: 1001;
   overflow: auto;
   padding: 2rem;
@@ -29,7 +25,6 @@
       #8ba7ac,
       #559cad,
       #507aa3);
-  display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem; /* consistent spacing between elements */
@@ -43,6 +38,7 @@
   background-color: var(--offWhite);
   padding: 1rem;
   border-radius: 8px; /* rounded edges for aesthetics */
+  width: 100%;
 }
 
 .dogear-form {
@@ -77,7 +73,7 @@ textarea {
 
 /* Additional classes for more formatting, spacing, and color consistency */
 .details {
-  width: 70%;
+  width: 100%;
   background-color: var(--offWhite);
   padding: 1rem;
   border-radius: 8px;
@@ -85,4 +81,31 @@ textarea {
 
 .notes, .dogEars {
   margin-top: 1rem;
+  width: 70%;
+  background-color: var(--offWhite);
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.custom-modal-width {
+  max-width: 80% !important; /* Adjust the value as needed */
+}
+
+.modal-content {
+  background: linear-gradient(to bottom,
+    #507aa3,
+    #559cad,
+    #8ba7ac,
+    #559cad,
+    #507aa3);
+  border-radius: 0; /* Remove border radius */
+}
+
+#left-page, #right-page {
+  background-color: var(--offWhite);
+}
+
+#left-page {
+  border-right:#877F92;
+  border-style: groove;
 }

@@ -16,7 +16,7 @@ const Bookshelf = ({ books, ownerId }) => {
   return (
     <div className="container mt-5" id="bookshelfContainer">
       <h3 className="mb-4 shelf-title">Your Bookshelf</h3>
-      <div className="row">
+      <div className="row shelf-cont">
         {books.map((entry, index) => (
           <div
             className={`col-1 m-2 BookEntry ${
@@ -44,6 +44,7 @@ const Bookshelf = ({ books, ownerId }) => {
           bookDetails={selectedBook}
           onClose={() => setSelectedBook(null)}
           ownerId={ownerId}
+          showDogEar={true}
         />
       )}
     </div>
