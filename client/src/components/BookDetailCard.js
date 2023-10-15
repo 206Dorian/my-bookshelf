@@ -19,7 +19,7 @@ const BookDetailCard = ({
 
     const loggedInUserId = Auth.getProfile()._id;
 
-    const bookInfo = bookDetails.book || {};
+    const bookInfo = bookDetails || {};
 
     const firstSentence = Array.isArray(bookInfo.firstSentence) ? bookInfo.firstSentence[0] : bookInfo.firstSentence;
 
@@ -86,9 +86,7 @@ const BookDetailCard = ({
             centered
             dialogClassName="custom-modal-width">
             <Modal.Header closeButton>
-                <Modal.Title>{
-                    bookDetails.title
-                }</Modal.Title>
+            <Modal.Title>{bookInfo.title}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Row> {/* Left Page: Details and Scribbles */}
