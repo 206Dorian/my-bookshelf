@@ -18,8 +18,7 @@ const BookDetailCard = ({
     const [message, setMessage] = useState('');
 
     const loggedInUserId = Auth.getProfile()._id;
-
-   
+ 
     const firstSentence = Array.isArray(bookDetails.firstSentence) ? bookDetails.firstSentence[0] : bookDetails.firstSentence;
 
     const hasExistingDogEar = bookDetails.dogEars ? bookDetails.dogEars.some(dogEar => dogEar.createdBy === loggedInUserId) : false;
@@ -85,9 +84,7 @@ const BookDetailCard = ({
             centered
             dialogClassName="custom-modal-width">
             <Modal.Header closeButton>
-                <Modal.Title>{
-                    bookDetails.title
-                }</Modal.Title>
+            <Modal.Title>{bookInfo.title}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Row> {/* Left Page: Details and Scribbles */}
