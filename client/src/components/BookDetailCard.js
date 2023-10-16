@@ -18,45 +18,43 @@ const BookDetailCard = ({
     const [message, setMessage] = useState('');
 
     const loggedInUserId = Auth.getProfile()._id;
-
-    const bookInfo = bookDetails || {};
-
-    const firstSentence = Array.isArray(bookInfo.firstSentence) ? bookInfo.firstSentence[0] : bookInfo.firstSentence;
+ 
+    const firstSentence = Array.isArray(bookDetails.firstSentence) ? bookDetails.firstSentence[0] : bookDetails.firstSentence;
 
     const hasExistingDogEar = bookDetails.dogEars ? bookDetails.dogEars.some(dogEar => dogEar.createdBy === loggedInUserId) : false;
 
     const handleAddToBookshelf = async (e) => {
         e.stopPropagation();
-
+      
         try {
-            if (!bookDetails.ISBN) {
-                throw new Error('ISBN not available for the selected book.');
-            }
-
-            const cleanBookDetails = {
-                title: bookDetails?.title || 'Unknown Title',
-                author: bookDetails?.author || 'Unknown Author',
-                ISBN: bookDetails?.ISBN || 'Unknown ISBN',
-                firstSentence: bookDetails?.firstSentence || 'First sentence not available'
-            };
-
-            console.log(cleanBookDetails);
-
-            await addToBookshelf({
-                variables: {
-                    ISBN: bookDetails.ISBN,
-                    bookDetails: cleanBookDetails
-                }
-            });
-
-            window.location.reload();
-            setMessage('Book added to the bookshelf successfully!');
-            onClose();
+          if (!bookDetails.ISBN) {
+            throw new Error('ISBN not available for the selected book.');
+          }
+      
+          const cleanBookDetails = {
+            title: bookDetails.book.title || 'Unknown Title',
+            author: bookDetails.book.author || 'Unknown Author',
+            ISBN: bookDetails.ISBN || 'Unknown ISBN',
+            firstSentence: bookDetails.firstSentence || 'First sentence not available',
+          };
+      
+          console.log(cleanBookDetails);
+      
+          await addToBookshelf({
+            variables: {
+              ISBN: bookDetails.ISBN,  // Use bookInfo.ISBN consistently
+              bookDetails: cleanBookDetails,
+            },
+          });
+      
+          window.location.reload();
+          setMessage('Book added to the bookshelf successfully!');
+          onClose();
         } catch (error) {
-            console.error(error);
-            setMessage(error.message);
+          console.error(error);
+          setMessage(error.message);
         }
-    };
+      };
 
     const handleDogEarSubmit = async (e) => {
         e.stopPropagation();
@@ -94,13 +92,13 @@ const BookDetailCard = ({
                         id='left-page'>
                         <div className="details">
                             <p>{
-                                bookInfo.title || 'Unknown Title'
+                                bookDetails.book.title || 'Unknown Title'
                             }</p>
                             <p>{
-                                bookInfo.author || 'Unknown Author'
+                                bookDetails.book.author || 'Unknown Author'
                             }</p>
                             <p>ISBN: {
-                                bookInfo.ISBN || 'Unknown ISBN'
+                                bookDetails.ISBN || 'Unknown ISBN'
                             }</p>
                             <p>{
                                 firstSentence || 'First sentence not available'
