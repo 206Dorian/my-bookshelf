@@ -84,7 +84,7 @@ const BookDetailCard = ({
             centered
             dialogClassName="custom-modal-width">
             <Modal.Header closeButton>
-            <Modal.Title>{bookInfo.title}</Modal.Title>
+            {/* <Modal.Title>{bookInfo.title}</Modal.Title> */}
             </Modal.Header>
             <Modal.Body>
                 <Row> {/* Left Page: Details and Scribbles */}
