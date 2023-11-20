@@ -92,10 +92,12 @@ const BookDetailCard = ({
                         id='left-page'>
                         <div className="details">
                             <p>{
-                                bookDetails.title || 'Unknown Title'
+                                bookDetails.title ||  bookDetails.book.title || 'Unknown Title'
                             }</p>
                             <p>{
-                                bookDetails.author || 'Unknown Author'
+                                bookDetails.author ||
+                                bookDetails.book.author ||
+                                 'Unknown Author'
                             }</p>
                             <p>ISBN: {
                                 bookDetails.ISBN || 'Unknown ISBN'
