@@ -3,7 +3,7 @@ mongoose.set('strictQuery', false);
 
 const connectToMongoDB = async () => {
   try {
-    const uri = process.env.MONGODB_CONNECTION_STRING; // Rename the environment variable as needed
+    const uri = process.env.YOUR_CONNECTION_STRING; // Rename the environment variable as needed
     await mongoose.connect(uri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
