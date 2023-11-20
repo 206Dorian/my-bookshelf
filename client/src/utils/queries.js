@@ -20,6 +20,8 @@ export const GET_USER = gql`
         book {
           title
           author
+          ISBN
+          firstSentence
         }
       }
       friendRequests {
