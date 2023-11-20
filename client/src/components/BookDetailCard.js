@@ -32,8 +32,8 @@ const BookDetailCard = ({
           }
       
           const cleanBookDetails = {
-            title: bookDetails.book.title || 'Unknown Title',
-            author: bookDetails.book.author || 'Unknown Author',
+            title: bookDetails.title || 'Unknown Title',
+            author: bookDetails.author || 'Unknown Author',
             ISBN: bookDetails.ISBN || 'Unknown ISBN',
             firstSentence: bookDetails.firstSentence || 'First sentence not available',
           };
