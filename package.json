@@ -8,6 +8,7 @@
     
   },
   "scripts": {
+    "start": "node app.js",
     "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md,css,scss}\"",
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md,css,scss}\""
